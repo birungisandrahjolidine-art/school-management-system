@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Teacher Attendance</title>
+
+    <link rel="stylesheet" href="teachers_attendence.css" />
+  </head>
+
+  <body>
+    <div class="dashboard">
+      <!-- SIDEBAR -->
+      <aside class="sidebar">
+        <div class="logo">
+          <div class="logo-icon">S</div>
+          <div>
+            <h2>SchoolMS</h2>
+            <span>Management System</span>
+          </div>
+        </div>
+
+        <nav class="navigation">
+          <a href="teachers_dashboard.html" class="nav-link">
+            <span>▣</span>
+            Dashboard
+          </a>
+
+          <a href="teachers_refform.html" class="nav-link">
+            <span>＋</span>
+            Register Teacher
+          </a>
+
+          <a href="#teachers" class="nav-link">
+            <span>♙</span>
+            All Teachers
+          </a>
+
+          <a href="teachers_attendence.html" class="nav-link active">
+            <span>✓</span>
+            Attendance
+          </a>
+
+          <a href="#leave" class="nav-link">
+            <span>▣</span>
+            Leave Management
+          </a>
+
+          <a href="#subjects" class="nav-link">
+            <span>▤</span>
+            Subjects & Classes
+          </a>
+
+          <a href="#reports" class="nav-link">
+            <span>▥</span>
+            Reports
+          </a>
+        </nav>
+
+        <div class="sidebar-bottom">
+          <a href="#settings" class="nav-link">
+            <span>⚙</span>
+            Settings
+          </a>
+
+          <a href="#logout" class="nav-link logout">
+            <span>↪</span>
+            Logout
+          </a>
+        </div>
+      </aside>
+
+      <main class="main-content">
+        <div class="attendance-container">
+      <!-- PAGE HEADER -->
+      <header class="page-header">
+        <div>
+          <h1>Teacher Attendance</h1>
+          <p>Manage and monitor teacher attendance.</p>
+        </div>
+
+        <div class="current-date" id="currentDate"></div>
+      </header>
+
+      <!-- SUMMARY CARDS -->
+      <section class="summary-cards">
+        <div class="summary-card">
+          <div class="card-icon">👥</div>
+          <div>
+            <h3>Total Teachers</h3>
+            <span id="totalTeachers">35</span>
+          </div>
+        </div>
+
+        <div class="summary-card">
+          <div class="card-icon">✓</div>
+          <div>
+            <h3>Present Today</h3>
+            <span id="presentTeachers">28</span>
+          </div>
+        </div>
+
+        <div class="summary-card">
+          <div class="card-icon">⏰</div>
+          <div>
+            <h3>Late Today</h3>
+            <span id="lateTeachers">4</span>
+          </div>
+        </div>
+
+        <div class="summary-card">
+          <div class="card-icon">✕</div>
+          <div>
+            <h3>Absent Today</h3>
+            <span id="absentTeachers">3</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ATTENDANCE FORM -->
+      <section class="attendance-form-section">
+        <div class="section-heading">
+          <h2>Mark Teacher Attendance</h2>
+          <p>Record the teacher's attendance for today.</p>
+        </div>
+
+        <form id="attendanceForm">
+          <div class="form-grid">
+            <!-- TEACHER NAME -->
+            <div class="form-group">
+              <label for="teacherName">Teacher Name</label>
+
+              <select id="teacherName" required>
+                <option value="">Select Teacher</option>
+                <option value="Jane Doe">Jane Doe</option>
+                <option value="John Smith">John Smith</option>
+                <option value="Mary Johnson">Mary Johnson</option>
+                <option value="Peter Okello">Peter Okello</option>
+              </select>
+            </div>
+
+            <!-- STAFF ID -->
+            <div class="form-group">
+              <label for="staffId">Staff ID</label>
+
+              <input type="text" id="staffId" placeholder="Staff ID" readonly />
+            </div>
+
+            <!-- DATE -->
+            <div class="form-group">
+              <label for="attendanceDate">Date</label>
+
+              <input type="date" id="attendanceDate" required />
+            </div>
+
+            <!-- CHECK IN -->
+            <div class="form-group">
+              <label for="checkIn">Check-in Time</label>
+
+              <input type="time" id="checkIn" required />
+            </div>
+
+            <!-- CHECK OUT -->
+            <div class="form-group">
+              <label for="checkOut">Check-out Time</label>
+
+              <input type="time" id="checkOut" />
+            </div>
+
+            <!-- STATUS -->
+            <div class="form-group">
+              <label for="status">Attendance Status</label>
+
+              <select id="status" required>
+                <option value="">Select Status</option>
+                <option value="Present">Present</option>
+                <option value="Late">Late</option>
+                <option value="Absent">Absent</option>
+                <option value="Leave">Leave</option>
+              </select>
+            </div>
+
+            <!-- REMARKS -->
+            <div class="form-group full-width">
+              <label for="remarks">Remarks</label>
+
+              <textarea
+                id="remarks"
+                rows="3"
+                placeholder="Enter any additional information..."
+              ></textarea>
+            </div>
+          </div>
+
+          <!-- FORM BUTTONS -->
+          <div class="form-actions">
+            <button type="reset" class="btn btn-secondary">Clear</button>
+
+            <button type="submit" class="btn btn-primary">
+              Mark Attendance
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <!-- ATTENDANCE RECORDS -->
+      <section class="records-section">
+        <div class="records-header">
+          <div>
+            <h2>Today's Attendance</h2>
+            <p>View teacher attendance records for today.</p>
+          </div>
+
+          <div class="filters">
+            <input
+              type="text"
+              id="searchTeacher"
+              placeholder="Search teacher..."
+            />
+
+            <select id="filterStatus">
+              <option value="">All Status</option>
+              <option value="Present">Present</option>
+              <option value="Late">Late</option>
+              <option value="Absent">Absent</option>
+              <option value="Leave">Leave</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- TABLE -->
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Teacher</th>
+                <th>Staff ID</th>
+                <th>Date</th>
+                <th>Check In</th>
+                <th>Check Out</th>
+                <th>Status</th>
+                <th>Remarks</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+
+            <tbody id="attendanceTable">
+              <tr>
+                <td>Jane Doe</td>
+                <td>ST001</td>
+                <td>26 Aug 2026</td>
+                <td>07:45 AM</td>
+                <td>05:00 PM</td>
+                <td>
+                  <span class="status present">Present</span>
+                </td>
+                <td>On time</td>
+                <td>
+                  <button class="view-btn">View</button>
+                </td>
+              </tr>
+
+              <tr>
+                <td>John Smith</td>
+                <td>ST002</td>
+                <td>26 Aug 2026</td>
+                <td>08:25 AM</td>
+                <td>05:00 PM</td>
+                <td>
+                  <span class="status late">Late</span>
+                </td>
+                <td>Traffic delay</td>
+                <td>
+                  <button class="view-btn">View</button>
+                </td>
+              </tr>
+
+              <tr>
+                <td>Mary Johnson</td>
+                <td>ST003</td>
+                <td>26 Aug 2026</td>
+                <td>—</td>
+                <td>—</td>
+                <td>
+                  <span class="status absent">Absent</span>
+                </td>
+                <td>No information</td>
+                <td>
+                  <button class="view-btn">View</button>
+                </td>
+              </tr>
+
+              <tr>
+                <td>Peter Okello</td>
+                <td>ST004</td>
+                <td>26 Aug 2026</td>
+                <td>07:50 AM</td>
+                <td>05:05 PM</td>
+                <td>
+                  <span class="status present">Present</span>
+                </td>
+                <td>On time</td>
+                <td>
+                  <button class="view-btn">View</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+        </div>
+      </main>
+    </div>
+
+    <script src="teachers_attendence.js"></script>
+  </body>
+</html>

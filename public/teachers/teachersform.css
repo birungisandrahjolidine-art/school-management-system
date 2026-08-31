@@ -1,0 +1,168 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f7fb;
+    color: #000000;
+    padding: 40px 20px;
+}
+
+.page-container {
+    max-width: 1000px;
+    margin: auto;
+}
+
+/* Header */
+
+.form-header {
+    background-color: #0d47a1;
+    color: #ffffff;
+    padding: 30px;
+    border-radius: 12px 12px 0 0;
+}
+
+.form-header h1 {
+    font-size: 30px;
+    margin-bottom: 8px;
+}
+
+.form-header p {
+    font-size: 15px;
+}
+
+/* Form */
+
+.teacher-form {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 0 0 12px 12px;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+}
+
+.form-section {
+    margin-bottom: 30px;
+}
+
+.form-section h2 {
+    color: #0d47a1;
+    font-size: 20px;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #0d47a1;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.full-width {
+    grid-column: 1 / -1;
+}
+
+.form-group label {
+    color: #000000;
+    font-weight: 600;
+    margin-bottom: 7px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #b8c2cc;
+    border-radius: 7px;
+    font-size: 14px;
+    color: #000000;
+    background-color: #ffffff;
+    outline: none;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: #0d47a1;
+    box-shadow: 0 0 0 2px rgba(13, 71, 161, 0.1);
+}
+
+.form-group textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+/* Buttons */
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    border-top: 1px solid #ddd;
+    padding-top: 25px;
+}
+
+.btn {
+    border: none;
+    padding: 12px 24px;
+    border-radius: 7px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.btn-primary {
+    background-color: #0d47a1;
+    color: #ffffff;
+}
+
+.btn-primary:hover {
+    background-color: #083b89;
+}
+
+.btn-secondary {
+    background-color: #000000;
+    color: #ffffff;
+}
+
+.btn-secondary:hover {
+    background-color: #222222;
+}
+
+/* Responsive */
+
+@media (max-width: 700px) {
+
+    body {
+        padding: 20px 10px;
+    }
+
+    .teacher-form {
+        padding: 20px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .full-width {
+        grid-column: auto;
+    }
+
+    .form-actions {
+        flex-direction: column;
+    }
+
+    .btn {
+        width: 100%;
+    }
+}

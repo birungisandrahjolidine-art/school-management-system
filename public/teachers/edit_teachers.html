@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit Teacher - School Management System</title>
+
+    <link rel="stylesheet" href="edit_teachers.css" />
+  </head>
+
+  <body>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="logo">
+        <h2>School MS</h2>
+        <p>Management System</p>
+      </div>
+
+      <nav>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="teachers_list.html" class="active">Teachers</a>
+        <a href="teachers_attendence.html">Attendance</a>
+        <a href="students.html">Students</a>
+        <a href="classes.html">Classes</a>
+        <a href="fees.html">Fees</a>
+      </nav>
+
+      <div class="logout">
+        <a href="logout.html">Logout</a>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Top section -->
+      <header class="top-bar">
+        <div>
+          <h1>Edit Teacher</h1>
+          <p>Update teacher information</p>
+        </div>
+
+        <a href="teachers_list.html" class="back-btn">← Back to Teachers</a>
+      </header>
+
+      <!-- Edit Form -->
+      <section class="form-container">
+        <form id="editTeacherForm">
+          <div class="form-section">
+            <h3>Personal Information</h3>
+            
+            <div class="form-row">
+              <div class="form-group">
+                <label for="teacherId">Teacher ID</label>
+                <input type="text" id="teacherId" value="T001" readonly />
+              </div>
+              
+              <div class="form-group">
+                <label for="firstName">First Name</label>
+                <input type="text" id="firstName" value="John" required />
+              </div>
+              
+              <div class="form-group">
+                <label for="lastName">Last Name</label>
+                <input type="text" id="lastName" value="Bosco" required />
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" value="john@gmail.com" required />
+              </div>
+              
+              <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" value="0700123456" required />
+              </div>
+              
+              <div class="form-group">
+                <label for="dob">Date of Birth</label>
+                <input type="date" id="dob" value="1985-06-15" />
+              </div>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <h3>Professional Information</h3>
+            
+            <div class="form-row">
+              <div class="form-group">
+                <label for="subject">Subject</label>
+                <select id="subject" required>
+                  <option value="Mathematics" selected>Mathematics</option>
+                  <option value="English">English</option>
+                  <option value="Biology">Biology</option>
+                  <option value="Physics">Physics</option>
+                  <option value="Chemistry">Chemistry</option>
+                  <option value="History">History</option>
+                  <option value="Geography">Geography</option>
+                </select>
+              </div>
+              
+              <div class="form-group">
+                <label for="class">Class</label>
+                <select id="class" required>
+                  <option value="S1">S1</option>
+                  <option value="S2">S2</option>
+                  <option value="S3">S3</option>
+                  <option value="S4">S4</option>
+                  <option value="S5" selected>S5</option>
+                  <option value="S6">S6</option>
+                </select>
+              </div>
+              
+              <div class="form-group">
+                <label for="status">Status</label>
+                <select id="status" required>
+                  <option value="active" selected>Active</option>
+                  <option value="leave">On Leave</option>
+                  <option value="inactive">Inactive</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="qualification">Qualification</label>
+                <input type="text" id="qualification" value="Bachelor of Education" />
+              </div>
+              
+              <div class="form-group">
+                <label for="experience">Years of Experience</label>
+                <input type="number" id="experience" value="8" min="0" />
+              </div>
+              
+              <div class="form-group">
+                <label for="joiningDate">Joining Date</label>
+                <input type="date" id="joiningDate" value="2018-09-01" />
+              </div>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <h3>Address Information</h3>
+            
+            <div class="form-row">
+              <div class="form-group full-width">
+                <label for="address">Street Address</label>
+                <input type="text" id="address" value="123 Main Street" />
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="city">City</label>
+                <input type="text" id="city" value="Kampala" />
+              </div>
+              
+              <div class="form-group">
+                <label for="district">District</label>
+                <input type="text" id="district" value="Kampala" />
+              </div>
+              
+              <div class="form-group">
+                <label for="country">Country</label>
+                <input type="text" id="country" value="Uganda" />
+              </div>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="cancel-btn" onclick="window.location.href='teachers_list.html'">Cancel</button>
+            <button type="submit" class="save-btn">Save Changes</button>
+          </div>
+        </form>
+      </section>
+    </main>
+
+    <script>
+      document.getElementById('editTeacherForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const formData = {
+          teacherId: document.getElementById('teacherId').value,
+          firstName: document.getElementById('firstName').value,
+          lastName: document.getElementById('lastName').value,
+          email: document.getElementById('email').value,
+          phone: document.getElementById('phone').value,
+          dob: document.getElementById('dob').value,
+          subject: document.getElementById('subject').value,
+          class: document.getElementById('class').value,
+          status: document.getElementById('status').value,
+          qualification: document.getElementById('qualification').value,
+          experience: document.getElementById('experience').value,
+          joiningDate: document.getElementById('joiningDate').value,
+          address: document.getElementById('address').value,
+          city: document.getElementById('city').value,
+          district: document.getElementById('district').value,
+          country: document.getElementById('country').value
+        };
+        
+        console.log('Updated teacher data:', formData);
+        alert('Teacher information updated successfully!');
+        window.location.href = 'teachers_list.html';
+      });
+    </script>
+  </body>
+</html>

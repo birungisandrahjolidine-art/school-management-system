@@ -1,0 +1,505 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Teachers Dashboard | School Management System</title>
+
+    <link rel="stylesheet" href="teachers_dashboard.css" />
+  </head>
+
+  <body>
+    <div class="dashboard">
+      <!-- SIDEBAR -->
+      <aside class="sidebar">
+        <div class="logo">
+          <div class="logo-icon">S</div>
+          <div>
+            <h2>SchoolMS</h2>
+            <span>Management System</span>
+          </div>
+        </div>
+
+        <nav class="navigation">
+          <a href="#" class="nav-link active">
+            <span>▣</span>
+            Dashboard
+          </a>
+
+          <a href="teacher-registration.html" class="nav-link">
+            <span>＋</span>
+            Register Teacher
+          </a>
+
+          <a href="#teachers" class="nav-link">
+            <span>♙</span>
+            All Teachers
+          </a>
+
+          <a href="#attendance" class="nav-link">
+            <span>✓</span>
+            Attendance
+          </a>
+
+          <a href="#leave" class="nav-link">
+            <span>▣</span>
+            Leave Management
+          </a>
+
+          <a href="#subjects" class="nav-link">
+            <span>▤</span>
+            Subjects & Classes
+          </a>
+
+          <a href="#reports" class="nav-link">
+            <span>▥</span>
+            Reports
+          </a>
+        </nav>
+
+        <div class="sidebar-bottom">
+          <a href="#" class="nav-link">
+            <span>⚙</span>
+            Settings
+          </a>
+
+          <a href="#" class="nav-link logout">
+            <span>↪</span>
+            Logout
+          </a>
+        </div>
+      </aside>
+
+      <!-- MAIN CONTENT -->
+      <main class="main-content">
+        <!-- TOP BAR -->
+        <header class="topbar">
+          <div>
+            <h1>Teachers Dashboard</h1>
+            <p>Manage teachers, attendance and academic responsibilities.</p>
+          </div>
+
+          <div class="admin-profile">
+            <div class="notification">
+              🔔
+              <span class="notification-dot"></span>
+            </div>
+
+            <div class="profile">
+              <div class="profile-image">A</div>
+
+              <div>
+                <strong>Admin</strong>
+                <small>Administrator</small>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <!-- STATISTICS -->
+        <section class="stats-grid">
+          <div class="stat-card">
+            <div>
+              <p>Total Teachers</p>
+              <h2>120</h2>
+              <span class="stat-info">Registered teachers</span>
+            </div>
+
+            <div class="stat-icon">👩‍🏫</div>
+          </div>
+
+          <div class="stat-card">
+            <div>
+              <p>Present Today</p>
+              <h2>96</h2>
+              <span class="stat-info">80% attendance</span>
+            </div>
+
+            <div class="stat-icon">✓</div>
+          </div>
+
+          <div class="stat-card">
+            <div>
+              <p>Absent Today</p>
+              <h2>8</h2>
+              <span class="stat-info">6.7% of teachers</span>
+            </div>
+
+            <div class="stat-icon">!</div>
+          </div>
+
+          <div class="stat-card">
+            <div>
+              <p>On Leave</p>
+              <h2>12</h2>
+              <span class="stat-info">Approved leave</span>
+            </div>
+
+            <div class="stat-icon">▣</div>
+          </div>
+        </section>
+
+        <!-- QUICK ACTIONS -->
+        <section class="section">
+          <div class="section-title">
+            <h2>Quick Actions</h2>
+            <p>Frequently used teacher management functions.</p>
+          </div>
+
+          <div class="quick-actions">
+            <a href="teacher-registration.html" class="action-card">
+              <div class="action-icon">＋</div>
+              <div>
+                <h3>Register Teacher</h3>
+                <p>Add a new teacher</p>
+              </div>
+            </a>
+
+            <a href="#attendance" class="action-card">
+              <div class="action-icon">✓</div>
+              <div>
+                <h3>Mark Attendance</h3>
+                <p>Record today's attendance</p>
+              </div>
+            </a>
+
+            <a href="#leave" class="action-card">
+              <div class="action-icon">▣</div>
+              <div>
+                <h3>Manage Leave</h3>
+                <p>Review leave requests</p>
+              </div>
+            </a>
+
+            <a href="#reports" class="action-card">
+              <div class="action-icon">▥</div>
+              <div>
+                <h3>View Reports</h3>
+                <p>Generate teacher reports</p>
+              </div>
+            </a>
+          </div>
+        </section>
+
+        <!-- ATTENDANCE -->
+        <section class="panel" id="attendance">
+          <div class="panel-header">
+            <div>
+              <h2>Today's Teacher Attendance</h2>
+              <p>Wednesday, August 26, 2026</p>
+            </div>
+
+            <button class="primary-button" onclick="markAttendance()">
+              + Mark Attendance
+            </button>
+          </div>
+
+          <div class="attendance-summary">
+            <div>
+              <span>Present</span>
+              <strong>96</strong>
+            </div>
+
+            <div>
+              <span>Late</span>
+              <strong>4</strong>
+            </div>
+
+            <div>
+              <span>Absent</span>
+              <strong>8</strong>
+            </div>
+
+            <div>
+              <span>On Leave</span>
+              <strong>12</strong>
+            </div>
+          </div>
+
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Teacher</th>
+                  <th>Staff ID</th>
+                  <th>Check In</th>
+                  <th>Check Out</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr>
+                  <td>Sarah Namukasa</td>
+                  <td>TR001</td>
+                  <td>07:42 AM</td>
+                  <td>04:10 PM</td>
+                  <td>
+                    <span class="badge present">Present</span>
+                  </td>
+                  <td>
+                    <button class="table-button">View</button>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>John Mugisha</td>
+                  <td>TR002</td>
+                  <td>08:05 AM</td>
+                  <td>--</td>
+                  <td>
+                    <span class="badge late">Late</span>
+                  </td>
+                  <td>
+                    <button class="table-button">View</button>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>Mary Achieng</td>
+                  <td>TR003</td>
+                  <td>--</td>
+                  <td>--</td>
+                  <td>
+                    <span class="badge absent">Absent</span>
+                  </td>
+                  <td>
+                    <button class="table-button">View</button>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>David Kato</td>
+                  <td>TR004</td>
+                  <td>07:35 AM</td>
+                  <td>04:00 PM</td>
+                  <td>
+                    <span class="badge present">Present</span>
+                  </td>
+                  <td>
+                    <button class="table-button">View</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- TEACHERS -->
+        <section class="panel" id="teachers">
+          <div class="panel-header">
+            <div>
+              <h2>Recent Teachers</h2>
+              <p>Recently registered teachers.</p>
+            </div>
+
+            <a href="#" class="view-link">View All</a>
+          </div>
+
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Teacher</th>
+                  <th>Staff ID</th>
+                  <th>Department</th>
+                  <th>Subject</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr>
+                  <td>Sarah Namukasa</td>
+                  <td>TR001</td>
+                  <td>Sciences</td>
+                  <td>Biology</td>
+                  <td>
+                    <span class="badge active">Active</span>
+                  </td>
+                  <td>
+                    <button class="table-button">Profile</button>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>John Mugisha</td>
+                  <td>TR002</td>
+                  <td>Mathematics</td>
+                  <td>Mathematics</td>
+                  <td>
+                    <span class="badge active">Active</span>
+                  </td>
+                  <td>
+                    <button class="table-button">Profile</button>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>Mary Achieng</td>
+                  <td>TR003</td>
+                  <td>Languages</td>
+                  <td>English</td>
+                  <td>
+                    <span class="badge leave">On Leave</span>
+                  </td>
+                  <td>
+                    <button class="table-button">Profile</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- BOTTOM GRID -->
+        <section class="content-grid">
+          <!-- LEAVE -->
+          <div class="panel" id="leave">
+            <div class="panel-header">
+              <div>
+                <h2>Leave Management</h2>
+                <p>Recent leave requests.</p>
+              </div>
+
+              <a href="#" class="view-link">View All</a>
+            </div>
+
+            <div class="leave-list">
+              <div class="leave-item">
+                <div class="person">
+                  <div class="avatar">SN</div>
+
+                  <div>
+                    <strong>Sarah Namukasa</strong>
+                    <small>Annual Leave</small>
+                  </div>
+                </div>
+
+                <span class="badge pending">Pending</span>
+              </div>
+
+              <div class="leave-item">
+                <div class="person">
+                  <div class="avatar">JM</div>
+
+                  <div>
+                    <strong>John Mugisha</strong>
+                    <small>Sick Leave</small>
+                  </div>
+                </div>
+
+                <span class="badge approved">Approved</span>
+              </div>
+
+              <div class="leave-item">
+                <div class="person">
+                  <div class="avatar">MA</div>
+
+                  <div>
+                    <strong>Mary Achieng</strong>
+                    <small>Annual Leave</small>
+                  </div>
+                </div>
+
+                <span class="badge approved">Approved</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- SUBJECTS -->
+          <div class="panel" id="subjects">
+            <div class="panel-header">
+              <div>
+                <h2>Subjects & Classes</h2>
+                <p>Teacher assignments.</p>
+              </div>
+
+              <a href="#" class="view-link">Manage</a>
+            </div>
+
+            <div class="assignment-list">
+              <div class="assignment">
+                <div class="subject-icon">M</div>
+
+                <div>
+                  <strong>Mathematics</strong>
+                  <small>John Mugisha</small>
+                </div>
+
+                <span>P4 - P7</span>
+              </div>
+
+              <div class="assignment">
+                <div class="subject-icon">B</div>
+
+                <div>
+                  <strong>Biology</strong>
+                  <small>Sarah Namukasa</small>
+                </div>
+
+                <span>S1 - S4</span>
+              </div>
+
+              <div class="assignment">
+                <div class="subject-icon">E</div>
+
+                <div>
+                  <strong>English</strong>
+                  <small>Mary Achieng</small>
+                </div>
+
+                <span>P5 - P7</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- REPORTS -->
+        <section class="panel reports" id="reports">
+          <div class="panel-header">
+            <div>
+              <h2>Teacher Reports</h2>
+              <p>Quick access to teacher management reports.</p>
+            </div>
+          </div>
+
+          <div class="reports-grid">
+            <button class="report-card">
+              <span>✓</span>
+              <strong>Attendance Report</strong>
+              <small>View teacher attendance</small>
+            </button>
+
+            <button class="report-card">
+              <span>👩‍🏫</span>
+              <strong>Teacher Report</strong>
+              <small>View teacher records</small>
+            </button>
+
+            <button class="report-card">
+              <span>▣</span>
+              <strong>Leave Report</strong>
+              <small>View leave records</small>
+            </button>
+
+            <button class="report-card">
+              <span>▥</span>
+              <strong>Class Assignment</strong>
+              <small>View teaching assignments</small>
+            </button>
+          </div>
+        </section>
+
+        <footer>
+          <p>© 2026 School Management System. All rights reserved.</p>
+        </footer>
+      </main>
+    </div>
+
+    <script src="teacher-dashboard.js"></script>
+  </body>
+</html>

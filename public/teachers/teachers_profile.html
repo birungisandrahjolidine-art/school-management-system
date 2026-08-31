@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Teacher Profile - School Management System</title>
+
+    <link rel="stylesheet" href="teachers_profile.css" />
+  </head>
+
+  <body>
+    <!-- =========================
+         SIDEBAR
+    ========================== -->
+
+    <aside class="sidebar">
+      <div class="logo">
+        <h2>School MS</h2>
+        <p>Management System</p>
+      </div>
+
+      <nav>
+        <a href="dashboard.html"> Dashboard </a>
+
+        <a href="all-teachers.html" class="active"> Teachers </a>
+
+        <a href="teacher-attendance.html"> Attendance </a>
+
+        <a href="students.html"> Students </a>
+
+        <a href="classes.html"> Classes </a>
+
+        <a href="fees.html"> Fees </a>
+      </nav>
+
+      <div class="logout">
+        <a href="logout.html"> Logout </a>
+      </div>
+    </aside>
+
+    <!-- =========================
+         MAIN CONTENT
+    ========================== -->
+
+    <main class="main-content">
+      <!-- PAGE HEADER -->
+
+      <div class="page-header">
+        <div>
+          <h1>Teacher Profile</h1>
+
+          <p>View teacher information and employment details</p>
+        </div>
+
+        <a href="all-teachers.html" class="back-btn"> ← Back to Teachers </a>
+      </div>
+
+      <!-- =========================
+             PROFILE HEADER
+        ========================== -->
+
+      <section class="profile-header">
+        <div class="profile-picture">
+          <img
+            src="images/teacher-placeholder.jpg"
+            alt="Teacher Profile Picture"
+          />
+        </div>
+
+        <div class="profile-name">
+          <h2>John Bosco</h2>
+
+          <p class="teacher-id">Teacher ID: T001</p>
+
+          <span class="status"> Active </span>
+        </div>
+
+        <a href="edit-teacher.html" class="edit-btn"> Edit Profile </a>
+      </section>
+
+      <!-- =========================
+             PERSONAL INFORMATION
+        ========================== -->
+
+      <section class="information-card">
+        <h2>Personal Information</h2>
+
+        <div class="information-grid">
+          <div class="information-item">
+            <span>Full Name</span>
+
+            <strong> John Bosco </strong>
+          </div>
+
+          <div class="information-item">
+            <span>Email</span>
+
+            <strong> john@gmail.com </strong>
+          </div>
+
+          <div class="information-item">
+            <span>Phone Number</span>
+
+            <strong> 0700123456 </strong>
+          </div>
+
+          <div class="information-item">
+            <span>Gender</span>
+
+            <strong> Male </strong>
+          </div>
+
+          <div class="information-item">
+            <span>Date of Birth</span>
+
+            <strong> 15 March 1992 </strong>
+          </div>
+
+          <div class="information-item">
+            <span>Address</span>
+
+            <strong> Kampala, Uganda </strong>
+          </div>
+        </div>
+      </section>
+
+      <!-- =========================
+             PROFESSIONAL INFORMATION
+        ========================== -->
+
+      <section class="information-card">
+        <h2>Professional Information</h2>
+
+        <div class="information-grid">
+          <div class="information-item">
+            <span>Subject</span>
+
+            <strong> Mathematics </strong>
+          </div>
+
+          <div class="information-item">
+            <span>Class</span>
+
+            <strong> Senior Five </strong>
+          </div>
+
+          <div class="information-item">
+            <span>Department</span>
+
+            <strong> Science </strong>
+          </div>
+
+          <div class="information-item">
+            <span>Qualification</span>
+
+            <strong> Bachelor of Education </strong>
+          </div>
+
+          <div class="information-item">
+            <span>Date Employed</span>
+
+            <strong> 10 January 2021 </strong>
+          </div>
+
+          <div class="information-item">
+            <span>Employment Status</span>
+
+            <strong> Full Time </strong>
+          </div>
+        </div>
+      </section>
+
+      <!-- =========================
+             SALARY & EMPLOYMENT
+        ========================== -->
+
+      <section class="information-card">
+        <h2>Salary & Employment Information</h2>
+
+        <div class="information-grid">
+          <div class="information-item">
+            <span>Basic Salary</span>
+
+            <strong class="salary"> UGX 1,200,000 </strong>
+          </div>
+
+          <div class="information-item">
+            <span>Salary Frequency</span>
+
+            <strong> Monthly </strong>
+          </div>
+
+          <div class="information-item">
+            <span>Employment Type</span>
+
+            <strong> Full Time </strong>
+          </div>
+
+          <div class="information-item">
+            <span>Position</span>
+
+            <strong> Mathematics Teacher </strong>
+          </div>
+
+          <div class="information-item">
+            <span>Department</span>
+
+            <strong> Science </strong>
+          </div>
+
+          <div class="information-item">
+            <span>Salary Status</span>
+
+            <strong class="salary-active"> Active </strong>
+          </div>
+        </div>
+      </section>
+
+      <!-- =========================
+             EMERGENCY CONTACT
+        ========================== -->
+
+      <section class="information-card">
+        <h2>Emergency Contact</h2>
+
+        <div class="information-grid">
+          <div class="information-item">
+            <span>Contact Name</span>
+
+            <strong> Mary Bosco </strong>
+          </div>
+
+          <div class="information-item">
+            <span>Relationship</span>
+
+            <strong> Spouse </strong>
+          </div>
+
+          <div class="information-item">
+            <span>Phone Number</span>
+
+            <strong> 0709876543 </strong>
+          </div>
+        </div>
+      </section>
+
+      <!-- =========================
+             TEACHER SUMMARY
+        ========================== -->
+
+      <section class="information-card">
+        <h2>Teacher Summary</h2>
+
+        <div class="summary-grid">
+          <div class="summary-box">
+            <span>Attendance</span>
+
+            <strong>95%</strong>
+          </div>
+
+          <div class="summary-box">
+            <span>Classes</span>
+
+            <strong>3</strong>
+          </div>
+
+          <div class="summary-box">
+            <span>Subjects</span>
+
+            <strong>2</strong>
+          </div>
+
+          <div class="summary-box">
+            <span>Years of Service</span>
+
+            <strong>5 Years</strong>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

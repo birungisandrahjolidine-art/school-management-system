@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Salary Approvals - School Management System</title>
+
+    <link rel="stylesheet" href="teachers_salary_approval.css" />
+  </head>
+
+  <body>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="logo">
+        <h2>School MS</h2>
+        <p>Management System</p>
+      </div>
+
+      <nav>
+        <a href="teachers_dashboard.html">Dashboard</a>
+        <a href="teachers_list.html">Teachers</a>
+        <a href="teachers_salary.html">Salaries</a>
+        <a href="teachers_salary_approval.html" class="active">Salary Approvals</a>
+        <a href="teachers_leave_management.html">Leave Management</a>
+        <a href="teachers_profile.html">My Profile</a>
+      </nav>
+
+      <div class="logout">
+        <a href="logout.html">Logout</a>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Top section -->
+      <header class="top-bar">
+        <div>
+          <h1>Salary Approvals</h1>
+          <p>Approve pending teacher salary payments</p>
+        </div>
+
+        <div class="current-date" id="currentDate"></div>
+      </header>
+
+      <!-- Approval Summary Cards -->
+      <section class="summary-cards">
+        <div class="summary-card">
+          <h3>Pending Approval</h3>
+          <p>3</p>
+        </div>
+
+        <div class="summary-card">
+          <h3>Cleared Payments</h3>
+          <p>5</p>
+        </div>
+
+        <div class="summary-card">
+          <h3>Rejected</h3>
+          <p>1</p>
+        </div>
+
+        <div class="summary-card">
+          <h3>Total Amount Pending</h3>
+          <p>UGX 4,300,000</p>
+        </div>
+      </section>
+
+      <!-- Filters -->
+      <section class="filter-section">
+        <input type="text" id="searchApproval" placeholder="Search teacher by name, ID or subject..." />
+
+        <select id="filterStatus">
+          <option value="">All Status</option>
+          <option value="Pending">Pending</option>
+          <option value="Cleared">Cleared</option>
+          <option value="Rejected">Rejected</option>
+        </select>
+      </section>
+
+      <!-- Approval Table -->
+      <section class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Teacher ID</th>
+              <th>Name</th>
+              <th>Subject</th>
+              <th>Class</th>
+              <th>Net Salary</th>
+              <th>Payment Month</th>
+              <th>Submission Date</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="approvalTable">
+            <tr>
+              <td>T003</td>
+              <td>Peter Okello</td>
+              <td>Biology</td>
+              <td>S6</td>
+              <td>UGX 940,000</td>
+              <td>August 2026</td>
+              <td>28 Aug 2026</td>
+              <td><span class="status pending">Pending</span></td>
+              <td>
+                <button class="view-btn">View</button>
+                <button class="approve-btn">Approve</button>
+                <button class="reject-btn">Reject</button>
+              </td>
+            </tr>
+            <tr>
+              <td>T005</td>
+              <td>David Okot</td>
+              <td>History</td>
+              <td>S3</td>
+              <td>UGX 815,000</td>
+              <td>August 2026</td>
+              <td>28 Aug 2026</td>
+              <td><span class="status pending">Pending</span></td>
+              <td>
+                <button class="view-btn">View</button>
+                <button class="approve-btn">Approve</button>
+                <button class="reject-btn">Reject</button>
+              </td>
+            </tr>
+            <tr>
+              <td>T007</td>
+              <td>Samuel Mugisha</td>
+              <td>Geography</td>
+              <td>S2</td>
+              <td>UGX 800,000</td>
+              <td>August 2026</td>
+              <td>27 Aug 2026</td>
+              <td><span class="status pending">Pending</span></td>
+              <td>
+                <button class="view-btn">View</button>
+                <button class="approve-btn">Approve</button>
+                <button class="reject-btn">Reject</button>
+              </td>
+            </tr>
+            <tr>
+              <td>T001</td>
+              <td>John Bosco</td>
+              <td>Mathematics</td>
+              <td>S5</td>
+              <td>UGX 950,000</td>
+              <td>August 2026</td>
+              <td>25 Aug 2026</td>
+              <td><span class="status cleared">Cleared</span></td>
+              <td>
+                <button class="view-btn">View</button>
+                <button class="approve-btn">Approve</button>
+                <button class="reject-btn">Reject</button>
+              </td>
+            </tr>
+            <tr>
+              <td>T002</td>
+              <td>Mary Namukasa</td>
+              <td>English</td>
+              <td>S4</td>
+              <td>UGX 880,000</td>
+              <td>August 2026</td>
+              <td>25 Aug 2026</td>
+              <td><span class="status cleared">Cleared</span></td>
+              <td>
+                <button class="view-btn">View</button>
+                <button class="approve-btn">Approve</button>
+                <button class="reject-btn">Reject</button>
+              </td>
+            </tr>
+            <tr>
+              <td>T004</td>
+              <td>Sarah Achieng</td>
+              <td>Physics</td>
+              <td>S5</td>
+              <td>UGX 875,000</td>
+              <td>August 2026</td>
+              <td>25 Aug 2026</td>
+              <td><span class="status cleared">Cleared</span></td>
+              <td>
+                <button class="view-btn">View</button>
+                <button class="approve-btn">Approve</button>
+                <button class="reject-btn">Reject</button>
+              </td>
+            </tr>
+            <tr>
+              <td>T006</td>
+              <td>Grace Auma</td>
+              <td>Chemistry</td>
+              <td>S4</td>
+              <td>UGX 890,000</td>
+              <td>August 2026</td>
+              <td>24 Aug 2026</td>
+              <td><span class="status cleared">Cleared</span></td>
+              <td>
+                <button class="view-btn">View</button>
+                <button class="approve-btn">Approve</button>
+                <button class="reject-btn">Reject</button>
+              </td>
+            </tr>
+            <tr>
+              <td>T008</td>
+              <td>Lydia Kemigisha</td>
+              <td>Mathematics</td>
+              <td>S1</td>
+              <td>UGX 835,000</td>
+              <td>August 2026</td>
+              <td>24 Aug 2026</td>
+              <td><span class="status cleared">Cleared</span></td>
+              <td>
+                <button class="view-btn">View</button>
+                <button class="approve-btn">Approve</button>
+                <button class="reject-btn">Reject</button>
+              </td>
+            </tr>
+            <tr>
+              <td>T009</td>
+              <td>Ronald Kato</td>
+              <td>Physics</td>
+              <td>S6</td>
+              <td>UGX 860,000</td>
+              <td>July 2026</td>
+              <td>22 Jul 2026</td>
+              <td><span class="status rejected">Rejected</span></td>
+              <td>
+                <button class="view-btn">View</button>
+                <button class="approve-btn">Approve</button>
+                <button class="reject-btn">Reject</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </main>
+
+    <script src="teachers_salary_approval.js"></script>
+  </body>
+</html>

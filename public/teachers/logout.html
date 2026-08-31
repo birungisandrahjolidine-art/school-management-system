@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Logout - School Management System</title>
+
+    <link rel="stylesheet" href="logout.css" />
+  </head>
+
+  <body>
+    <main class="logout-container">
+      <div class="logout-card">
+        <div class="logo">
+          <h2>School MS</h2>
+          <p>Management System</p>
+        </div>
+
+        <div class="icon">↪</div>
+
+        <h1>Logout</h1>
+        <p class="message" id="message">
+          Are you sure you want to log out?<br />
+          You will need to sign in again to access the system.
+        </p>
+
+        <div class="actions">
+          <a href="teachers_dashboard.html" class="btn btn-cancel">Cancel</a>
+          <button type="button" class="btn btn-logout" id="logoutBtn">Yes, Logout</button>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      const logoutBtn = document.getElementById("logoutBtn");
+      const message = document.getElementById("message");
+
+      logoutBtn.addEventListener("click", function () {
+        message.innerHTML = "<strong>You have been logged out successfully.</strong><br />Redirecting to login page...";
+
+        logoutBtn.disabled = true;
+
+        setTimeout(function () {
+          window.location.href = "login.html";
+        }, 2000);
+      });
+    </script>
+  </body>
+</html>

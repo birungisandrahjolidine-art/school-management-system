@@ -1,0 +1,548 @@
+/* =========================
+   GENERAL STYLING
+========================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f7fb;
+    color: #111827;
+}
+
+
+/* =========================
+   SIDEBAR
+========================= */
+
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+
+    width: 240px;
+    height: 100vh;
+
+    background-color: #0b5ed7;
+    color: white;
+
+    padding: 25px 15px;
+
+    display: flex;
+    flex-direction: column;
+}
+
+
+/* LOGO */
+
+.logo {
+    text-align: center;
+
+    margin-bottom: 40px;
+}
+
+.logo h2 {
+    font-size: 25px;
+}
+
+.logo p {
+    font-size: 13px;
+
+    margin-top: 5px;
+}
+
+
+/* NAVIGATION */
+
+.sidebar nav {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 8px;
+}
+
+.sidebar nav a,
+.logout a {
+
+    text-decoration: none;
+
+    color: white;
+
+    padding: 14px 18px;
+
+    border-radius: 8px;
+
+    font-size: 15px;
+
+    transition: 0.3s;
+}
+
+
+/* ACTIVE PAGE */
+
+.sidebar nav a:hover,
+.sidebar nav a.active {
+
+    background-color: white;
+
+    color: #0b5ed7;
+}
+
+
+/* LOGOUT */
+
+.logout {
+    margin-top: auto;
+}
+
+.logout a {
+
+    display: block;
+
+    background-color: #084298;
+
+    text-align: center;
+}
+
+.logout a:hover {
+
+    background-color: white;
+
+    color: #0b5ed7;
+}
+
+
+/* =========================
+   MAIN CONTENT
+========================= */
+
+.main-content {
+
+    margin-left: 240px;
+
+    padding: 30px;
+}
+
+
+/* =========================
+   PAGE HEADER
+========================= */
+
+.page-header {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 25px;
+}
+
+.page-header h1 {
+
+    font-size: 30px;
+
+    color: #111827;
+}
+
+.page-header p {
+
+    margin-top: 7px;
+
+    color: #6b7280;
+}
+
+
+/* BACK BUTTON */
+
+.back-btn {
+
+    text-decoration: none;
+
+    background-color: white;
+
+    color: #0b5ed7;
+
+    border: 1px solid #0b5ed7;
+
+    padding: 11px 18px;
+
+    border-radius: 7px;
+
+    font-weight: bold;
+
+    transition: 0.3s;
+}
+
+.back-btn:hover {
+
+    background-color: #0b5ed7;
+
+    color: white;
+}
+
+
+/* =========================
+   PROFILE HEADER
+========================= */
+
+.profile-header {
+
+    background-color: white;
+
+    border-radius: 12px;
+
+    padding: 25px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 25px;
+
+    margin-bottom: 25px;
+
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+
+/* PROFILE PICTURE */
+
+.profile-picture {
+
+    width: 120px;
+
+    height: 120px;
+
+    border-radius: 50%;
+
+    overflow: hidden;
+
+    border: 4px solid #0b5ed7;
+
+    flex-shrink: 0;
+}
+
+.profile-picture img {
+
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: cover;
+}
+
+
+/* PROFILE NAME */
+
+.profile-name {
+
+    flex: 1;
+}
+
+.profile-name h2 {
+
+    font-size: 25px;
+
+    margin-bottom: 8px;
+}
+
+.teacher-id {
+
+    color: #6b7280;
+
+    margin-bottom: 10px;
+}
+
+
+/* =========================
+   STATUS
+========================= */
+
+.status {
+
+    display: inline-block;
+
+    background-color: #dcfce7;
+
+    color: #166534;
+
+    padding: 6px 12px;
+
+    border-radius: 20px;
+
+    font-size: 13px;
+
+    font-weight: bold;
+}
+
+
+/* =========================
+   EDIT BUTTON
+========================= */
+
+.edit-btn {
+
+    text-decoration: none;
+
+    background-color: #0b5ed7;
+
+    color: white;
+
+    padding: 12px 20px;
+
+    border-radius: 7px;
+
+    font-weight: bold;
+
+    transition: 0.3s;
+}
+
+.edit-btn:hover {
+
+    background-color: #084298;
+}
+
+
+/* =========================
+   INFORMATION CARDS
+========================= */
+
+.information-card {
+
+    background-color: white;
+
+    padding: 25px;
+
+    border-radius: 12px;
+
+    margin-bottom: 25px;
+
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+
+/* SECTION TITLE */
+
+.information-card h2 {
+
+    font-size: 20px;
+
+    margin-bottom: 20px;
+
+    color: #111827;
+
+    border-bottom: 2px solid #f1f5f9;
+
+    padding-bottom: 12px;
+}
+
+
+/* =========================
+   INFORMATION GRID
+========================= */
+
+.information-grid {
+
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 22px;
+}
+
+
+/* INFORMATION ITEM */
+
+.information-item {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 7px;
+}
+
+.information-item span {
+
+    font-size: 13px;
+
+    color: #6b7280;
+}
+
+.information-item strong {
+
+    font-size: 15px;
+
+    color: #111827;
+}
+
+
+/* =========================
+   SALARY
+========================= */
+
+.salary {
+
+    color: #0b5ed7 !important;
+
+    font-size: 17px !important;
+}
+
+
+/* SALARY STATUS */
+
+.salary-active {
+
+    color: #166534 !important;
+
+    background-color: #dcfce7;
+
+    padding: 6px 10px;
+
+    border-radius: 20px;
+
+    display: inline-block;
+
+    width: fit-content;
+
+    font-size: 13px !important;
+}
+
+
+/* =========================
+   TEACHER SUMMARY
+========================= */
+
+.summary-grid {
+
+    display: grid;
+
+    grid-template-columns: repeat(4, 1fr);
+
+    gap: 15px;
+}
+
+.summary-box {
+
+    background-color: #f4f7fb;
+
+    padding: 20px;
+
+    border-radius: 10px;
+
+    text-align: center;
+
+    border: 1px solid #e5e7eb;
+}
+
+.summary-box span {
+
+    display: block;
+
+    color: #6b7280;
+
+    font-size: 13px;
+
+    margin-bottom: 8px;
+}
+
+.summary-box strong {
+
+    font-size: 23px;
+
+    color: #0b5ed7;
+}
+
+
+/* =========================
+   TABLET
+========================= */
+
+@media (max-width: 1000px) {
+
+    .information-grid {
+
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .summary-grid {
+
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 700px) {
+
+    .sidebar {
+
+        width: 200px;
+    }
+
+    .main-content {
+
+        margin-left: 200px;
+
+        padding: 20px;
+    }
+
+    .profile-header {
+
+        flex-direction: column;
+
+        text-align: center;
+    }
+
+    .edit-btn {
+
+        width: 100%;
+
+        text-align: center;
+    }
+
+    .page-header {
+
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 15px;
+    }
+}
+
+
+/* SMALL MOBILE */
+
+@media (max-width: 500px) {
+
+    .information-grid {
+
+        grid-template-columns: 1fr;
+    }
+
+    .summary-grid {
+
+        grid-template-columns: 1fr;
+    }
+
+    .sidebar {
+
+        width: 180px;
+    }
+
+    .main-content {
+
+        margin-left: 180px;
+    }
+}
