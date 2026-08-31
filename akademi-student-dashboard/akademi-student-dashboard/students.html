@@ -1,0 +1,387 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Akademi | Students</title>
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <a class="logo" href="dashboard.html">
+      <div class="mark">A</div>
+      Akademi
+    </a>
+
+    <ul class="nav">
+      <li><a class="" href="dashboard.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>Dashboard</a></li>
+      <li><a class="active" href="students.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5"/></svg>Students</a></li>
+      <li><a class="" href="attendance.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/><path d="M8 14l2.5 2.5L16 11"/></svg>Attendance</a></li>
+      <li><a class="" href="report.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3h9l5 5v13H6z"/><path d="M9 12h6M9 16h6M9 8h2"/></svg>Report</a></li>
+      <li><a class="" href="library.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 4h6a3 3 0 0 1 3 3v13a2 2 0 0 0-2-2H2z"/><path d="M22 4h-6a3 3 0 0 0-3 3v13a2 2 0 0 1 2-2h7z"/></svg>Library</a></li>
+      <li><a class="" href="announcements.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 11a8 8 0 0 1 16 0v4l1 3H3l1-3z"/><path d="M9 20a3 3 0 0 0 6 0"/></svg>Announcements</a></li>
+
+      <li class="section-label">Support</li>
+      <li><a class="" href="help-center.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 0 1 5 .5c0 1.7-2 1.7-2 3.5"/><circle cx="12" cy="17" r=".3"/></svg>Help Center</a></li>
+      <li><a class="" href="settings.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 8.6a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.28c.6-.25 1-.83 1-1.48V2.7a2 2 0 1 1 4 0v.09c0 .65.4 1.23 1 1.48.6.25 1.3.14 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06c-.47.52-.58 1.22-.33 1.82.25.6.83 1 1.48 1H21a2 2 0 1 1 0 4h-.09c-.65 0-1.23.4-1.48 1z"/></svg>Settings</a></li>
+      <li><a class="" href="signout.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg>Sign Out</a></li>
+    </ul>
+
+    <div class="sidebar-footer">Akademi &middot; School Dashboard</div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <div class="page-title">
+        <h1>Students</h1>
+        <p>Manage your student roster</p>
+      </div>
+
+      <div class="search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+        <input type="text" id="searchInput" placeholder="Search here..." />
+      </div>
+
+      <div class="topbar-right">
+        <a class="icon-btn" href="announcements.html">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
+          <span class="dot-badge"></span>
+        </a>
+        <a class="user-chip" href="settings.html">
+          <div class="avatar">MR</div>
+          <div>
+            <div class="name">Mithun Ray</div>
+            <div class="role">Student</div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span>All Students</span></div>
+      <div class="card-body">
+        <div class="controls-row">
+          <div class="controls-left">
+            <select id="classFilter" class="pill-select">
+              <option value="">All Classes</option>
+              <option>Grade 8 - A</option>
+              <option>Grade 8 - B</option>
+              <option>Grade 9 - A</option>
+              <option>Grade 9 - B</option>
+            </select>
+            <select id="statusFilter" class="pill-select">
+              <option value="">All Statuses</option>
+              <option value="active">Active</option>
+              <option value="inactive">Inactive</option>
+            </select>
+            <button class="pill-btn" id="clearFilters">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+              Clear
+            </button>
+          </div>
+          <div class="controls-actions">
+            <div class="pill-btn primary" id="addStudentBtn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+              Add Student
+            </div>
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th style="width:36px;"><input type="checkbox" id="selectAll" /></th>
+                <th>Student</th>
+                <th>Class</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th class="center">Status</th>
+                <th class="center" style="width:80px;">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="studentsBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<div class="modal-overlay" id="studentModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="studentModalTitle">Add Student</h3>
+      <button class="modal-close" id="closeStudentModal">&times;</button>
+    </div>
+    <div class="modal-body">
+      <form id="studentForm">
+        <div class="form-grid">
+          <div class="field span-2">
+            <label>Full Name</label>
+            <input type="text" id="sName" required placeholder="e.g. Marta Adams" />
+          </div>
+          <div class="field span-2">
+            <label>Profile Photo</label>
+            <input type="file" id="sPhoto" accept="image/*" />
+          </div>
+          <div class="field">
+            <label>Class</label>
+            <select id="sClass" required>
+              <option value="">Select class</option>
+              <option>Grade 8 - A</option>
+              <option>Grade 8 - B</option>
+              <option>Grade 9 - A</option>
+              <option>Grade 9 - B</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Status</label>
+            <select id="sStatus" required>
+              <option value="active">Active</option>
+              <option value="inactive">Inactive</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Email</label>
+            <input type="email" id="sEmail" required placeholder="student@akademi.edu" />
+          </div>
+          <div class="field">
+            <label>Phone</label>
+            <input type="text" id="sPhone" placeholder="+1 234 555 0100" />
+          </div>
+        </div>
+        <div class="btn-row">
+          <button type="button" class="btn" id="cancelStudent">Cancel</button>
+          <button type="submit" class="btn primary">Save Student</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="toast-wrap" id="toastWrap"></div>
+<script>
+  const students = [
+    { id:1, name:"Marta Adams",   cls:"Grade 8 - A", email:"marta.a@akademi.edu",   phone:"+1 234 555 0102", status:"active" },
+    { id:2, name:"Robin Logan",   cls:"Grade 8 - A", email:"robin.l@akademi.edu",   phone:"+1 234 555 0110", status:"active" },
+    { id:3, name:"Cruz French",   cls:"Grade 8 - B", email:"cruz.f@akademi.edu",    phone:"+1 234 555 0114", status:"active" },
+    { id:4, name:"Claudine Cherry", cls:"Grade 8 - B", email:"claudine.c@akademi.edu", phone:"+1 234 555 0121", status:"inactive" },
+    { id:5, name:"Mitch Huber",   cls:"Grade 9 - A", email:"mitch.h@akademi.edu",   phone:"+1 234 555 0133", status:"active" },
+    { id:6, name:"Essie Fry",     cls:"Grade 9 - A", email:"essie.f@akademi.edu",   phone:"+1 234 555 0140", status:"active" },
+    { id:7, name:"Shanna Orozco", cls:"Grade 9 - B", email:"shanna.o@akademi.edu",  phone:"+1 234 555 0155", status:"active" },
+    { id:8, name:"Gabriel Nelson",cls:"Grade 9 - B", email:"gabriel.n@akademi.edu", phone:"+1 234 555 0161", status:"inactive" },
+  ];
+  let nextId = 9;
+  let editingId = null;
+
+  const body = document.getElementById("studentsBody");
+  const classFilter = document.getElementById("classFilter");
+  const statusFilter = document.getElementById("statusFilter");
+  const modal = document.getElementById("studentModal");
+  let pendingPhotoId = null;
+  const photoInput = document.createElement("input");
+  photoInput.type = "file";
+  photoInput.accept = "image/*";
+  photoInput.style.display = "none";
+  document.body.appendChild(photoInput);
+  photoInput.addEventListener("change", () => {
+    const file = photoInput.files[0];
+    if (!file || !pendingPhotoId) return;
+    if (!file.type.startsWith("image/")){ toast("Please choose an image file", ""); return; }
+    const s = students.find(x => x.id === pendingPhotoId);
+    if (!s) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      s.photo = reader.result;
+      savePhoto(s.id, reader.result);
+      render();
+      toast("Photo uploaded for " + s.name, "success");
+    };
+    reader.readAsDataURL(file);
+    pendingPhotoId = null;
+  });
+
+  function initials(name){ return name.split(" ").map(w => w[0]).join("").slice(0,2).toUpperCase(); }
+
+  const PHOTO_KEY = "akademi_student_photo_";
+  try {
+    students.forEach(s => {
+      const p = localStorage.getItem(PHOTO_KEY + s.id);
+      if (p) s.photo = p;
+    });
+  } catch(err){}
+
+  function avatarHTML(s){
+    return s.photo
+      ? '<div class="mini-avatar"><img src="' + s.photo + '" alt="' + s.name + '" /></div>'
+      : '<div class="mini-avatar">' + initials(s.name) + '</div>';
+  }
+
+  function savePhoto(id, dataUri){
+    try { localStorage.setItem(PHOTO_KEY + id, dataUri); }
+    catch(err){ toast("Photo preview set. It may not persist due to storage limits.", ""); }
+  }
+
+  function toast(msg, type){
+    const wrap = document.getElementById("toastWrap");
+    const icon = type === "success"
+      ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>'
+      : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>';
+    const el = document.createElement("div");
+    el.className = "toast " + type;
+    el.innerHTML = icon + "<span>" + msg + "</span>";
+    wrap.appendChild(el);
+    setTimeout(() => el.remove(), 2600);
+  }
+
+  function applyFilters(){
+    const q = document.getElementById("searchInput").value.trim().toLowerCase();
+    return students.filter(s => {
+      const matchClass = !classFilter.value || s.cls === classFilter.value;
+      const matchStatus = !statusFilter.value || s.status === statusFilter.value;
+      const matchName = !q || s.name.toLowerCase().includes(q);
+      return matchClass && matchStatus && matchName;
+    });
+  }
+
+  function render(){
+    const list = applyFilters();
+    if (!list.length){
+      body.innerHTML = '<tr><td colspan="7"><div class="empty-state"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5"/></svg><p>No students found</p><span>Try adjusting the search or filters.</span></div></td></tr>';
+      return;
+    }
+    body.innerHTML = list.map(s => `
+      <tr data-id="${s.id}">
+        <td><input type="checkbox" /></td>
+        <td>
+          <div class="student-cell">
+            ${avatarHTML(s)}
+            <span class="sname-wrap">
+              <span class="sname">${s.name}</span>
+              <button class="photo-btn" title="Upload photo" data-photo="${s.id}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="3"/><path d="M4 19h16M6 19l2-7h8l2 7"/></svg></button>
+            </span>
+          </div>
+        </td>
+        <td>${s.cls}</td>
+        <td>${s.email}</td>
+        <td>${s.phone}</td>
+        <td class="status-cell"><span class="status ${s.status === "active" ? "active-badge" : "inactive-badge"}">${s.status === "active" ? "Active" : "Inactive"}</span></td>
+        <td>
+          <div class="row-actions">
+            <button class="edit-btn" title="Edit" data-edit="${s.id}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></button>
+            <button class="danger delete-btn" title="Delete" data-del="${s.id}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg></button>
+          </div>
+        </td>
+      </tr>
+    `).join("");
+  }
+
+  function openModal(student){
+    editingId = student ? student.id : null;
+    document.getElementById("studentModalTitle").textContent = student ? "Edit Student" : "Add Student";
+    document.getElementById("sName").value = student ? student.name : "";
+    document.getElementById("sClass").value = student ? student.cls : "";
+    document.getElementById("sStatus").value = student ? student.status : "active";
+    document.getElementById("sEmail").value = student ? student.email : "";
+    document.getElementById("sPhone").value = student ? student.phone : "";
+    modal.classList.add("show");
+    setTimeout(() => document.getElementById("sName").focus(), 50);
+  }
+  function closeModal(){ modal.classList.remove("show"); editingId = null; }
+
+  document.getElementById("addStudentBtn").addEventListener("click", () => openModal(null));
+  document.getElementById("closeStudentModal").addEventListener("click", closeModal);
+  document.getElementById("cancelStudent").addEventListener("click", closeModal);
+  modal.addEventListener("click", (e) => { if (e.target === modal) closeModal(); });
+
+  document.getElementById("studentForm").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const data = {
+      name: document.getElementById("sName").value.trim(),
+      cls: document.getElementById("sClass").value,
+      email: document.getElementById("sEmail").value.trim(),
+      phone: document.getElementById("sPhone").value.trim(),
+      status: document.getElementById("sStatus").value
+    };
+    const photoFile = document.getElementById("sPhoto").files[0];
+
+    const finalize = (photo) => {
+      if (photo) data.photo = photo;
+      if (editingId){
+        const s = students.find(x => x.id === editingId);
+        Object.assign(s, data);
+        if (photo) savePhoto(s.id, photo);
+        toast("Student updated", "success");
+      } else {
+        const nu = Object.assign({ id: nextId++ }, data);
+        students.push(nu);
+        if (photo) savePhoto(nu.id, photo);
+        toast("Student added", "success");
+        updateFilterOptions();
+      }
+      closeModal();
+      render();
+      document.getElementById("studentForm").reset();
+    };
+
+    if (photoFile && photoFile.type.startsWith("image/")){
+      const reader = new FileReader();
+      reader.onload = () => finalize(reader.result);
+      reader.readAsDataURL(photoFile);
+    } else {
+      finalize(null);
+    }
+  });
+
+  body.addEventListener("click", (e) => {
+    const photoBtn = e.target.closest("[data-photo]");
+    const editBtn = e.target.closest(".edit-btn");
+    const delBtn = e.target.closest(".delete-btn");
+    if (photoBtn){
+      pendingPhotoId = +photoBtn.dataset.photo;
+      photoInput.value = "";
+      photoInput.click();
+    } else if (editBtn){
+      const s = students.find(x => x.id === +editBtn.dataset.edit);
+      if (s) openModal(s);
+    } else if (delBtn){
+      const id = +delBtn.dataset.del;
+      const s = students.find(x => x.id === id);
+      if (s && confirm('Delete "' + s.name + '"? This cannot be undone.')){
+        students.splice(students.indexOf(s), 1);
+        try { localStorage.removeItem(PHOTO_KEY + s.id); } catch(err){}
+        toast("Student deleted", "success");
+        updateFilterOptions();
+        render();
+      }
+    }
+  });
+
+  function updateFilterOptions(){
+    const classes = [...new Set(students.map(s => s.cls))].sort();
+    classFilter.innerHTML = '<option value="">All Classes</option>' + classes.map(c => '<option>' + c + '</option>').join("");
+    classFilter.value = "";
+  }
+
+  document.getElementById("selectAll").addEventListener("change", (e) => {
+    document.querySelectorAll('#studentsBody input[type="checkbox"]').forEach(cb => cb.checked = e.target.checked);
+  });
+  document.getElementById("searchInput").addEventListener("input", render);
+  classFilter.addEventListener("change", render);
+  statusFilter.addEventListener("change", render);
+  document.getElementById("clearFilters").addEventListener("click", () => {
+    classFilter.value = "";
+    statusFilter.value = "";
+    document.getElementById("searchInput").value = "";
+    render();
+  });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeModal(); });
+
+  render();
+</script>
+</body>
+</html>
+
