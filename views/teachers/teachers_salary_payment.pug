@@ -1,0 +1,220 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title Salary Payments - School Management System
+    link(rel="stylesheet", href="teachers_salary_payment.css")
+  body
+    //- Sidebar
+    aside.sidebar
+      .logo
+        h2 School MS
+        p Management System
+      nav
+        a(href="teachers_dashboard.pug") Dashboard
+        a(href="teachers_list.pug") Teachers
+        a(href="teachers_salary.pug") Salaries
+        a(href="teachers_salary_approval.pug") Salary Approvals
+        a(href="teachers_salary_payment.pug").active Salary Payments
+        a(href="teachers_leave_management.pug") Leave Management
+      .logout
+        a(href="logout.pug") Logout
+
+    //- Main Content
+    main.main-content
+      //- Top bar
+      header.top-bar
+        div
+          h1 Salary Payments
+          p Record salary payments and payment mode for each teacher
+        #currentDate.current-date
+
+      //- Summary Cards
+      section.summary-cards
+        .summary-card
+          h3 Government Payroll
+          p#govtCount 12
+        .summary-card
+          h3 School Payroll
+          p#schoolCount 5
+        .summary-card
+          h3 Payments Recorded
+          p#paymentsCount 6
+        .summary-card
+          h3 Total Paid This Month
+          p#totalPaid UGX 5,350,000
+
+      //- Payment Form
+      section.form-container
+        .form-header
+          h2 Record Salary Payment
+          p Fill in the salary payment details for the teacher
+        form#salaryPaymentForm
+          //- Teacher Information
+          .form-section
+            h3.section-title Teacher Information
+            .form-row
+              .form-group
+                label(for="teacherSelect") Select Teacher
+                select#teacherSelect(required)
+                  option(value="") -- Select Teacher --
+                  option(value="T001") John Bosco
+                  option(value="T002") Mary Namukasa
+                  option(value="T003") Peter Okello
+                  option(value="T004") Sarah Achieng
+                  option(value="T005") David Okot
+                  option(value="T006") Grace Auma
+                  option(value="T007") Samuel Mugisha
+                  option(value="T008") Lydia Kemigisha
+              .form-group
+                label(for="teacherName") Teacher Name
+                input(type="text", id="teacherName", placeholder="Auto-filled", readonly)
+              .form-group
+                label(for="teacherSubject") Subject
+                input(type="text", id="teacherSubject", placeholder="Auto-filled", readonly)
+            .form-row
+              .form-group
+                label(for="payrollType") Payroll Type
+                select#payrollType(required)
+                  option(value="") -- Select Payroll Type --
+                  option(value="Government Payroll") Government Payroll
+                  option(value="School Payroll") School Payroll
+              .form-group
+                label(for="netSalary") Net Salary (UGX)
+                input(type="number", id="netSalary", min="0", placeholder="e.g. 950000", required)
+              .form-group
+                label(for="salaryMonth") Salary Month
+                input(type="month", id="salaryMonth", required)
+
+          //- Payment Details
+          .form-section
+            h3.section-title Payment Details
+            .form-row
+              .form-group
+                label(for="modeOfPayment") Mode of Payment
+                select#modeOfPayment(required)
+                  option(value="") -- Select Mode of Payment --
+                  option(value="Cash") Cash
+                  option(value="Bank Transfer") Bank Transfer
+                  option(value="Mobile Money") Mobile Money
+                  option(value="Cheque") Cheque
+              .form-group
+                label(for="paymentReference") Payment Reference / Receipt No
+                input(type="text", id="paymentReference", placeholder="Auto-generated", readonly)
+              .form-group
+                label(for="paymentDate") Payment Date
+                input(type="date", id="paymentDate", required)
+            .form-row
+              .form-group
+                label(for="paymentAccount") Account / Mobile Number (Optional)
+                input(type="text", id="paymentAccount", placeholder="e.g. Bank account or phone number")
+              .form-group
+                label(for="paidBy") Paid By
+                input(type="text", id="paidBy", placeholder="e.g. Bursar name")
+              .form-group
+                label(for="paymentStatus") Payment Status
+                select#paymentStatus
+                  option(value="Paid") Paid
+                  option(value="Pending") Pending
+            .form-row
+              .form-group
+                label(for="taxAmount") Tax Deducted (PAYE)
+                input(type="number", id="taxAmount", min="0", placeholder="e.g. 50000", value="0")
+              .form-group
+                label(for="netPaidOut") Net Amount Paid Out
+                input(type="text", id="netPaidOut", placeholder="Auto-calculated", readonly)
+            .form-row
+              .form-group.full-width
+                label(for="paymentRemarks") Remarks (Optional)
+                textarea#paymentRemarks(rows="3", placeholder="Any additional notes about this payment...")
+          .form-actions
+            button(type="reset").btn.btn-secondary Clear
+            button(type="submit").btn.btn-primary Record Payment
+
+      //- Payment Records
+      section.records-section
+        .records-header
+          div
+            h2 Salary Payment Records
+            p Recent salary payments made to teachers
+          .filters
+            input(type="text", id="searchPayment", placeholder="Search teacher...")
+            select#filterPayroll
+              option(value="") All Payroll Types
+              option(value="Government Payroll") Government Payroll
+              option(value="School Payroll") School Payroll
+        .table-container
+          table
+            thead
+              tr
+                th Teacher
+                th Payroll Type
+                th Net Salary
+                th Mode of Payment
+                th Reference
+                th Payment Date
+                th Status
+            tbody#paymentTable
+              tr
+                td John Bosco
+                td
+                  span.payroll.govt Government Payroll
+                td UGX 950,000
+                td Bank Transfer
+                td SP-1001
+                td 28 Aug 2026
+                td
+                  span.status.paid Paid
+              tr
+                td Mary Namukasa
+                td
+                  span.payroll.govt Government Payroll
+                td UGX 880,000
+                td Mobile Money
+                td SP-1002
+                td 28 Aug 2026
+                td
+                  span.status.paid Paid
+              tr
+                td Peter Okello
+                td
+                  span.payroll.school School Payroll
+                td UGX 940,000
+                td Cash
+                td SP-1003
+                td 28 Aug 2026
+                td
+                  span.status.paid Paid
+              tr
+                td Sarah Achieng
+                td
+                  span.payroll.govt Government Payroll
+                td UGX 875,000
+                td Cheque
+                td SP-1004
+                td 27 Aug 2026
+                td
+                  span.status.paid Paid
+              tr
+                td David Okot
+                td
+                  span.payroll.school School Payroll
+                td UGX 815,000
+                td Mobile Money
+                td SP-1005
+                td 27 Aug 2026
+                td
+                  span.status.pending Pending
+              tr
+                td Grace Auma
+                td
+                  span.payroll.govt Government Payroll
+                td UGX 890,000
+                td Bank Transfer
+                td SP-1006
+                td 26 Aug 2026
+                td
+                  span.status.paid Paid
+
+    script(src="teachers_salary_payment.js")

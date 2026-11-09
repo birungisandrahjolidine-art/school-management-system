@@ -1,0 +1,309 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title Teachers Dashboard | School Management System
+    link(rel="stylesheet", href="teachers_dashboard.css")
+  body
+    .dashboard
+      //- SIDEBAR
+      aside.sidebar
+        .logo
+          .logo-icon S
+          div
+            h2 SchoolMS
+            span Management System
+        nav.navigation
+          a.nav-link.active(href="#")
+            span ▣
+            |  Dashboard
+          a.nav-link(href="teachers_refform.pug")
+            span ＋
+            |  Register Teacher
+          a.nav-link(href="#teachers")
+            span ♙
+            |  All Teachers
+          a.nav-link(href="#attendance")
+            span ✓
+            |  Attendance
+          a.nav-link(href="#leave")
+            span ▣
+            |  Leave Management
+          a.nav-link(href="#subjects")
+            span ▤
+            |  Subjects & Classes
+          a.nav-link(href="#reports")
+            span ▥
+            |  Reports
+        .sidebar-bottom
+          a.nav-link(href="#")
+            span ⚙
+            |  Settings
+          a.nav-link.logout(href="#")
+            span ↪
+            |  Logout
+      //- MAIN CONTENT
+      main.main-content
+        //- TOP BAR
+        header.topbar
+          div
+            h1 Teachers Dashboard
+            p Manage teachers, attendance and academic responsibilities.
+          .admin-profile
+            .notification
+              |  🔔
+              span.notification-dot
+            .profile
+              .profile-image A
+              div
+                strong Admin
+                small Administrator
+        //- STATISTICS
+        section.stats-grid
+          .stat-card
+            div
+              p Total Teachers
+              h2 120
+              span.stat-info Registered teachers
+            .stat-icon 👩‍🏫
+          .stat-card
+            div
+              p Present Today
+              h2 96
+              span.stat-info 80% attendance
+            .stat-icon ✓
+          .stat-card
+            div
+              p Absent Today
+              h2 8
+              span.stat-info 6.7% of teachers
+            .stat-icon !
+          .stat-card
+            div
+              p On Leave
+              h2 12
+              span.stat-info Approved leave
+            .stat-icon ▣
+        //- QUICK ACTIONS
+        section.section
+          .section-title
+            h2 Quick Actions
+            p Frequently used teacher management functions.
+          .quick-actions
+            a.action-card(href="teachers_refform.pug")
+              .action-icon ＋
+              div
+                h3 Register Teacher
+                p Add a new teacher
+            a.action-card(href="#attendance")
+              .action-icon ✓
+              div
+                h3 Mark Attendance
+                p Record today's attendance
+            a.action-card(href="#leave")
+              .action-icon ▣
+              div
+                h3 Manage Leave
+                p Review leave requests
+            a.action-card(href="#reports")
+              .action-icon ▥
+              div
+                h3 View Reports
+                p Generate teacher reports
+        //- ATTENDANCE
+        section#attendance.panel
+          .panel-header
+            div
+              h2 Today's Teacher Attendance
+              p Wednesday, August 26, 2026
+            button.primary-button(onclick="markAttendance()")
+              |  + Mark Attendance
+          .attendance-summary
+            div
+              span Present
+              strong 96
+            div
+              span Late
+              strong 4
+            div
+              span Absent
+              strong 8
+            div
+              span On Leave
+              strong 12
+          .table-wrapper
+            table
+              thead
+                tr
+                  th Teacher
+                  th Staff ID
+                  th Check In
+                  th Check Out
+                  th Status
+                  th Action
+              tbody
+                tr
+                  td Sarah Namukasa
+                  td TR001
+                  td 07:42 AM
+                  td 04:10 PM
+                  td
+                    span.badge.present Present
+                  td
+                    button.table-button View
+                tr
+                  td John Mugisha
+                  td TR002
+                  td 08:05 AM
+                  td --
+                  td
+                    span.badge.late Late
+                  td
+                    button.table-button View
+                tr
+                  td Mary Achieng
+                  td TR003
+                  td --
+                  td --
+                  td
+                    span.badge.absent Absent
+                  td
+                    button.table-button View
+                tr
+                  td David Kato
+                  td TR004
+                  td 07:35 AM
+                  td 04:00 PM
+                  td
+                    span.badge.present Present
+                  td
+                    button.table-button View
+        //- TEACHERS
+        section#teachers.panel
+          .panel-header
+            div
+              h2 Recent Teachers
+              p Recently registered teachers.
+            a.view-link(href="#") View All
+          .table-wrapper
+            table
+              thead
+                tr
+                  th Teacher
+                  th Staff ID
+                  th Department
+                  th Subject
+                  th Status
+                  th Action
+              tbody
+                tr
+                  td Sarah Namukasa
+                  td TR001
+                  td Sciences
+                  td Biology
+                  td
+                    span.badge.active Active
+                  td
+                    button.table-button Profile
+                tr
+                  td John Mugisha
+                  td TR002
+                  td Mathematics
+                  td Mathematics
+                  td
+                    span.badge.active Active
+                  td
+                    button.table-button Profile
+                tr
+                  td Mary Achieng
+                  td TR003
+                  td Languages
+                  td English
+                  td
+                    span.badge.leave On Leave
+                  td
+                    button.table-button Profile
+        //- BOTTOM GRID
+        section.content-grid
+          //- LEAVE
+          #leave.panel
+            .panel-header
+              div
+                h2 Leave Management
+                p Recent leave requests.
+              a.view-link(href="#") View All
+            .leave-list
+              .leave-item
+                .person
+                  .avatar SN
+                  div
+                    strong Sarah Namukasa
+                    small Annual Leave
+                span.badge.pending Pending
+              .leave-item
+                .person
+                  .avatar JM
+                  div
+                    strong John Mugisha
+                    small Sick Leave
+                span.badge.approved Approved
+              .leave-item
+                .person
+                  .avatar MA
+                  div
+                    strong Mary Achieng
+                    small Annual Leave
+                span.badge.approved Approved
+          //- SUBJECTS
+          #subjects.panel
+            .panel-header
+              div
+                h2 Subjects & Classes
+                p Teacher assignments.
+              a.view-link(href="#") Manage
+            .assignment-list
+              .assignment
+                .subject-icon M
+                div
+                  strong Mathematics
+                  small John Mugisha
+                span P4 - P7
+              .assignment
+                .subject-icon B
+                div
+                  strong Biology
+                  small Sarah Namukasa
+                span S1 - S4
+              .assignment
+                .subject-icon E
+                div
+                  strong English
+                  small Mary Achieng
+                span P5 - P7
+        //- REPORTS
+        section#reports.panel.reports
+          .panel-header
+            div
+              h2 Teacher Reports
+              p Quick access to teacher management reports.
+          .reports-grid
+            button.report-card
+              span ✓
+              strong Attendance Report
+              small View teacher attendance
+            button.report-card
+              span 👩‍🏫
+              strong Teacher Report
+              small View teacher records
+            button.report-card
+              span ▣
+              strong Leave Report
+              small View leave records
+            button.report-card
+              span ▥
+              strong Class Assignment
+              small View teaching assignments
+        footer
+          p © 2026 School Management System. All rights reserved.
+    script(src="teacher-dashboard.js")

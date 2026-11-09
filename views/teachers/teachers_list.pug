@@ -1,0 +1,130 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title All Teachers - School Management System
+    link(rel="stylesheet", href="teachers_list.css")
+  body
+    //- Sidebar
+    aside.sidebar
+      .logo
+        h2 School MS
+        p Management System
+      nav
+        a(href="../students/dashboard.pug") Dashboard
+        a.active(href="teachers_list.pug") Teachers
+        a(href="teachers_attendence.pug") Attendance
+        a(href="../students.pug") Students
+      .logout
+        a(href="logout.pug") Logout
+    //- Main Content
+    main.main-content
+      //- Top section
+      header.top-bar
+        div
+          h1 All Teachers
+          p Manage all teachers in the school
+        a.add-btn(href="teachers_refform.pug")  + Add Teacher
+      //- Statistics
+      section.teacher-stats
+        .stat-card
+          h3 Total Teachers
+          p 45
+        .stat-card
+          h3 Active Teachers
+          p 41
+        .stat-card
+          h3 On Leave
+          p 4
+      //- Search
+      section.search-section
+        input(type="text", id="searchTeacher", placeholder="Search teacher by name, ID or subject...")
+        select#statusFilter
+          option(value="all") All Status
+          option(value="active") Active
+          option(value="leave") On Leave
+      //- Teachers Table
+      section.table-container
+        table
+          thead
+            tr
+              th Teacher ID
+              th Name
+              th Email
+              th Phone
+              th Subject
+              th Class
+              th Status
+              th Actions
+          tbody#teacherTable
+            tr
+              td T001
+              td John Bosco
+              td john@gmail.com
+              td 0700123456
+              td Mathematics
+              td S5
+              td
+                span.status.active-status  Active
+              td
+                button.view-btn View
+                button.edit-btn Edit
+                button.delete-btn Delete
+            tr
+              td T002
+              td Mary Namukasa
+              td mary@gmail.com
+              td 0701234567
+              td English
+              td S4
+              td
+                span.status.active-status  Active
+              td
+                button.view-btn View
+                button.edit-btn Edit
+                button.delete-btn Delete
+            tr
+              td T003
+              td Peter Okello
+              td peter@gmail.com
+              td 0702345678
+              td Biology
+              td S6
+              td
+                span.status.leave-status  On Leave
+              td
+                button.view-btn View
+                button.edit-btn Edit
+                button.delete-btn Delete
+            tr
+              td T004
+              td Sarah Achieng
+              td sarah@gmail.com
+              td 0703456789
+              td Physics
+              td S5
+              td
+                span.status.active-status  Active
+              td
+                button.view-btn View
+                button.edit-btn Edit
+                button.delete-btn Delete
+    //- Search JavaScript
+    script.
+      const searchInput = document.getElementById("searchTeacher");
+      const tableRows = document.querySelectorAll("#teacherTable tr");
+
+      searchInput.addEventListener("keyup", function () {
+        const searchValue = searchInput.value.toLowerCase();
+
+        tableRows.forEach(function (row) {
+          const rowText = row.textContent.toLowerCase();
+
+          if (rowText.includes(searchValue)) {
+            row.style.display = "";
+          } else {
+            row.style.display = "none";
+          }
+        });
+      });

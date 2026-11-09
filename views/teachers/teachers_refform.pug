@@ -1,0 +1,103 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title Teacher Registration
+    link(rel="stylesheet", href="teachersform.css")
+  body
+    .page-container
+      .form-header
+        h1 Teacher Registration
+        p Register a new teacher into the school management system.
+
+      form.teacher-form#teacherForm
+        //- Personal Information
+        section.form-section
+          h2 Personal Information
+          .form-grid
+            .form-group
+              label(for="firstName") First Name
+              input(type="text", id="firstName", name="firstName", placeholder="Enter first name", required)
+            .form-group
+              label(for="lastName") Last Name
+              input(type="text", id="lastName", name="lastName", placeholder="Enter last name", required)
+            .form-group
+              label(for="gender") Gender
+              select#gender(name="gender", required)
+                option(value="") Select gender
+                option(value="female") Female
+                option(value="male") Male
+            .form-group
+              label(for="dateOfBirth") Date of Birth
+              input(type="date", id="dateOfBirth", name="dateOfBirth", required)
+            .form-group
+              label(for="nationality") Nationality
+              input(type="text", id="nationality", name="nationality", placeholder="Enter nationality")
+            .form-group
+              label(for="photo") Profile Photo
+              input(type="file", id="photo", name="photo", accept="image/*")
+
+        //- Contact Information
+        section.form-section
+          h2 Contact Information
+          .form-grid
+            .form-group
+              label(for="phone") Phone Number
+              input(type="tel", id="phone", name="phone", placeholder="Enter phone number", required)
+            .form-group
+              label(for="email") Email Address
+              input(type="email", id="email", name="email", placeholder="Enter email address")
+            .form-group.full-width
+              label(for="address") Address
+              textarea(id="address", name="address", placeholder="Enter residential address")
+
+        //- Employment Information
+        section.form-section
+          h2 Employment Information
+          .form-grid
+            .form-group
+              label(for="staffId") Staff ID
+              input(type="text", id="staffId", name="staffId", placeholder="Enter staff ID", required)
+            .form-group
+              label(for="employmentDate") Date of Employment
+              input(type="date", id="employmentDate", name="employmentDate")
+            .form-group
+              label(for="department") Department
+              select#department(name="department")
+                option(value="") Select department
+                option(value="sciences") Sciences
+                option(value="humanities") Humanities
+                option(value="languages") Languages
+                option(value="mathematics") Mathematics
+                option(value="ict") ICT
+            .form-group
+              label(for="position") Position
+              select#position(name="position")
+                option(value="") Select position
+                option(value="teacher") Teacher
+                option(value="senior-teacher") Senior Teacher
+                option(value="head-of-department") Head of Department
+                option(value="deputy-head") Deputy Head Teacher
+            .form-group
+              label(for="qualification") Highest Qualification
+              input(type="text", id="qualification", name="qualification", placeholder="e.g. Bachelor's Degree")
+            .form-group
+              label(for="specialization") Specialization
+              input(type="text", id="specialization", name="specialization", placeholder="e.g. Mathematics")
+
+        //- Account Information
+        section.form-section
+          h2 Account Information
+          .form-grid
+            .form-group
+              label(for="username") Username
+              input(type="text", id="username", name="username", placeholder="Create username")
+            .form-group
+              label(for="password") Password
+              input(type="password", id="password", name="password", placeholder="Create password")
+
+        //- Buttons
+        .form-actions
+          button(type="reset").btn.btn-secondary Clear
+          button(type="submit").btn.btn-primary Register Teacher

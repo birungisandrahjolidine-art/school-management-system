@@ -1,10 +1,7 @@
+// CURRENT DATE
 
-// CURRENT DATE//
-
-
-const currentDate = document.getElementById("currentDate");
-
-const today = new Date();
+var currentDate = document.getElementById("currentDate");
+var today = new Date();
 
 currentDate.textContent = today.toLocaleDateString("en-UG", {
   weekday: "long",
@@ -13,186 +10,189 @@ currentDate.textContent = today.toLocaleDateString("en-UG", {
   day: "numeric"
 });
 
-
-
-// STUDENT DATA (TEMPORARY)
-
-
-const studentData = {
-  "ST001": { name: "Amanya Brian", class: "S5", totalFees: 1200000, paid: 350000 },
-  "ST002": { name: "Nakato Esther", class: "S2", totalFees: 1000000, paid: 300000 },
-  "ST003": { name: "Okello Samuel", class: "S4", totalFees: 1100000, paid: 320000 },
-  "ST004": { name: "Mukasa Dan", class: "S6", totalFees: 1400000, paid: 950000 },
-  "ST005": { name: "Achieng Mercy", class: "S1", totalFees: 900000, paid: 650000 },
-  "ST006": { name: "Kato Joseph", class: "S3", totalFees: 1050000, paid: 330000 }
-};
-
-
-
 // DEFAULT DATE
 
+var paymentDate = document.getElementById("paymentDate");
+var year = today.getFullYear();
+var month = String(today.getMonth() + 1).padStart(2, "0");
+var day = String(today.getDate()).padStart(2, "0");
+paymentDate.value = year + "-" + month + "-" + day;
 
-const paymentDate = document.getElementById("paymentDate");
+// ELEMENTS
 
-const year = today.getFullYear();
-const month = String(today.getMonth() + 1).padStart(2, "0");
-const day = String(today.getDate()).padStart(2, "0");
+var studentSelect = document.getElementById("studentSelect");
+var studentName = document.getElementById("studentName");
+var studentClass = document.getElementById("studentClass");
+var studentIdEl = document.getElementById("studentId");
+var totalFeesEl = document.getElementById("totalFees");
+var feesPaidEl = document.getElementById("feesPaid");
+var balanceDueEl = document.getElementById("balanceDue");
+var amountPaid = document.getElementById("amountPaid");
+var summaryBalance = document.getElementById("summaryBalance");
+var summaryAmount = document.getElementById("summaryAmount");
+var summaryNewBalance = document.getElementById("summaryNewBalance");
+var paymentForm = document.getElementById("paymentForm");
 
-paymentDate.value = `${year}-${month}-${day}`;
+var currentStudentData = null;
+var allStudents = [];
+var allLedger = [];
 
+// LOAD STUDENTS FROM API
 
+async function loadStudents() {
+  try {
+    allStudents = await API.get("/api/students");
+    allLedger = await API.get("/api/fee-payments/students");
 
-// GENERATE RECEIPT NUMBER//
-
-
-const receiptNo = document.getElementById("receiptNo");
-
-function generateReceipt() {
-  const seq = Math.floor(1000 + Math.random() * 9000);
-  receiptNo.value = `RCP-${seq}`;
+    studentSelect.innerHTML = '<option value="">-- Select Student --</option>';
+    allStudents.forEach(function (s) {
+      var opt = document.createElement("option");
+      opt.value = s._id;
+      opt.textContent = s.name + " - " + s.class;
+      studentSelect.appendChild(opt);
+    });
+  } catch (err) {
+    console.error("Failed to load students:", err);
+  }
 }
 
-generateReceipt();
+loadStudents();
 
-
-
-// STUDENT SELECTION//
-
-
-const studentSelect = document.getElementById("studentSelect");
-const studentName = document.getElementById("studentName");
-const studentClass = document.getElementById("studentClass");
-const studentId = document.getElementById("studentId");
-const totalFees = document.getElementById("totalFees");
-const feesPaid = document.getElementById("feesPaid");
-const balanceDue = document.getElementById("balanceDue");
-
-function formatUGX(amount) {
-  return "UGX " + amount.toLocaleString("en-UG");
-}
+// STUDENT SELECTION
 
 studentSelect.addEventListener("change", function () {
-  const id = this.value;
+  var id = this.value;
 
   if (!id) {
     studentName.value = "";
     studentClass.value = "";
-    studentId.value = "";
-    totalFees.value = "";
-    feesPaid.value = "";
-    balanceDue.value = "";
+    studentIdEl.value = "";
+    totalFeesEl.value = "";
+    feesPaidEl.value = "";
+    balanceDueEl.value = "";
+    currentStudentData = null;
+    updateSummary();
     return;
   }
 
-  const data = studentData[id];
+  var student = allStudents.find(function (s) { return s._id === id; });
+  if (student) {
+    studentName.value = student.name;
+    studentClass.value = student.class;
+    studentIdEl.value = student.studentId || student._id;
+  }
 
-  studentName.value = data.name;
-  studentClass.value = data.class;
-  studentId.value = id;
-  totalFees.value = formatUGX(data.totalFees);
-  feesPaid.value = formatUGX(data.paid);
-  balanceDue.value = formatUGX(data.totalFees - data.paid);
+  var ledgerEntry = allLedger.find(function (e) {
+    return e.student && e.student._id === id;
+  });
+
+  if (ledgerEntry) {
+    currentStudentData = {
+      totalFees: ledgerEntry.totalFees,
+      paid: ledgerEntry.totalPaid,
+      balance: ledgerEntry.balanceDue
+    };
+  } else {
+    currentStudentData = { totalFees: 0, paid: 0, balance: 0 };
+  }
+
+  totalFeesEl.value = fmtUGX(currentStudentData.totalFees);
+  feesPaidEl.value = fmtUGX(currentStudentData.paid);
+  balanceDueEl.value = fmtUGX(currentStudentData.balance);
 
   updateSummary();
 });
 
-
-
 // UPDATE PAYMENT SUMMARY
 
-
-const amountPaid = document.getElementById("amountPaid");
-const summaryBalance = document.getElementById("summaryBalance");
-const summaryAmount = document.getElementById("summaryAmount");
-const summaryNewBalance = document.getElementById("summaryNewBalance");
-
 function updateSummary() {
-  const currentStudent = studentData[studentSelect.value];
-  const balance = currentStudent ? currentStudent.totalFees - currentStudent.paid : 0;
-  const amount = parseInt(amountPaid.value, 10) || 0;
+  var balance = currentStudentData ? currentStudentData.balance : 0;
+  var amount = parseInt(amountPaid.value, 10) || 0;
 
-  summaryBalance.textContent = formatUGX(balance);
-  summaryAmount.textContent = formatUGX(amount);
+  summaryBalance.textContent = fmtUGX(balance);
+  summaryAmount.textContent = fmtUGX(amount);
 
-  const newBalance = Math.max(balance - amount, 0);
-  summaryNewBalance.textContent = formatUGX(newBalance);
+  var newBalance = Math.max(balance - amount, 0);
+  summaryNewBalance.textContent = fmtUGX(newBalance);
 
   return newBalance;
 }
 
 amountPaid.addEventListener("input", updateSummary);
-studentSelect.addEventListener("change", updateSummary);
 
+// FORM SUBMISSION
 
-// FORM SUBMISSION//
-
-
-const paymentForm = document.getElementById("paymentForm");
-
-paymentForm.addEventListener("submit", function (event) {
+paymentForm.addEventListener("submit", async function (event) {
   event.preventDefault();
 
-  const currentStudent = studentData[studentSelect.value];
-
-  if (!currentStudent) {
-    alert("Please select a student.");
+  if (!currentStudentData) {
+    toast("Please select a student.", "error");
     return;
   }
 
-  const amount = parseInt(amountPaid.value, 10);
-  const feeType = document.getElementById("feeType").value;
-  const method = document.getElementById("paymentMethod").value;
+  var amount = parseInt(amountPaid.value, 10);
+  var feeType = document.getElementById("feeType").value;
+  var method = document.getElementById("paymentMethod").value;
 
   if (!amount || amount <= 0) {
-    alert("Please enter a valid payment amount.");
+    toast("Please enter a valid payment amount.", "error");
     return;
   }
 
   if (!feeType || !method) {
-    alert("Please select the fee type and payment method.");
+    toast("Please select the fee type and payment method.", "error");
     return;
   }
 
-  const balance = currentStudent.totalFees - currentStudent.paid;
+  var balance = currentStudentData.balance;
 
   if (amount > balance) {
-    alert(
-      `The payment amount exceeds the balance due (${formatUGX(balance)}). ` +
-      `Please enter an amount up to what is due.`
+    toast(
+      "Payment amount exceeds the balance due (" + fmtUGX(balance) + "). " +
+      "Please enter an amount up to what is due.",
+      "error"
     );
     return;
   }
 
-  const newBalance = balance - amount;
-  const status = document.getElementById("paymentStatus").value;
+  var newBalance = balance - amount;
+  var status = document.getElementById("paymentStatus").value;
 
-  alert(
-    `Payment recorded successfully!\n\n` +
-    `Receipt: ${receiptNo.value}\n` +
-    `Student: ${currentStudent.name} (${studentSelect.value})\n` +
-    `Fee Type: ${feeType}\n` +
-    `Amount: ${formatUGX(amount)}\n` +
-    `Method: ${method}\n` +
-    `Status: ${status}\n\n` +
-    `New Balance: ${formatUGX(newBalance)}`
-  );
+  var body = {
+    student: studentSelect.value,
+    feeType: feeType,
+    amountPaid: amount,
+    totalFees: currentStudentData.totalFees,
+    balanceDue: newBalance,
+    paymentMethod: method,
+    paymentDate: paymentDate.value,
+    transactionRef: document.getElementById("transactionRef").value.trim(),
+    phoneNumber: document.getElementById("phoneNumber").value.trim(),
+    status: status,
+    remarks: document.getElementById("remarks").value.trim()
+  };
 
-  currentStudent.paid += amount;
+  try {
+    var result = await API.post("/api/fee-payments", body);
 
-  feesPaid.value = formatUGX(currentStudent.paid);
-  balanceDue.value = formatUGX(newBalance);
+    toast("Payment recorded successfully! Receipt: " + (result.receiptNo || "—"), "success");
 
-  paymentForm.reset();
-  generateReceipt();
-  paymentDate.value = `${year}-${month}-${day}`;
+    paymentForm.reset();
+    paymentDate.value = year + "-" + month + "-" + day;
+    studentName.value = "";
+    studentClass.value = "";
+    studentIdEl.value = "";
+    totalFeesEl.value = "";
+    feesPaidEl.value = "";
+    balanceDueEl.value = "";
+    summaryBalance.textContent = fmtUGX(0);
+    summaryAmount.textContent = fmtUGX(0);
+    summaryNewBalance.textContent = fmtUGX(0);
+    currentStudentData = null;
 
-  studentName.value = "";
-  studentClass.value = "";
-  studentId.value = "";
-  totalFees.value = "";
-  feesPaid.value = "";
-  balanceDue.value = "";
-  summaryBalance.textContent = "UGX 0";
-  summaryAmount.textContent = "UGX 0";
-  summaryNewBalance.textContent = "UGX 0";
+    // Reload ledger to get updated balances
+    allLedger = await API.get("/api/fee-payments/students");
+  } catch (err) {
+    toast("Failed to record payment: " + err.message, "error");
+  }
 });

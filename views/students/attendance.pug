@@ -1,0 +1,325 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title Akademi | Attendance
+    link(rel="stylesheet", href="styles.css")
+  body
+    .app
+      aside.sidebar
+        a.logo(href="dashboard.pug")
+          .mark A
+          | Akademi
+
+        ul.nav
+          li
+            a(href="dashboard.pug")
+              svg(viewBox="0 0 24 24", fill="none", stroke="currentColor", stroke-width="2")
+                rect(x="3", y="3", width="7", height="9", rx="1.5")
+                rect(x="14", y="3", width="7", height="5", rx="1.5")
+                rect(x="14", y="12", width="7", height="9", rx="1.5")
+                rect(x="3", y="16", width="7", height="5", rx="1.5")
+              | Dashboard
+          li
+            a(href="../students.pug")
+              svg(viewBox="0 0 24 24", fill="none", stroke="currentColor", stroke-width="2")
+                circle(cx="12", cy="8", r="4")
+                path(d="M4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5")
+              | Students
+          li
+            a.active(href="attendance.pug")
+              svg(viewBox="0 0 24 24", fill="none", stroke="currentColor", stroke-width="2")
+                rect(x="3", y="4", width="18", height="17", rx="2")
+                path(d="M3 9h18M8 2v4M16 2v4")
+                path(d="M8 14l2.5 2.5L16 11")
+              | Attendance
+          li
+            a(href="../report.pug")
+              svg(viewBox="0 0 24 24", fill="none", stroke="currentColor", stroke-width="2")
+                path(d="M6 3h9l5 5v13H6z")
+                path(d="M9 12h6M9 16h6M9 8h2")
+              | Report
+          li
+            a(href="../library.pug")
+              svg(viewBox="0 0 24 24", fill="none", stroke="currentColor", stroke-width="2")
+                path(d="M2 4h6a3 3 0 0 1 3 3v13a2 2 0 0 0-2-2H2z")
+                path(d="M22 4h-6a3 3 0 0 0-3 3v13a2 2 0 0 1 2-2h7z")
+              | Library
+          li
+            a(href="announcements.pug")
+              svg(viewBox="0 0 24 24", fill="none", stroke="currentColor", stroke-width="2")
+                path(d="M4 11a8 8 0 0 1 16 0v4l1 3H3l1-3z")
+                path(d="M9 20a3 3 0 0 0 6 0")
+              | Announcements
+
+          li.section-label Support
+          li
+            a(href="help-center.pug")
+              svg(viewBox="0 0 24 24", fill="none", stroke="currentColor", stroke-width="2")
+                circle(cx="12", cy="12", r="9")
+                path(d="M9.5 9.5a2.5 2.5 0 0 1 5 .5c0 1.7-2 1.7-2 3.5")
+                circle(cx="12", cy="17", r=".3")
+              | Help Center
+          li
+            a(href="../settings.pug")
+              svg(viewBox="0 0 24 24", fill="none", stroke="currentColor", stroke-width="2")
+                circle(cx="12", cy="12", r="3")
+                path(d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 8.6a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.28c.6-.25 1-.83 1-1.48V2.7a2 2 0 1 1 4 0v.09c0 .65.4 1.23 1 1.48.6.25 1.3.14 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06c-.47.52-.58 1.22-.33 1.82.25.6.83 1 1.48 1H21a2 2 0 1 1 0 4h-.09c-.65 0-1.23.4-1.48 1z")
+              | Settings
+          li
+            a(href="../signout.pug")
+              svg(viewBox="0 0 24 24", fill="none", stroke="currentColor", stroke-width="2")
+                path(d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4")
+                path(d="M16 17l5-5-5-5")
+                path(d="M21 12H9")
+              | Sign Out
+
+        .sidebar-footer Akademi &middot; School Dashboard
+
+      main.main
+        .topbar
+          .page-title
+            h1 Attendance
+            p Manage and review records
+
+          .search
+            svg(viewBox="0 0 24 24", fill="none", stroke="currentColor", stroke-width="2")
+              circle(cx="11", cy="11", r="7")
+              path(d="M21 21l-4.3-4.3")
+            input(type="text", id="searchInput", placeholder="Search here...")
+
+          .topbar-right
+            a.icon-btn(href="announcements.pug")
+              svg(viewBox="0 0 24 24", fill="none", stroke="currentColor", stroke-width="2")
+                path(d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9")
+                path(d="M13.7 21a2 2 0 0 1-3.4 0")
+              span.dot-badge
+            a.user-chip(href="../settings.pug")
+              .avatar MR
+              div
+                .name Mithun Ray
+                .role Student
+
+        .card
+          .card-header
+            span Attendance &mdash; September 2024
+          .card-body
+            .controls-row
+              .controls-left
+                input(type="date", id="weekStart", class="pill-select")
+                .pill-btn
+                  svg(viewBox="0 0 24 24", fill="none", stroke="currentColor", stroke-width="2")
+                    path(d="M6 9l6 6 6-6")
+                  | September
+                button.pill-btn#markAttendanceBtn
+                  svg(viewBox="0 0 24 24", fill="none", stroke="currentColor", stroke-width="2")
+                    path(d="M8 14l2.5 2.5L16 11")
+                  | Mark attendance
+
+              .legend
+                span.lg-holiday
+                  i
+                  | Holiday
+                span.lg-ontime
+                  i
+                  | On time
+                  strong 82%
+                span.lg-late
+                  i
+                  | Late
+                  strong 10%
+                span.lg-absent
+                  i
+                  | Absent
+                  strong 8%
+
+              .controls-actions
+                .icon-action#editRange(title="Save edits")
+                  svg(viewBox="0 0 24 24", fill="none", stroke="currentColor", stroke-width="2")
+                    path(d="M12 20h9")
+                    path(d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z")
+                .icon-action#resetTable(title="Reset table")
+                  svg(viewBox="0 0 24 24", fill="none", stroke="currentColor", stroke-width="2")
+                    path(d="M3 6h18")
+                    path(d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2")
+                    path(d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6")
+
+            .table-wrap
+              table
+                thead
+                  tr
+                    th(style="width:36px;")
+                      input(type="checkbox", id="selectAll")
+                    th Student Profile
+                    th.day-col
+                      span.day-num 23
+                      | Monday
+                    th.day-col
+                      span.day-num 24
+                      | Tuesday
+                    th.day-col
+                      span.day-num 25
+                      | Wednesday
+                    th.day-col
+                      span.day-num 26
+                      | Thursday
+                    th.day-col
+                      span.day-num 27
+                      | Friday
+                    th.day-col
+                      span.day-num 28
+                      | Saturday
+                    th.day-col
+                      span.day-num 29
+                      | Sunday
+                tbody#attendanceBody
+
+    .modal-overlay#attendanceModal
+      .modal
+        .modal-header
+          h3 Mark Attendance
+          button.modal-close#closeAttendanceModal &times;
+        .modal-body
+          form#attendanceForm
+            .form-grid
+              .field.span-2
+                label Student
+                select#amStudent(required)
+                  option(value="") Select student
+              .field
+                label Day of the Week
+                select#amDay(required)
+                  option(value="0") Monday (23)
+                  option(value="1") Tuesday (24)
+                  option(value="2") Wednesday (25)
+                  option(value="3") Thursday (26)
+                  option(value="4") Friday (27)
+                  option(value="5") Saturday (28)
+                  option(value="6") Sunday (29)
+              .field
+                label Status
+                select#amStatus(required)
+                  option(value="ontime") On time
+                  option(value="late") Late
+                  option(value="absent") Absent
+                  option(value="holiday") Holiday
+              .field.span-2
+                label Note (for late / absent)
+                input(type="text", id="amNote", placeholder="e.g. Traffic jam, health problem")
+            .btn-row
+              button.btn(type="button", id="cancelAttendance") Cancel
+              button.btn.primary(type="submit") Save Attendance
+
+    script.
+      const HOLIDAY = { type: "holiday", label: "Holiday", note: "Annual Book Fair" };
+      const ON = { type: "ontime", label: "On time" };
+      function LATE(note){ return { type:"late", label:"Late", note }; }
+      function ABSENT(note){ return { type:"absent", label:"Absent", note }; }
+
+      const students = [
+        { name:"Marta Adams",    days:[ON, ON, HOLIDAY, ON, ON, ON, ON] },
+        { name:"Robin Logan",    days:[ABSENT("Health Problem"), ON, HOLIDAY, ON, ON, ON, ON] },
+        { name:"Cruz French",    days:[ON, ON, HOLIDAY, ON, ON, ON, ON] },
+        { name:"Claudine Cherry",days:[ON, ON, HOLIDAY, ON, ON, ON, ON] },
+        { name:"Mitch Huber",    days:[ON, ON, HOLIDAY, ON, ON, LATE("Family Problem"), ON] },
+        { name:"Essie Fry",      days:[ON, ON, HOLIDAY, ON, ON, ON, ON] },
+        { name:"Shanna Orozco",  days:[LATE("Traffic Jam"), ON, HOLIDAY, ON, ABSENT("Health Problem"), ON, ON] },
+        { name:"Gabriel Nelson", days:[ON, ON, HOLIDAY, ON, ON, ON, ON] },
+        { name:"Shirley George", days:[ON, ON, HOLIDAY, ON, ON, LATE("Traffic Jam"), ON] },
+        { name:"Gustavo Lopez",  days:[ON, ABSENT("Health Problem"), HOLIDAY, LATE("Family Problem"), ON, ON, ON] },
+        { name:"Dante Cantrell", days:[ON, ON, HOLIDAY, LATE("Traffic Jam"), ON, ON, ON] },
+        { name:"Irwin Roberts",  days:[ON, ON, HOLIDAY, ON, ON, ON, ON] },
+        { name:"Adeline Decker", days:[ON, ON, HOLIDAY, ON, ON, ON, ABSENT("Health Problem")] },
+      ];
+
+      function initials(name){ return name.split(" ").map(w => w[0]).join("").slice(0,2).toUpperCase(); }
+      function statusCell(day){
+        const note = day.note ? `<small>${day.note}</small>` : "";
+        return `<span class="status ${day.type}">${day.label}${note}</span>`;
+      }
+
+      function render(list){
+        document.getElementById("attendanceBody").innerHTML = list.map(s => `
+          <tr>
+            <td><input type="checkbox" /></td>
+            <td>
+              <div class="student-cell">
+                <div class="mini-avatar">${initials(s.name)}</div>
+                <span class="sname">${s.name}</span>
+              </div>
+            </td>
+            ${s.days.map(d => `<td class="status-cell">${statusCell(d)}</td>`).join("")}
+          </tr>
+        `).join("");
+      }
+
+      render(students);
+      document.getElementById("selectAll").addEventListener("change", (e) => {
+        document.querySelectorAll('#attendanceBody input[type="checkbox"]').forEach(cb => cb.checked = e.target.checked);
+      });
+      document.getElementById("searchInput").addEventListener("input", (e) => {
+        render(students.filter(s => s.name.toLowerCase().includes(e.target.value.trim().toLowerCase())));
+      });
+
+      function toast(msg, type){
+        let wrap = document.getElementById("toastWrap");
+        if (!wrap){ wrap = document.createElement("div"); wrap.className = "toast-wrap"; wrap.id = "toastWrap"; document.body.appendChild(wrap); }
+        const icon = type === "success"
+          ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>'
+          : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>';
+        const el = document.createElement("div");
+        el.className = "toast " + type;
+        el.innerHTML = icon + "<span>" + msg + "</span>";
+        wrap.appendChild(el);
+        setTimeout(() => el.remove(), 2600);
+      }
+
+      function todayISO(){ return new Date().toISOString().slice(0,10); }
+      document.getElementById("weekStart").value = "2024-09-23";
+
+      const markModal = document.getElementById("attendanceModal");
+      function openMark(){
+        const nameSel = document.getElementById("amStudent");
+        nameSel.innerHTML = '<option value="">Select student</option>' + students.map(s => '<option value="' + s.name + '">' + s.name + '</option>').join("");
+        document.getElementById("amStudent").value = "";
+        document.getElementById("amStatus").value = "ontime";
+        document.getElementById("amNote").value = "";
+        markModal.classList.add("show");
+        setTimeout(() => nameSel.focus(), 50);
+      }
+      function closeMark(){ markModal.classList.remove("show"); }
+
+      document.getElementById("markAttendanceBtn").addEventListener("click", openMark);
+      document.getElementById("closeAttendanceModal").addEventListener("click", closeMark);
+      document.getElementById("cancelAttendance").addEventListener("click", closeMark);
+      markModal.addEventListener("click", (e) => { if (e.target === markModal) closeMark(); });
+
+      document.getElementById("attendanceForm").addEventListener("submit", (e) => {
+        e.preventDefault();
+        const name = document.getElementById("amStudent").value;
+        const status = document.getElementById("amStatus").value;
+        const note = document.getElementById("amNote").value.trim();
+        const dayIdx = +document.getElementById("amDay").value;
+        const s = students.find(x => x.name === name);
+        if (!s) return;
+        let obj;
+        if (status === "ontime") obj = { type:"ontime", label:"On time" };
+        else if (status === "late") obj = { type:"late", label:"Late", note };
+        else if (status === "absent") obj = { type:"absent", label:"Absent", note };
+        else obj = { type:"holiday", label:"Holiday", note:"Manual" };
+        s.days[dayIdx] = obj;
+        closeMark();
+        render(students);
+        toast("Attendance saved for " + name, "success");
+      });
+
+      document.getElementById("editRange").addEventListener("click", () => {
+        toast("Changes saved for the selected week", "success");
+      });
+      document.getElementById("resetTable").addEventListener("click", () => {
+        if (confirm("Reset the attendance table to default data?")){
+          location.reload();
+        }
+      });
+      document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeMark(); });

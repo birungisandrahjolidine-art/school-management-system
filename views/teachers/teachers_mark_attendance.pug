@@ -1,0 +1,140 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title Mark My Attendance - School Management System
+    link(rel="stylesheet", href="teachers_mark_attendance.css")
+  body
+    //- Sidebar
+    aside.sidebar
+      .logo
+        h2 School MS
+        p Management System
+      nav
+        a(href="teachers_dashboard.pug") Dashboard
+        a(href="teachers_list.pug") Teachers
+        a(href="teachers_attendence.pug") Attendance
+        a.active(href="teachers_mark_attendance.pug") Mark Attendance
+        a(href="teachers_profile.pug") My Profile
+      .logout
+        a(href="logout.pug") Logout
+    //- Main Content
+    main.main-content
+      //- Top section
+      header.top-bar
+        div
+          h1 Mark My Attendance
+          p Record your daily attendance
+        .current-date#currentDate
+      //- Quick Status Cards
+      section.status-cards
+        .status-card
+          h3 Today's Status
+          p.status-display#todayStatus Not Marked
+        .status-card
+          h3 Check-in Time
+          p#checkInDisplay --:-- --
+        .status-card
+          h3 Working Hours
+          p#workingHours 0h 0m
+      //- Mark Attendance Form
+      section.form-container
+        .form-header
+          h2 Mark Attendance
+          p Click the button below to mark your attendance for today
+        form#attendanceForm
+          .form-section
+            .form-row
+              .form-group
+                label(for="teacherSelect") Select Your Name
+                select#teacherSelect(required)
+                  option(value="") -- Select Teacher --
+                  option(value="John Bosco") John Bosco
+                  option(value="Mary Namukasa") Mary Namukasa
+                  option(value="Peter Okello") Peter Okello
+                  option(value="Sarah Achieng") Sarah Achieng
+                  option(value="David Okot") David Okot
+              .form-group
+                label(for="staffId") Staff ID
+                input(type="text", id="staffId", placeholder="Auto-filled", readonly)
+              .form-group
+                label(for="attendanceDate") Date
+                input(type="date", id="attendanceDate", required)
+            .form-row
+              .form-group
+                label(for="checkInTime") Check-in Time
+                input(type="time", id="checkInTime", required)
+              .form-group
+                label(for="attendanceStatus") Status
+                select#attendanceStatus(required)
+                  option(value="") -- Select Status --
+                  option(value="Present") Present
+                  option(value="Late") Late
+              .form-group
+                label(for="subject") Teaching Subject
+                select#subject(required)
+                  option(value="") -- Select Subject --
+                  option(value="Mathematics") Mathematics
+                  option(value="English") English
+                  option(value="Biology") Biology
+                  option(value="Physics") Physics
+                  option(value="Chemistry") Chemistry
+                  option(value="History") History
+                  option(value="Geography") Geography
+            .form-row
+              .form-group.full-width
+                label(for="remarks") Remarks (Optional)
+                textarea#remarks(rows="3", placeholder="Any additional notes about your attendance today...")
+          .form-actions
+            button.btn.btn-secondary(type="button", onclick="resetForm()") Clear
+            button#markAttendanceBtn.btn.btn-primary(type="button", onclick="markAttendance()") Mark Attendance
+      //- My Attendance History
+      section.history-section
+        .section-header
+          h2 My Attendance History
+          p View your recent attendance records
+        .table-container
+          table
+            thead
+              tr
+                th Date
+                th Check In
+                th Check Out
+                th Status
+                th Working Hours
+                th Remarks
+            tbody#attendanceHistory
+              tr
+                td 26 Aug 2026
+                td 07:45 AM
+                td 05:00 PM
+                td
+                  span.status.present Present
+                td 9h 15m
+                td On time
+              tr
+                td 25 Aug 2026
+                td 08:20 AM
+                td 05:10 PM
+                td
+                  span.status.late Late
+                td 8h 50m
+                td Traffic delay
+              tr
+                td 24 Aug 2026
+                td 07:50 AM
+                td 05:05 PM
+                td
+                  span.status.present Present
+                td 9h 15m
+                td On time
+              tr
+                td 23 Aug 2026
+                td 07:55 AM
+                td 05:00 PM
+                td
+                  span.status.present Present
+                td 9h 5m
+                td On time
+    script(src="teachers_mark_attendance.js")

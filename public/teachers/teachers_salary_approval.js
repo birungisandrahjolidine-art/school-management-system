@@ -1,6 +1,7 @@
 
 // ELEMENTS//
 const approvalTable = document.getElementById("approvalTable");
+let approvalRecords = [];
 
 // CURRENT DATE
 
@@ -15,43 +16,86 @@ currentDate.textContent = today.toLocaleDateString("en-UG", {
   day: "numeric"
 });
 
+
+// HELPERS
+
+function escapeHtml(str) {
+  return String(str == null ? "" : str).replace(/[&<>"']/g, function (c) {
+    return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+  });
+}
+
+function statusDisplay(status) {
+  return status === "Paid" ? "Cleared" : String(status || "Pending");
+}
+
+function statusClass(status) {
+  return status === "Paid" ? "cleared" : String(status || "pending").toLowerCase();
+}
+
+
+// RENDER APPROVAL TABLE
+
+function renderApprovalTable() {
+  approvalTable.innerHTML = approvalRecords.map(function (r) {
+    const t = r.teacher || {};
+
+    return `<tr>
+      <td>${escapeHtml(t.teacherId || "")}</td>
+      <td>${escapeHtml(t.name)}</td>
+      <td>${escapeHtml(t.subject)}</td>
+      <td>${escapeHtml(t["class"])}</td>
+      <td>${escapeHtml(r.netSalary != null ? fmtUGX(r.netSalary) : "")}</td>
+      <td>${escapeHtml(r.salaryMonth || "")}</td>
+      <td>${escapeHtml(r.paymentDate ? fmtDate(r.paymentDate) : "")}</td>
+      <td><span class="status ${escapeHtml(statusClass(r.status))}">${escapeHtml(statusDisplay(r.status))}</span></td>
+      <td>
+        <button class="view-btn">View</button>
+        <button class="approve-btn" data-id="${escapeHtml(r._id)}">Approve</button>
+        <button class="reject-btn" data-id="${escapeHtml(r._id)}">Reject</button>
+      </td>
+    </tr>`;
+  }).join("");
+}
+
+function loadApprovalRecords() {
+  return API.get("/api/salary-payments")
+    .then(function (records) {
+      approvalRecords = records;
+      renderApprovalTable();
+      updateSummaryCards();
+    });
+}
+
+
 // UPDATE SUMMARY CARDS//
 
 function updateSummaryCards() {
-  const rows = approvalTable.querySelectorAll("tr");
-
   let pendingCount = 0;
   let clearedCount = 0;
   let rejectedCount = 0;
   let pendingAmount = 0;
 
-  rows.forEach(function (row) {
-    const statusElement = row.querySelector(".status");
-    if (!statusElement) return;
+  approvalRecords.forEach(function (r) {
+    const status = r.status;
+    const amount = parseInt(r.netSalary, 10) || parseInt(r.netPaidOut, 10) || 0;
 
-    const status = statusElement.textContent.toLowerCase();
-    const salaryElement = row.cells[4];
-    const salary = parseInt(salaryElement.textContent.replace(/[^0-9]/g, ""), 10) || 0;
-
-    if (status === "pending") {
+    if (status === "Pending") {
       pendingCount++;
-      pendingAmount += salary;
-    } else if (status === "cleared") {
+      pendingAmount += amount;
+    } else if (status === "Paid") {
       clearedCount++;
-    } else if (status === "rejected") {
+    } else if (status === "Rejected") {
       rejectedCount++;
     }
   });
 
-  const cards = document.querySelectorAll(".summary-card p");
-
-  cards[0].textContent = pendingCount;
-  cards[1].textContent = clearedCount;
-  cards[2].textContent = rejectedCount;
-  cards[3].textContent = "UGX " + pendingAmount.toLocaleString("en-UG");
+  document.getElementById("pendingApproval").textContent = pendingCount;
+  document.getElementById("clearedPayments").textContent = clearedCount;
+  document.getElementById("rejectedCount").textContent = rejectedCount;
+  document.getElementById("totalAmountPending").textContent = fmtUGX(pendingAmount);
 }
 
-updateSummaryCards();
 
 // SEARCH APPROVAL RECORDS//
 
@@ -104,30 +148,29 @@ approvalTable.addEventListener("click", function (event) {
 
   if (!row) return;
 
+  if (target.classList.contains("approve-btn") || target.classList.contains("reject-btn")) {
+    const id = target.getAttribute("data-id");
+    if (!id) return;
+
+    const newStatus = target.classList.contains("approve-btn") ? "Paid" : "Pending";
+
+    const record = approvalRecords.find(function (r) { return r._id === id; });
+    const name = record && record.teacher ? record.teacher.name : "";
+
+    API.put("/api/salary-payments/" + id, { status: newStatus })
+      .then(function () {
+        toast("Salary payment updated", "success");
+        return loadApprovalRecords();
+      })
+      .catch(function (err) {
+        toast(err.message || "Failed to update salary payment", "error");
+      });
+    return;
+  }
+
   const cells = row.cells;
-  const statusCell = row.querySelector(".status");
   const teacherName = cells[1].textContent;
   const netSalary = cells[4].textContent;
-
-  if (target.classList.contains("approve-btn")) {
-    statusCell.textContent = "Cleared";
-    statusCell.className = "status cleared";
-
-    alert(`Salary for ${teacherName} (${netSalary}) has been approved and cleared.`);
-  }
-
-  if (target.classList.contains("reject-btn")) {
-    const confirmReject = confirm(
-      `Are you sure you want to reject the salary payment for ${teacherName}?`
-    );
-
-    if (confirmReject) {
-      statusCell.textContent = "Rejected";
-      statusCell.className = "status rejected";
-
-      alert(`Salary payment for ${teacherName} has been rejected.`);
-    }
-  }
 
   if (target.classList.contains("view-btn")) {
     alert(
@@ -141,6 +184,11 @@ approvalTable.addEventListener("click", function (event) {
       `Status: ${cells[7].textContent}`
     );
   }
+});
 
-  updateSummaryCards();
+
+// INITIALIZE
+
+loadApprovalRecords().catch(function (err) {
+  toast(err.message || "Failed to load salary records", "error");
 });

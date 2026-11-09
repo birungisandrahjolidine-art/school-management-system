@@ -1,0 +1,108 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title Finance Reports - School Management System
+    link(rel="stylesheet", href="finance_reports.css")
+  body
+    //- Sidebar
+    aside.sidebar
+      .logo
+        h2 School MS
+        p Finance Department
+
+      nav
+        a(href="bursar_dashboard.pug") Dashboard
+        a(href="fee_payment.pug") Record Payment
+        a(href="students_fees.pug") Student Fees
+        a(href="expenses.pug") Expenses
+        a.active(href="finance_reports.pug") Reports
+
+      .logout
+        a(href="../teachers/logout.pug") Logout
+
+    //- Main Content
+    main.main-content
+      //- Top bar
+      header.top-bar
+        div
+          h1 Finance Reports
+          p Generate financial summaries — daily, weekly, monthly or termly
+        .current-date#currentDate
+
+      //- Period Selector
+      section.period-section
+        .period-options
+          button.period-btn.active(type="button", data-period="daily") Daily
+          button.period-btn(type="button", data-period="weekly") Weekly
+          button.period-btn(type="button", data-period="monthly") Monthly
+          button.period-btn(type="button", data-period="termly") Termly
+
+        .date-range
+          .date-group
+            label(for="startDate") From
+            input(type="date", id="startDate")
+          .date-group
+            label(for="endDate") To
+            input(type="date", id="endDate")
+          button.btn.btn-generate#generateBtn(type="button") Generate Report
+
+      //- Report Summary Cards
+      section.summary-cards
+        .summary-card.income
+          h3 Total Income
+          p#totalIncome UGX 0
+        .summary-card.expense
+          h3 Total Expenses
+          p#totalExpense UGX 0
+        .summary-card
+          h3 Balance / Net
+          p#netBalance UGX 0
+        .summary-card
+          h3 Transactions
+          p#transactionCount 0
+
+      //- Report Breakdown
+      section.report-section
+        .report-grid
+          //- Income Breakdown
+          .report-card
+            h2 Income Breakdown
+            .report-info#incomeBreakdown
+              p.no-data Select a period and generate the report.
+            .report-total
+              span Total Income
+              strong#breakdownIncomeTotal UGX 0
+
+          //- Expense Breakdown
+          .report-card
+            h2 Expense Breakdown
+            .report-info#expenseBreakdown
+              p.no-data Select a period and generate the report.
+            .report-total
+              span Total Expenses
+              strong#breakdownExpenseTotal UGX 0
+
+      //- Transactions Table
+      section.transactions-section
+        .section-header
+          div
+            h2 Transactions in Period
+            p#periodLabel Showing transactions for the selected period
+          button.btn.btn-print#printBtn(type="button") Print Report
+
+        .table-container
+          table
+            thead
+              tr
+                th Date
+                th Type
+                th Reference
+                th Description
+                th Amount
+            tbody#reportTable
+              tr
+                td.empty-row(colspan="5") Transactions will appear here after generating the report.
+
+    script(src="finance_reports.js")

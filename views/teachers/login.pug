@@ -1,0 +1,43 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title Login - School Management System
+    link(rel="stylesheet", href="login.css")
+  body
+    main.login-container
+      .login-card
+        .logo
+          h2 School MS
+          p Management System
+        .icon 🔐
+        h1 Sign In
+        p.subtitle Access your school management account
+        form#loginForm
+          //- ROLE
+          .form-group
+            label(for="role") Select Role
+            select#role(required)
+              option(value="") -- Select Role --
+              option(value="teacher") Teacher
+              option(value="student") Student
+              option(value="librarian") Librarian
+              option(value="admin") Admin
+              option(value="bursar") Bursar
+          //- USERNAME / ID
+          .form-group
+            label(for="username") Username / Staff ID
+            input(type="text", id="username", placeholder="Enter your username or ID", required)
+          //- PASSWORD
+          .form-group
+            label(for="password") Password
+            input(type="password", id="password", placeholder="Enter your password", required)
+          .form-options
+            label.remember
+              input(type="checkbox", id="rememberMe")
+              |  Remember me
+            a.forgot-link(href="#") Forgot password?
+          button.btn-login(type="submit") Sign In
+          .redirect-notice#redirectNotice
+    script(src="login.js")

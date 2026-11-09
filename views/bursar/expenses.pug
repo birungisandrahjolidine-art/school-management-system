@@ -1,0 +1,207 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title Expenses - School Management System
+    link(rel="stylesheet", href="expenses.css")
+  body
+    //- Sidebar
+    aside.sidebar
+      .logo
+        h2 School MS
+        p Bursar Portal
+
+      nav
+        a(href="bursar_dashboard.pug") Dashboard
+        a(href="fee_payment.pug") Record Payment
+        a(href="students_fees.pug") Student Fees
+        a(href="#receipts") Receipts
+        a.active(href="expenses.pug") Expenses
+        a(href="#reports") Reports
+
+      .logout
+        a(href="../teachers/logout.pug") Logout
+
+    //- Main Content
+    main.main-content
+      //- Top bar
+      header.top-bar
+        div
+          h1 School Expenses
+          p Record and manage all school expenses in one place
+        .current-date#currentDate
+
+      //- Summary Cards
+      section.summary-cards
+        .summary-card
+          h3 Total Expenses
+          p#totalExpenses UGX 18,200,000
+        .summary-card
+          h3 This Month
+          p#monthExpenses UGX 3,450,000
+        .summary-card
+          h3 Expense Categories
+          p#categoryCount 7
+        .summary-card
+          h3 Records This Month
+          p#recordCount 6
+
+      //- Expense Form
+      section.form-container
+        .form-header
+          h2 Record Expense
+          p Enter the details of the expense below
+
+        form#expenseForm
+          .form-section
+            .form-row
+              .form-group
+                label(for="expenseCategory") Expense Category
+                select#expenseCategory(required)
+                  option(value="") -- Select Category --
+                  option(value="Utilities") Utilities
+                  option(value="Maintenance") Maintenance & Repairs
+                  option(value="Transport") Transport
+                  option(value="Supplies") School Supplies
+                  option(value="Meals") Meals & Catering
+                  option(value="Medical") Medical
+                  option(value="Activities") Activities & Events
+                  option(value="Miscellaneous") Miscellaneous
+              .form-group
+                label(for="expenseAmount") Amount (UGX)
+                input(type="number", id="expenseAmount", min="0", placeholder="e.g. 250000", required)
+              .form-group
+                label(for="expenseDate") Date
+                input(type="date", id="expenseDate", required)
+
+            .form-row
+              .form-group
+                label(for="paymentMethod") Payment Method
+                select#paymentMethod(required)
+                  option(value="") -- Select Method --
+                  option(value="Cash") Cash
+                  option(value="Bank Transfer") Bank Transfer
+                  option(value="Mobile Money") Mobile Money
+                  option(value="Cheque") Cheque
+              .form-group
+                label(for="vendorName") Vendor / Payee
+                input(type="text", id="vendorName", placeholder="e.g. Impala Hardware", required)
+              .form-group
+                label(for="expenseReference") Reference / Receipt No
+                input(type="text", id="expenseReference", placeholder="Auto-generated", readonly)
+
+            .form-row
+              .form-group
+                label(for="approvedBy") Approved By
+                input(type="text", id="approvedBy", placeholder="e.g. Head Teacher")
+              .form-group
+                label(for="expenseStatus") Status
+                select#expenseStatus
+                  option(value="Approved") Approved
+                  option(value="Pending") Pending
+                  option(value="Rejected") Rejected
+
+            .form-row
+              .form-group.full-width
+                label(for="expenseDescription") Description
+                textarea#expenseDescription(rows="4", placeholder="Provide a detailed description of the expense...", required)
+
+          .form-actions
+            button.btn.btn-secondary(type="reset") Clear
+            button.btn.btn-primary(type="submit") Record Expense
+
+      //- Expense Records
+      section.records-section
+        .records-header
+          div
+            h2 Expense Records
+            p All recorded school expenses
+          .filters
+            input(type="text", id="searchExpense", placeholder="Search category, vendor or description...")
+            select#filterCategory
+              option(value="") All Categories
+              option(value="Utilities") Utilities
+              option(value="Maintenance & Repairs") Maintenance & Repairs
+              option(value="Transport") Transport
+              option(value="School Supplies") School Supplies
+              option(value="Meals & Catering") Meals & Catering
+              option(value="Medical") Medical
+              option(value="Activities & Events") Activities & Events
+              option(value="Miscellaneous") Miscellaneous
+
+        .table-container
+          table
+            thead
+              tr
+                th Reference
+                th Category
+                th Description
+                th Vendor / Payee
+                th Amount
+                th Payment Method
+                th Date
+                th Status
+            tbody#expenseTable
+              tr
+                td EXP-1001
+                td Utilities
+                td Electricity bill for August
+                td UMEME Ltd
+                td UGX 850,000
+                td Bank Transfer
+                td 28 Aug 2026
+                td
+                  span.status.approved Approved
+              tr
+                td EXP-1002
+                td Maintenance & Repairs
+                td Repair of broken windows in S3 block
+                td Impala Hardware
+                td UGX 420,000
+                td Cash
+                td 27 Aug 2026
+                td
+                  span.status.approved Approved
+              tr
+                td EXP-1003
+                td Transport
+                td Fuel for school bus
+                td Total Energies
+                td UGX 600,000
+                td Mobile Money
+                td 27 Aug 2026
+                td
+                  span.status.approved Approved
+              tr
+                td EXP-1004
+                td School Supplies
+                td Exercise books and chalk for term 3
+                td Bookland Supplies
+                td UGX 780,000
+                td Cash
+                td 26 Aug 2026
+                td
+                  span.status.pending Pending
+              tr
+                td EXP-1005
+                td Meals & Catering
+                td Catering for inter-school competition
+                td Kato Catering Services
+                td UGX 550,000
+                td Bank Transfer
+                td 25 Aug 2026
+                td
+                  span.status.approved Approved
+              tr
+                td EXP-1006
+                td Miscellaneous
+                td Purchase of water cooler
+                td Kampala Office Mart
+                td UGX 250,000
+                td Cash
+                td 24 Aug 2026
+                td
+                  span.status.pending Pending
+
+    script(src="expenses.js")

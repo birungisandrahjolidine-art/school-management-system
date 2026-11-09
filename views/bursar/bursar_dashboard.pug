@@ -1,0 +1,168 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title Bursar Dashboard - School Management System
+    link(rel="stylesheet", href="bursar_dashboard.css")
+  body
+    //- Sidebar
+    aside.sidebar
+      .logo
+        h2 School MS
+        p Bursar Portal
+
+      nav
+        a.active(href="bursar_dashboard.pug") Dashboard
+        a(href="#fees") Fee Payments
+        a(href="#students") Student Fees
+        a(href="#receipts") Receipts
+        a(href="expenses.pug") Expenses
+        a(href="finance_reports.pug") Reports
+
+      .logout
+        a(href="../teachers/logout.pug") Logout
+
+    //- Main Content
+    main.main-content
+      //- Top bar
+      header.top-bar
+        div
+          h1 Bursar Dashboard
+          p Welcome back! Here is your financial overview
+        .current-date#currentDate
+
+      //- Summary Cards
+      section.summary-cards
+        .summary-card
+          h3 Total Collected
+          p UGX 86,500,000
+        .summary-card
+          h3 Pending Fees
+          p UGX 12,400,000
+        .summary-card
+          h3 Payments Today
+          p 18
+        .summary-card
+          h3 Outstanding Students
+          p 23
+
+      //- Quick Overview Section
+      section.overview-section
+        //- Fees by Class
+        .overview-card
+          h2 Fees Collected by Class
+
+          .class-fees
+            .class-fee-row
+              span.class-name S1
+              .progress-bar
+                .progress-fill.fill-s1 UGX 12,400,000
+            .class-fee-row
+              span.class-name S2
+              .progress-bar
+                .progress-fill.fill-s2 UGX 11,900,000
+            .class-fee-row
+              span.class-name S3
+              .progress-bar
+                .progress-fill.fill-s3 UGX 15,000,000
+            .class-fee-row
+              span.class-name S4
+              .progress-bar
+                .progress-fill.fill-s4 UGX 13,800,000
+            .class-fee-row
+              span.class-name S5
+              .progress-bar
+                .progress-fill.fill-s5 UGX 17,300,000
+            .class-fee-row
+              span.class-name S6
+              .progress-bar
+                .progress-fill.fill-s6 UGX 16,100,000
+
+        //- Quick Actions
+        .overview-card
+          h2 Quick Actions
+
+          .quick-actions
+            a.action-btn(href="fee_payment.pug") 💳 Record Payment
+            a.action-btn(href="#receipt") 🧾 Issue Receipt
+            a.action-btn(href="#students") 👤 Check Student Balance
+            a.action-btn(href="expenses.pug") 💸 Record Expense
+            a.action-btn(href="finance_reports.pug") 📊 Generate Report
+
+      //- Recent Transactions
+      section.transactions-section
+        .section-header
+          div
+            h2 Recent Transactions
+            p Latest fee payments recorded
+          a.view-all-link(href="#fees") View All →
+
+        .table-container
+          table
+            thead
+              tr
+                th Receipt No
+                th Student
+                th Class
+                th Fee Type
+                th Amount
+                th Date
+                th Status
+            tbody#transactionsTable
+              tr
+                td RCP-1024
+                td Amanya Brian
+                td S5
+                td School Fees
+                td UGX 850,000
+                td 28 Aug 2026
+                td
+                  span.status.paid Paid
+              tr
+                td RCP-1023
+                td Nakato Esther
+                td S2
+                td Tuition
+                td UGX 700,000
+                td 28 Aug 2026
+                td
+                  span.status.paid Paid
+              tr
+                td RCP-1022
+                td Okello Samuel
+                td S4
+                td School Fees
+                td UGX 780,000
+                td 28 Aug 2026
+                td
+                  span.status.pending Pending
+              tr
+                td RCP-1021
+                td Mukasa Dan
+                td S6
+                td Boarding
+                td UGX 950,000
+                td 27 Aug 2026
+                td
+                  span.status.paid Paid
+              tr
+                td RCP-1020
+                td Achieng Mercy
+                td S1
+                td Tuition
+                td UGX 650,000
+                td 27 Aug 2026
+                td
+                  span.status.paid Paid
+              tr
+                td RCP-1019
+                td Kato Joseph
+                td S3
+                td School Fees
+                td UGX 720,000
+                td 26 Aug 2026
+                td
+                  span.status.pending Pending
+
+    script(src="bursar_dashboard.js")

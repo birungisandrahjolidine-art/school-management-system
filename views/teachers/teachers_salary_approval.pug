@@ -1,0 +1,199 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title Salary Approvals - School Management System
+    link(rel="stylesheet", href="teachers_salary_approval.css")
+  body
+    //- Sidebar
+    aside.sidebar
+      .logo
+        h2 School MS
+        p Management System
+      nav
+        a(href="teachers_dashboard.pug") Dashboard
+        a(href="teachers_list.pug") Teachers
+        a(href="teachers_salary.pug") Salaries
+        a(href="teachers_salary_approval.pug").active Salary Approvals
+        a(href="teachers_leave_management.pug") Leave Management
+        a(href="teachers_profile.pug") My Profile
+      .logout
+        a(href="logout.pug") Logout
+
+    //- Main Content
+    main.main-content
+      //- Top section
+      header.top-bar
+        div
+          h1 Salary Approvals
+          p Approve pending teacher salary payments
+        #currentDate.current-date
+
+      //- Approval Summary Cards
+      section.summary-cards
+        .summary-card
+          h3 Pending Approval
+          p 3
+        .summary-card
+          h3 Cleared Payments
+          p 5
+        .summary-card
+          h3 Rejected
+          p 1
+        .summary-card
+          h3 Total Amount Pending
+          p UGX 4,300,000
+
+      //- Filters
+      section.filter-section
+        input(type="text", id="searchApproval", placeholder="Search teacher by name, ID or subject...")
+        select#filterStatus
+          option(value="") All Status
+          option(value="Pending") Pending
+          option(value="Cleared") Cleared
+          option(value="Rejected") Rejected
+
+      //- Approval Table
+      section.table-container
+        table
+          thead
+            tr
+              th Teacher ID
+              th Name
+              th Subject
+              th Class
+              th Net Salary
+              th Payment Month
+              th Submission Date
+              th Status
+              th Actions
+          tbody#approvalTable
+            tr
+              td T003
+              td Peter Okello
+              td Biology
+              td S6
+              td UGX 940,000
+              td August 2026
+              td 28 Aug 2026
+              td
+                span.status.pending Pending
+              td
+                button.view-btn View
+                button.approve-btn Approve
+                button.reject-btn Reject
+            tr
+              td T005
+              td David Okot
+              td History
+              td S3
+              td UGX 815,000
+              td August 2026
+              td 28 Aug 2026
+              td
+                span.status.pending Pending
+              td
+                button.view-btn View
+                button.approve-btn Approve
+                button.reject-btn Reject
+            tr
+              td T007
+              td Samuel Mugisha
+              td Geography
+              td S2
+              td UGX 800,000
+              td August 2026
+              td 27 Aug 2026
+              td
+                span.status.pending Pending
+              td
+                button.view-btn View
+                button.approve-btn Approve
+                button.reject-btn Reject
+            tr
+              td T001
+              td John Bosco
+              td Mathematics
+              td S5
+              td UGX 950,000
+              td August 2026
+              td 25 Aug 2026
+              td
+                span.status.cleared Cleared
+              td
+                button.view-btn View
+                button.approve-btn Approve
+                button.reject-btn Reject
+            tr
+              td T002
+              td Mary Namukasa
+              td English
+              td S4
+              td UGX 880,000
+              td August 2026
+              td 25 Aug 2026
+              td
+                span.status.cleared Cleared
+              td
+                button.view-btn View
+                button.approve-btn Approve
+                button.reject-btn Reject
+            tr
+              td T004
+              td Sarah Achieng
+              td Physics
+              td S5
+              td UGX 875,000
+              td August 2026
+              td 25 Aug 2026
+              td
+                span.status.cleared Cleared
+              td
+                button.view-btn View
+                button.approve-btn Approve
+                button.reject-btn Reject
+            tr
+              td T006
+              td Grace Auma
+              td Chemistry
+              td S4
+              td UGX 890,000
+              td August 2026
+              td 24 Aug 2026
+              td
+                span.status.cleared Cleared
+              td
+                button.view-btn View
+                button.approve-btn Approve
+                button.reject-btn Reject
+            tr
+              td T008
+              td Lydia Kemigisha
+              td Mathematics
+              td S1
+              td UGX 835,000
+              td August 2026
+              td 24 Aug 2026
+              td
+                span.status.cleared Cleared
+              td
+                button.view-btn View
+                button.approve-btn Approve
+                button.reject-btn Reject
+            tr
+              td T009
+              td Ronald Kato
+              td Physics
+              td S6
+              td UGX 860,000
+              td July 2026
+              td 22 Jul 2026
+              td
+                span.status.rejected Rejected
+              td
+                button.view-btn View
+                button.approve-btn Approve
+                button.reject-btn Reject
+
+    script(src="teachers_salary_approval.js")

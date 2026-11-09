@@ -1,0 +1,197 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title Teacher Attendance
+    link(rel="stylesheet", href="teachers_attendence.css")
+  body
+    .dashboard
+      //- SIDEBAR
+      aside.sidebar
+        .logo
+          .logo-icon S
+          div
+            h2 SchoolMS
+            span Management System
+        nav.navigation
+          a.nav-link(href="teachers_dashboard.pug")
+            span ▣
+            |  Dashboard
+          a.nav-link(href="teachers_refform.pug")
+            span ＋
+            |  Register Teacher
+          a.nav-link(href="#teachers")
+            span ♙
+            |  All Teachers
+          a.nav-link.active(href="teachers_attendence.pug")
+            span ✓
+            |  Attendance
+          a.nav-link(href="#leave")
+            span ▣
+            |  Leave Management
+          a.nav-link(href="#subjects")
+            span ▤
+            |  Subjects & Classes
+          a.nav-link(href="#reports")
+            span ▥
+            |  Reports
+        .sidebar-bottom
+          a.nav-link(href="#settings")
+            span ⚙
+            |  Settings
+          a.nav-link.logout(href="#logout")
+            span ↪
+            |  Logout
+      main.main-content
+        .attendance-container
+          //- PAGE HEADER
+          header.page-header
+            div
+              h1 Teacher Attendance
+              p Manage and monitor teacher attendance.
+            .current-date#currentDate
+          //- SUMMARY CARDS
+          section.summary-cards
+            .summary-card
+              .card-icon 👥
+              div
+                h3 Total Teachers
+                span#totalTeachers 35
+            .summary-card
+              .card-icon ✓
+              div
+                h3 Present Today
+                span#presentTeachers 28
+            .summary-card
+              .card-icon ⏰
+              div
+                h3 Late Today
+                span#lateTeachers 4
+            .summary-card
+              .card-icon ✕
+              div
+                h3 Absent Today
+                span#absentTeachers 3
+          //- ATTENDANCE FORM
+          section.attendance-form-section
+            .section-heading
+              h2 Mark Teacher Attendance
+              p Record the teacher's attendance for today.
+            form#attendanceForm
+              .form-grid
+                //- TEACHER NAME
+                .form-group
+                  label(for="teacherName") Teacher Name
+                  select#teacherName(required)
+                    option(value="") Select Teacher
+                    option(value="Jane Doe") Jane Doe
+                    option(value="John Smith") John Smith
+                    option(value="Mary Johnson") Mary Johnson
+                    option(value="Peter Okello") Peter Okello
+                //- STAFF ID
+                .form-group
+                  label(for="staffId") Staff ID
+                  input(type="text", id="staffId", placeholder="Staff ID", readonly)
+                //- DATE
+                .form-group
+                  label(for="attendanceDate") Date
+                  input(type="date", id="attendanceDate", required)
+                //- CHECK IN
+                .form-group
+                  label(for="checkIn") Check-in Time
+                  input(type="time", id="checkIn", required)
+                //- CHECK OUT
+                .form-group
+                  label(for="checkOut") Check-out Time
+                  input(type="time", id="checkOut")
+                //- STATUS
+                .form-group
+                  label(for="status") Attendance Status
+                  select#status(required)
+                    option(value="") Select Status
+                    option(value="Present") Present
+                    option(value="Late") Late
+                    option(value="Absent") Absent
+                    option(value="Leave") Leave
+                //- REMARKS
+                .form-group.full-width
+                  label(for="remarks") Remarks
+                  textarea#remarks(rows="3", placeholder="Enter any additional information...")
+              //- FORM BUTTONS
+              .form-actions
+                button.btn.btn-secondary(type="reset") Clear
+                button.btn.btn-primary(type="submit") Mark Attendance
+          //- ATTENDANCE RECORDS
+          section.records-section
+            .records-header
+              div
+                h2 Today's Attendance
+                p View teacher attendance records for today.
+              .filters
+                input(type="text", id="searchTeacher", placeholder="Search teacher...")
+                select#filterStatus
+                  option(value="") All Status
+                  option(value="Present") Present
+                  option(value="Late") Late
+                  option(value="Absent") Absent
+                  option(value="Leave") Leave
+            //- TABLE
+            .table-container
+              table
+                thead
+                  tr
+                    th Teacher
+                    th Staff ID
+                    th Date
+                    th Check In
+                    th Check Out
+                    th Status
+                    th Remarks
+                    th Action
+                tbody#attendanceTable
+                  tr
+                    td Jane Doe
+                    td ST001
+                    td 26 Aug 2026
+                    td 07:45 AM
+                    td 05:00 PM
+                    td
+                      span.status.present Present
+                    td On time
+                    td
+                      button.view-btn View
+                  tr
+                    td John Smith
+                    td ST002
+                    td 26 Aug 2026
+                    td 08:25 AM
+                    td 05:00 PM
+                    td
+                      span.status.late Late
+                    td Traffic delay
+                    td
+                      button.view-btn View
+                  tr
+                    td Mary Johnson
+                    td ST003
+                    td 26 Aug 2026
+                    td —
+                    td —
+                    td
+                      span.status.absent Absent
+                    td No information
+                    td
+                      button.view-btn View
+                  tr
+                    td Peter Okello
+                    td ST004
+                    td 26 Aug 2026
+                    td 07:50 AM
+                    td 05:05 PM
+                    td
+                      span.status.present Present
+                    td On time
+                    td
+                      button.view-btn View
+    script(src="teachers_attendence.js")

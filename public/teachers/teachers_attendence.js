@@ -28,17 +28,25 @@ const day = String(today.getDate()).padStart(2, "0");
 attendanceDate.value = `${year}-${month}-${day}`;
 
 
+// TEACHER DATA (from API)//
 
-// TEACHER STAFF IDs//
+
+const teachers = [];
 
 
-const teacherStaffIds = {
-  "Jane Doe": "ST001",
-  "John Smith": "ST002",
-  "Mary Johnson": "ST003",
-  "Peter Okello": "ST004"
-};
+const teacherNameSelect =
+  document.getElementById("teacherName");
 
+function populateTeachers(teacherList) {
+  teacherList.forEach(function (t) {
+    teachers.push(t);
+
+    const option = document.createElement("option");
+    option.value = t.name;
+    option.textContent = t.name;
+    teacherNameSelect.appendChild(option);
+  });
+}
 
 
 // AUTO STAFF ID//
@@ -50,12 +58,61 @@ const teacherName =
 const staffId =
   document.getElementById("staffId");
 
+function findTeacherByName(name) {
+  return teachers.find(function (t) { return t.name === name; });
+}
+
 teacherName.addEventListener("change", function () {
-
-  staffId.value = teacherStaffIds[this.value] || "";
-
+  const t = findTeacherByName(this.value);
+  staffId.value = t ? (t.teacherId || t.staffId || "") : "";
 });
 
+
+// RENDER ATTENDANCE TABLE//
+
+
+const attendanceTable =
+  document.getElementById("attendanceTable");
+
+function renderAttendanceTable(records) {
+  attendanceTable.innerHTML = records.map(function (r) {
+    const t = r.teacher || {};
+    const formattedDate = fmtDate(r.date);
+
+    return `<tr>
+      <td>${escapeHtml(t.name)}</td>
+      <td>${escapeHtml(t.teacherId || r.staffId || t.staffId || "")}</td>
+      <td>${escapeHtml(formattedDate)}</td>
+      <td>${escapeHtml(r.checkIn || "—")}</td>
+      <td>${escapeHtml(r.checkOut || "—")}</td>
+      <td><span class="status ${escapeHtml(String(r.status).toLowerCase())}">${escapeHtml(r.status)}</span></td>
+      <td>${escapeHtml(r.remarks || "")}</td>
+      <td><button class="view-btn">View</button></td>
+    </tr>`;
+  }).join("");
+}
+
+function loadAttendance() {
+  return API.get("/api/teacher-attendance")
+    .then(function (records) {
+      renderAttendanceTable(records);
+      return records;
+    });
+}
+
+
+// POPULATE STAT CARDS FROM SUMMARY//
+
+
+function loadSummary() {
+  return API.get("/api/teacher-attendance/summary?date=" + attendanceDate.value)
+    .then(function (summary) {
+      document.getElementById("totalTeachers").textContent = teachers.length;
+      document.getElementById("presentTeachers").textContent = summary.present || 0;
+      document.getElementById("lateTeachers").textContent = summary.late || 0;
+      document.getElementById("absentTeachers").textContent = summary.absent || 0;
+    });
+}
 
 
 // FORM SUBMISSION
@@ -76,19 +133,53 @@ attendanceForm.addEventListener("submit", function (event) {
     return;
   }
 
-  alert(
-    `${selectedTeacher}'s attendance has been marked as ${status}.`
-  );
+  const t = findTeacherByName(selectedTeacher);
 
-  attendanceForm.reset();
+  const payload = {
+    teacher: t ? t._id : selectedTeacher,
+    date: attendanceDate.value,
+    checkIn: document.getElementById("checkIn").value,
+    checkOut: document.getElementById("checkOut").value,
+    status: status,
+    remarks: document.getElementById("remarks").value
+  };
 
-  attendanceDate.value =
-    `${year}-${month}-${day}`;
-
-  staffId.value = "";
-
+  API.post("/api/teacher-attendance", payload)
+    .then(function () {
+      toast("Attendance marked for " + selectedTeacher, "success");
+      attendanceForm.reset();
+      attendanceDate.value = `${year}-${month}-${day}`;
+      staffId.value = "";
+      loadAttendance();
+      loadSummary();
+    })
+    .catch(function (err) {
+      toast(err.message || "Failed to mark attendance", "error");
+    });
 });
 
+
+function escapeHtml(str) {
+  return String(str == null ? "" : str).replace(/[&<>"']/g, function (c) {
+    return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+  });
+}
+
+
+// INITIALIZE
+
+
+API.get("/api/teachers")
+  .then(function (teacherList) {
+    populateTeachers(teacherList);
+    return loadSummary();
+  })
+  .then(function () {
+    return loadAttendance();
+  })
+  .catch(function (err) {
+    toast(err.message || "Failed to load data", "error");
+  });
 
 
 // SEARCH TEACHERS//
@@ -96,9 +187,6 @@ attendanceForm.addEventListener("submit", function (event) {
 
 const searchTeacher =
   document.getElementById("searchTeacher");
-
-const attendanceTable =
-  document.getElementById("attendanceTable");
 
 searchTeacher.addEventListener("input", function () {
 

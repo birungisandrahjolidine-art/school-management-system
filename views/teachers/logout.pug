@@ -1,0 +1,35 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title Logout - School Management System
+    link(rel="stylesheet", href="logout.css")
+  body
+    main.logout-container
+      .logout-card
+        .logo
+          h2 School MS
+          p Management System
+        .icon ↪
+        h1 Logout
+        p#message.message
+          | Are you sure you want to log out?
+          br
+          |  You will need to sign in again to access the system.
+        .actions
+          a.btn.btn-cancel(href="teachers_dashboard.pug") Cancel
+          button#logoutBtn.btn.btn-logout(type="button") Yes, Logout
+    script.
+      const logoutBtn = document.getElementById("logoutBtn");
+      const message = document.getElementById("message");
+
+      logoutBtn.addEventListener("click", function () {
+        message.innerHTML = "<strong>You have been logged out successfully.</strong><br />Redirecting to login page...";
+
+        logoutBtn.disabled = true;
+
+        setTimeout(function () {
+          window.location.href = "login.pug";
+        }, 2000);
+      });

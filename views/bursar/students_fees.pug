@@ -1,0 +1,185 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title Student Fees - School Management System
+    link(rel="stylesheet", href="students_fees.css")
+  body
+    //- Sidebar
+    aside.sidebar
+      .logo
+        h2 School MS
+        p Bursar Portal
+
+      nav
+        a(href="bursar_dashboard.pug") Dashboard
+        a(href="fee_payment.pug") Record Payment
+        a.active(href="students_fees.pug") Student Fees
+        a(href="#receipts") Receipts
+        a(href="#expenses") Expenses
+        a(href="#reports") Reports
+
+      .logout
+        a(href="../teachers/logout.pug") Logout
+
+    //- Main Content
+    main.main-content
+      //- Top bar
+      header.top-bar
+        div
+          h1 Student Fees
+          p View all students' fees, payment records and balances
+        .current-date#currentDate
+
+      //- Summary Cards
+      section.summary-cards
+        .summary-card
+          h3 Total Students
+          p#totalStudents 9
+        .summary-card
+          h3 Total Fees Expected
+          p#totalExpected UGX 10,150,000
+        .summary-card
+          h3 Total Collected
+          p#totalCollected UGX 4,850,000
+        .summary-card
+          h3 Total Outstanding
+          p#totalOutstanding UGX 5,300,000
+
+      //- Filters
+      section.filter-section
+        input(type="text", id="searchStudent", placeholder="Search student by name, ID or class...")
+        select#filterStatus
+          option(value="") All Status
+          option(value="Paid") Paid
+          option(value="Partial") Partial
+          option(value="Unpaid") Unpaid
+
+      //- Students Fees Table
+      section.table-container
+        table
+          thead
+            tr
+              th Student ID
+              th Name
+              th Class
+              th Total Fees
+              th Amount Paid
+              th Balance Due
+              th Payment Records
+              th Status
+          tbody#studentFeesTable
+            tr
+              td ST001
+              td Amanya Brian
+              td S5
+              td UGX 1,200,000
+              td UGX 350,000
+              td UGX 850,000
+              td
+                .payments-list
+                  span.payment-item 20 Aug 2026 — UGX 150,000
+                  span.payment-item 12 Aug 2026 — UGX 200,000
+              td
+                span.status.partial Partial
+            tr
+              td ST002
+              td Nakato Esther
+              td S2
+              td UGX 1,000,000
+              td UGX 300,000
+              td UGX 700,000
+              td
+                .payments-list
+                  span.payment-item 25 Aug 2026 — UGX 300,000
+              td
+                span.status.partial Partial
+            tr
+              td ST003
+              td Okello Samuel
+              td S4
+              td UGX 1,100,000
+              td UGX 320,000
+              td UGX 780,000
+              td
+                .payments-list
+                  span.payment-item 28 Aug 2026 — UGX 320,000
+              td
+                span.status.partial Partial
+            tr
+              td ST004
+              td Mukasa Dan
+              td S6
+              td UGX 1,400,000
+              td UGX 1,400,000
+              td UGX 0
+              td
+                .payments-list
+                  span.payment-item 28 Aug 2026 — UGX 950,000
+                  span.payment-item 10 Aug 2026 — UGX 450,000
+              td
+                span.status.paid Paid
+            tr
+              td ST005
+              td Achieng Mercy
+              td S1
+              td UGX 900,000
+              td UGX 650,000
+              td UGX 250,000
+              td
+                .payments-list
+                  span.payment-item 27 Aug 2026 — UGX 650,000
+              td
+                span.status.partial Partial
+            tr
+              td ST006
+              td Kato Joseph
+              td S3
+              td UGX 1,050,000
+              td UGX 330,000
+              td UGX 720,000
+              td
+                .payments-list
+                  span.payment-item 26 Aug 2026 — UGX 330,000
+              td
+                span.status.partial Partial
+            tr
+              td ST007
+              td Nambooze Faith
+              td S4
+              td UGX 1,100,000
+              td UGX 1,100,000
+              td UGX 0
+              td
+                .payments-list
+                  span.payment-item 05 Aug 2026 — UGX 600,000
+                  span.payment-item 20 Jul 2026 — UGX 500,000
+              td
+                span.status.paid Paid
+            tr
+              td ST008
+              td Ssemanda Ivan
+              td S2
+              td UGX 1,000,000
+              td UGX 0
+              td UGX 1,000,000
+              td
+                .payments-list
+                  span.payment-item.none No payments yet
+              td
+                span.status.unpaid Unpaid
+            tr
+              td ST009
+              td Nabirye Ruth
+              td S6
+              td UGX 1,400,000
+              td UGX 400,000
+              td UGX 1,000,000
+              td
+                .payments-list
+                  span.payment-item 18 Aug 2026 — UGX 400,000
+              td
+                span.status.partial Partial
+
+    script(src="students_fees.js")

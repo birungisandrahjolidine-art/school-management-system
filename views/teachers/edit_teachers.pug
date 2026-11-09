@@ -1,0 +1,143 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title Edit Teacher - School Management System
+    link(rel="stylesheet", href="edit_teachers.css")
+  body
+    //- Sidebar
+    aside.sidebar
+      .logo
+        h2 School MS
+        p Management System
+      nav
+        a(href="../students/dashboard.pug") Dashboard
+        a(href="teachers_list.pug").active Teachers
+        a(href="teachers_attendence.pug") Attendance
+        a(href="../students.pug") Students
+      .logout
+        a(href="logout.pug") Logout
+
+    //- Main Content
+    main.main-content
+      //- Top section
+      header.top-bar
+        div
+          h1 Edit Teacher
+          p Update teacher information
+        a(href="teachers_list.pug").back-btn ← Back to Teachers
+
+      //- Edit Form
+      section.form-container
+        form#editTeacherForm
+          .form-section
+            h3 Personal Information
+            .form-row
+              .form-group
+                label(for="teacherId") Teacher ID
+                input(type="text", id="teacherId", value="T001", readonly)
+              .form-group
+                label(for="firstName") First Name
+                input(type="text", id="firstName", value="John", required)
+              .form-group
+                label(for="lastName") Last Name
+                input(type="text", id="lastName", value="Bosco", required)
+            .form-row
+              .form-group
+                label(for="email") Email
+                input(type="email", id="email", value="john@gmail.com", required)
+              .form-group
+                label(for="phone") Phone Number
+                input(type="tel", id="phone", value="0700123456", required)
+              .form-group
+                label(for="dob") Date of Birth
+                input(type="date", id="dob", value="1985-06-15")
+
+          .form-section
+            h3 Professional Information
+            .form-row
+              .form-group
+                label(for="subject") Subject
+                select#subject(required)
+                  option(value="Mathematics", selected) Mathematics
+                  option(value="English") English
+                  option(value="Biology") Biology
+                  option(value="Physics") Physics
+                  option(value="Chemistry") Chemistry
+                  option(value="History") History
+                  option(value="Geography") Geography
+              .form-group
+                label(for="class") Class
+                select#class(required)
+                  option(value="S1") S1
+                  option(value="S2") S2
+                  option(value="S3") S3
+                  option(value="S4") S4
+                  option(value="S5", selected) S5
+                  option(value="S6") S6
+              .form-group
+                label(for="status") Status
+                select#status(required)
+                  option(value="active", selected) Active
+                  option(value="leave") On Leave
+                  option(value="inactive") Inactive
+            .form-row
+              .form-group
+                label(for="qualification") Qualification
+                input(type="text", id="qualification", value="Bachelor of Education")
+              .form-group
+                label(for="experience") Years of Experience
+                input(type="number", id="experience", value="8", min="0")
+              .form-group
+                label(for="joiningDate") Joining Date
+                input(type="date", id="joiningDate", value="2018-09-01")
+
+          .form-section
+            h3 Address Information
+            .form-row
+              .form-group.full-width
+                label(for="address") Street Address
+                input(type="text", id="address", value="123 Main Street")
+            .form-row
+              .form-group
+                label(for="city") City
+                input(type="text", id="city", value="Kampala")
+              .form-group
+                label(for="district") District
+                input(type="text", id="district", value="Kampala")
+              .form-group
+                label(for="country") Country
+                input(type="text", id="country", value="Uganda")
+
+          .form-actions
+            button(type="button", onclick="window.location.href='teachers_list.pug'").cancel-btn Cancel
+            button(type="submit").save-btn Save Changes
+
+    script.
+      document.getElementById('editTeacherForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const formData = {
+          teacherId: document.getElementById('teacherId').value,
+          firstName: document.getElementById('firstName').value,
+          lastName: document.getElementById('lastName').value,
+          email: document.getElementById('email').value,
+          phone: document.getElementById('phone').value,
+          dob: document.getElementById('dob').value,
+          subject: document.getElementById('subject').value,
+          class: document.getElementById('class').value,
+          status: document.getElementById('status').value,
+          qualification: document.getElementById('qualification').value,
+          experience: document.getElementById('experience').value,
+          joiningDate: document.getElementById('joiningDate').value,
+          address: document.getElementById('address').value,
+          city: document.getElementById('city').value,
+          district: document.getElementById('district').value,
+          country: document.getElementById('country').value
+        };
+        
+        console.log('Updated teacher data:', formData);
+        alert('Teacher information updated successfully!');
+        window.location.href = 'teachers_list.pug';
+      });

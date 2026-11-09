@@ -1,0 +1,153 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title Fee Payment - School Management System
+    link(rel="stylesheet", href="fee_payment.css")
+  body
+    //- Sidebar
+    aside.sidebar
+      .logo
+        h2 School MS
+        p Bursar Portal
+
+      nav
+        a(href="bursar_dashboard.pug") Dashboard
+        a.active(href="fee_payment.pug") Record Payment
+        a(href="#students") Student Fees
+        a(href="#receipts") Receipts
+        a(href="#expenses") Expenses
+        a(href="#reports") Reports
+
+      .logout
+        a(href="../teachers/logout.pug") Logout
+
+    //- Main Content
+    main.main-content
+      //- Top bar
+      header.top-bar
+        div
+          h1 Student Fee Payment
+          p Record fee payment made by a student
+        .current-date#currentDate
+
+      //- Payment Form
+      section.form-container
+        .form-header
+          h2 Record Fee Payment
+          p Fill in the payment details below
+
+        form#paymentForm
+          //- Student Information
+          .form-section
+            h3.section-title Student Information
+
+            .form-row
+              .form-group
+                label(for="studentSelect") Select Student
+                select#studentSelect(required)
+                  option(value="") -- Select Student --
+                  option(value="ST001") Amanya Brian - S5
+                  option(value="ST002") Nakato Esther - S2
+                  option(value="ST003") Okello Samuel - S4
+                  option(value="ST004") Mukasa Dan - S6
+                  option(value="ST005") Achieng Mercy - S1
+                  option(value="ST006") Kato Joseph - S3
+              .form-group
+                label(for="studentName") Student Name
+                input(type="text", id="studentName", placeholder="Auto-filled", readonly)
+              .form-group
+                label(for="studentClass") Class
+                input(type="text", id="studentClass", placeholder="Auto-filled", readonly)
+
+            .form-row
+              .form-group
+                label(for="studentId") Student ID
+                input(type="text", id="studentId", placeholder="Auto-filled", readonly)
+              .form-group
+                label(for="totalFees") Total Fees Due
+                input(type="text", id="totalFees", placeholder="Auto-filled", readonly)
+              .form-group
+                label(for="feesPaid") Fees Paid So Far
+                input(type="text", id="feesPaid", placeholder="Auto-filled", readonly)
+
+            .form-row
+              .form-group
+                label(for="balanceDue") Balance Due
+                input(type="text", id="balanceDue", placeholder="Auto-filled", readonly)
+
+          //- Payment Details
+          .form-section
+            h3.section-title Payment Details
+
+            .form-row
+              .form-group
+                label(for="feeType") Fee Type
+                select#feeType(required)
+                  option(value="") -- Select Fee Type --
+                  option(value="School Fees") School Fees
+                  option(value="Tuition") Tuition
+                  option(value="Boarding") Boarding
+                  option(value="Examination") Examination
+                  option(value="Uniform") Uniform
+                  option(value="Transport") Transport
+              .form-group
+                label(for="paymentMethod") Payment Method
+                select#paymentMethod(required)
+                  option(value="") -- Select Method --
+                  option(value="Cash") Cash
+                  option(value="Mobile Money") Mobile Money
+                  option(value="Bank Transfer") Bank Transfer
+                  option(value="Card") Card
+              .form-group
+                label(for="amountPaid") Amount Paid (UGX)
+                input(type="number", id="amountPaid", min="0", placeholder="e.g. 500000", required)
+
+            .form-row
+              .form-group
+                label(for="paymentDate") Payment Date
+                input(type="date", id="paymentDate", required)
+              .form-group
+                label(for="transactionRef") Transaction Reference (Optional)
+                input(type="text", id="transactionRef", placeholder="e.g. MTN-987654")
+              .form-group
+                label(for="phoneNumber") Phone Number (Optional)
+                input(type="tel", id="phoneNumber", placeholder="e.g. 07XXXXXXXX")
+
+            .form-row
+              .form-group
+                label(for="paymentStatus") Payment Status
+                select#paymentStatus
+                  option(value="Paid") Paid
+                  option(value="Pending") Pending
+                  option(value="Partial") Partial
+              .form-group
+                label(for="receiptNo") Receipt Number
+                input(type="text", id="receiptNo", placeholder="Auto-generated", readonly)
+
+            .form-row
+              .form-group.full-width
+                label(for="remarks") Remarks (Optional)
+                textarea#remarks(rows="3", placeholder="Any additional notes about this payment...")
+
+          //- Payment Summary
+          .form-section
+            h3.section-title Payment Summary
+
+            .summary-box
+              .summary-item
+                span Balance Before Payment
+                strong#summaryBalance UGX 0
+              .summary-item
+                span Amount Paying
+                strong#summaryAmount UGX 0
+              .summary-item
+                span New Balance After Payment
+                strong#summaryNewBalance UGX 0
+
+          .form-actions
+            button.btn.btn-secondary(type="reset") Clear
+            button.btn.btn-primary(type="submit") Complete Payment
+
+    script(src="fee_payment.js")

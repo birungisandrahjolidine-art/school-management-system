@@ -1,0 +1,237 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title Leave Management - School Management System
+    link(rel="stylesheet", href="teachers_leave_management.css")
+  body
+    //- Sidebar
+    aside.sidebar
+      .logo
+        h2 School MS
+        p Management System
+      nav
+        a(href="teachers_dashboard.pug") Dashboard
+        a(href="teachers_list.pug") Teachers
+        a(href="teachers_attendence.pug") Attendance
+        a(href="teachers_leave_management.pug").active Leave Management
+        a(href="teachers_profile.pug") My Profile
+      .logout
+        a(href="logout.pug") Logout
+
+    //- Main Content
+    main.main-content
+      //- Top section
+      header.top-bar
+        div
+          h1 Leave Management
+          p Apply for and manage teacher leave requests
+        #currentDate.current-date
+
+      //- Leave Balance Cards
+      section.balance-cards
+        .balance-card
+          h3 Annual Leave
+          p 12 <span>days remaining</span>
+        .balance-card
+          h3 Pending Requests
+          p 2 <span>awaiting approval</span>
+        .balance-card
+          h3 Approved Leaves
+          p 8 <span>days this year</span>
+        .balance-card
+          h3 Total Leave Used
+          p 18 <span>of 30 days</span>
+
+      //- Apply Leave Form
+      section.form-container
+        .form-header
+          h2 Apply for Leave
+          p Fill in the details below to submit a leave request
+        form#leaveForm
+          .form-section
+            .form-row
+              .form-group
+                label(for="teacherName") Teacher Name
+                select#teacherName(required)
+                  option(value="") -- Select Teacher --
+                  option(value="John Bosco") John Bosco
+                  option(value="Mary Namukasa") Mary Namukasa
+                  option(value="Peter Okello") Peter Okello
+                  option(value="Sarah Achieng") Sarah Achieng
+                  option(value="David Okot") David Okot
+              .form-group
+                label(for="leaveType") Leave Type
+                select#leaveType(required)
+                  option(value="") -- Select Leave Type --
+                  option(value="Annual") Annual
+                  option(value="Sick") Sick
+                  option(value="Maternity") Maternity
+                  option(value="Paternity") Paternity
+                  option(value="Study") Study
+                  option(value="Compassionate") Compassionate
+                  option(value="Unpaid") Unpaid
+              .form-group
+                label(for="leaveDays") Number of Days
+                input(type="number", id="leaveDays", min="1", max="30", placeholder="e.g. 3", required)
+            .form-row
+              .form-group
+                label(for="startDate") Start Date
+                input(type="date", id="startDate", required)
+              .form-group
+                label(for="endDate") End Date
+                input(type="date", id="endDate", required)
+              .form-group
+                label(for="contactNumber") Contact Number
+                input(type="tel", id="contactNumber", placeholder="e.g. 07XXXXXXXX", required)
+            .form-row
+              .form-group
+                label(for="leaveClass") Class
+                select#leaveClass(required)
+                  option(value="") -- Select Class --
+                  option(value="S1") S1
+                  option(value="S2") S2
+                  option(value="S3") S3
+                  option(value="S4") S4
+                  option(value="S5") S5
+                  option(value="S6") S6
+              .form-group
+                label(for="leaveSubject") Subject
+                select#leaveSubject(required)
+                  option(value="") -- Select Subject --
+                  option(value="Mathematics") Mathematics
+                  option(value="English") English
+                  option(value="Biology") Biology
+                  option(value="Physics") Physics
+                  option(value="Chemistry") Chemistry
+                  option(value="History") History
+                  option(value="Geography") Geography
+              .form-group
+                label(for="leaveStatus") Status
+                select#leaveStatus
+                  option(value="Pending") Pending
+                  option(value="Approved") Approved
+                  option(value="Rejected") Rejected
+            .form-row
+              .form-group
+                label(for="substituteTeacher") Substitute Teacher (Optional)
+                select#substituteTeacher
+                  option(value="") -- None --
+                  option(value="Mary Namukasa") Mary Namukasa
+                  option(value="Peter Okello") Peter Okello
+                  option(value="Sarah Achieng") Sarah Achieng
+                  option(value="David Okot") David Okot
+            .form-row
+              .form-group.full-width
+                label(for="reason") Reason for Leave
+                textarea#reason(rows="4", placeholder="Provide a detailed reason for your leave request...", required)
+          .form-actions
+            button(type="reset").btn.btn-secondary Clear
+            button(type="submit").btn.btn-primary Submit Leave Request
+
+      //- Leave Records
+      section.records-section
+        .records-header
+          div
+            h2 Leave Records
+            p View all leave requests and their status
+          .filters
+            input(type="text", id="searchLeave", placeholder="Search teacher...")
+            select#filterStatus
+              option(value="") All Status
+              option(value="Pending") Pending
+              option(value="Approved") Approved
+              option(value="Rejected") Rejected
+        .table-container
+          table
+            thead
+              tr
+                th Teacher
+                th Leave Type
+                th Class
+                th Subject
+                th Start Date
+                th End Date
+                th Days
+                th Reason
+                th Status
+                th Actions
+            tbody#leaveTable
+              tr
+                td John Bosco
+                td Annual
+                td S5
+                td Mathematics
+                td 05 Sep 2026
+                td 07 Sep 2026
+                td 3
+                td Family vacation
+                td
+                  span.status.pending Pending
+                td
+                  button.view-btn View
+                  button.approve-btn Approve
+                  button.reject-btn Reject
+              tr
+                td Mary Namukasa
+                td Sick
+                td S4
+                td English
+                td 20 Aug 2026
+                td 22 Aug 2026
+                td 3
+                td Medical treatment
+                td
+                  span.status.approved Approved
+                td
+                  button.view-btn View
+                  button.approve-btn Approve
+                  button.reject-btn Reject
+              tr
+                td Peter Okello
+                td Annual
+                td S6
+                td Biology
+                td 12 Sep 2026
+                td 15 Sep 2026
+                td 4
+                td Personal matters
+                td
+                  span.status.pending Pending
+                td
+                  button.view-btn View
+                  button.approve-btn Approve
+                  button.reject-btn Reject
+              tr
+                td Sarah Achieng
+                td Maternity
+                td S5
+                td Physics
+                td 01 Jul 2026
+                td 29 Sep 2026
+                td 90
+                td Maternity leave
+                td
+                  span.status.approved Approved
+                td
+                  button.view-btn View
+                  button.approve-btn Approve
+                  button.reject-btn Reject
+              tr
+                td David Okot
+                td Study
+                td S3
+                td History
+                td 15 Aug 2026
+                td 19 Aug 2026
+                td 5
+                td Workshop attendance
+                td
+                  span.status.rejected Rejected
+                td
+                  button.view-btn View
+                  button.approve-btn Approve
+                  button.reject-btn Reject
+
+    script(src="teachers_leave_management.js")

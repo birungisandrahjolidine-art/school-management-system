@@ -1,0 +1,870 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title Akademi | Library
+    link(rel="stylesheet", href="styles.css")
+  body
+    .app
+      aside.sidebar
+        a.logo(href="students/dashboard.pug")
+          .mark A
+          | Akademi
+
+        ul.nav
+          li
+            a(href="students/dashboard.pug")
+              svg(viewBox="0 0 24 24", fill="none", stroke="currentColor", stroke-width="2")
+                rect(x="3", y="3", width="7", height="9", rx="1.5")
+                rect(x="14", y="3", width="7", height="5", rx="1.5")
+                rect(x="14", y="12", width="7", height="9", rx="1.5")
+                rect(x="3", y="16", width="7", height="5", rx="1.5")
+              | Dashboard
+          li
+            a(href="students.pug")
+              svg(viewBox="0 0 24 24", fill="none", stroke="currentColor", stroke-width="2")
+                circle(cx="12", cy="8", r="4")
+                path(d="M4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5")
+              | Students
+          li
+            a(href="students/attendance.pug")
+              svg(viewBox="0 0 24 24", fill="none", stroke="currentColor", stroke-width="2")
+                rect(x="3", y="4", width="18", height="17", rx="2")
+                path(d="M3 9h18M8 2v4M16 2v4")
+                path(d="M8 14l2.5 2.5L16 11")
+              | Attendance
+          li
+            a(href="report.pug")
+              svg(viewBox="0 0 24 24", fill="none", stroke="currentColor", stroke-width="2")
+                path(d="M6 3h9l5 5v13H6z")
+                path(d="M9 12h6M9 16h6M9 8h2")
+              | Report
+          li
+            a.active(href="library.pug")
+              svg(viewBox="0 0 24 24", fill="none", stroke="currentColor", stroke-width="2")
+                path(d="M2 4h6a3 3 0 0 1 3 3v13a2 2 0 0 0-2-2H2z")
+                path(d="M22 4h-6a3 3 0 0 0-3 3v13a2 2 0 0 1 2-2h7z")
+              | Library
+          li
+            a(href="students/announcements.pug")
+              svg(viewBox="0 0 24 24", fill="none", stroke="currentColor", stroke-width="2")
+                path(d="M4 11a8 8 0 0 1 16 0v4l1 3H3l1-3z")
+                path(d="M9 20a3 3 0 0 0 6 0")
+              | Announcements
+
+          li.section-label Support
+          li
+            a(href="students/help-center.pug")
+              svg(viewBox="0 0 24 24", fill="none", stroke="currentColor", stroke-width="2")
+                circle(cx="12", cy="12", r="9")
+                path(d="M9.5 9.5a2.5 2.5 0 0 1 5 .5c0 1.7-2 1.7-2 3.5")
+                circle(cx="12", cy="17", r=".3")
+              | Help Center
+          li
+            a(href="settings.pug")
+              svg(viewBox="0 0 24 24", fill="none", stroke="currentColor", stroke-width="2")
+                circle(cx="12", cy="12", r="3")
+                path(d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 8.6a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.28c.6-.25 1-.83 1-1.48V2.7a2 2 0 1 1 4 0v.09c0 .65.4 1.23 1 1.48.6.25 1.3.14 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06c-.47.52-.58 1.22-.33 1.82.25.6.83 1 1.48 1H21a2 2 0 1 1 0 4h-.09c-.65 0-1.23.4-1.48 1z")
+              | Settings
+          li
+            a(href="signout.pug")
+              svg(viewBox="0 0 24 24", fill="none", stroke="currentColor", stroke-width="2")
+                path(d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4")
+                path(d="M16 17l5-5-5-5")
+                path(d="M21 12H9")
+              | Sign Out
+
+        .sidebar-footer Akademi &middot; School Dashboard
+
+      main.main
+        .topbar
+          .page-title
+            h1 Library Management
+            p Track books, borrowing, returns, restocking and lost books
+
+          .search
+            svg(viewBox="0 0 24 24", fill="none", stroke="currentColor", stroke-width="2")
+              circle(cx="11", cy="11", r="7")
+              path(d="M21 21l-4.3-4.3")
+            input#librarySearch(type="text", placeholder="Search books, borrowers...")
+
+          .topbar-right
+            a.icon-btn(href="students/announcements.pug")
+              svg(viewBox="0 0 24 24", fill="none", stroke="currentColor", stroke-width="2")
+                path(d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9")
+                path(d="M13.7 21a2 2 0 0 1-3.4 0")
+              span.dot-badge
+            a.user-chip(href="settings.pug")
+              .avatar MR
+              div
+                .name Mithun Ray
+                .role Student
+
+        .tabs
+          button.tab-btn.active(data-tab="overview")
+            svg(viewBox="0 0 24 24", fill="none", stroke="currentColor", stroke-width="2")
+              rect(x="3", y="3", width="7", height="9", rx="1.5")
+              rect(x="14", y="3", width="7", height="5", rx="1.5")
+              rect(x="14", y="12", width="7", height="9", rx="1.5")
+              rect(x="3", y="16", width="7", height="5", rx="1.5")
+            | Overview
+          button.tab-btn(data-tab="catalog")
+            svg(viewBox="0 0 24 24", fill="none", stroke="currentColor", stroke-width="2")
+              path(d="M4 19.5V5a2 2 0 0 1 2-2h13v17H6a2 2 0 0 0-2 2")
+              path(d="M4 19.5A2.5 2.5 0 0 1 6.5 17H19")
+            | Catalog
+          button.tab-btn(data-tab="borrowed")
+            svg(viewBox="0 0 24 24", fill="none", stroke="currentColor", stroke-width="2")
+              path(d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4")
+              path(d="M16 17l5-5-5-5")
+              path(d="M21 12H9")
+            | Borrowed
+          button.tab-btn(data-tab="returns")
+            svg(viewBox="0 0 24 24", fill="none", stroke="currentColor", stroke-width="2")
+              path(d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4")
+              path(d="M16 17l5-5-5-5")
+              path(d="M21 12H9")
+            | Returns
+          button.tab-btn(data-tab="restock")
+            svg(viewBox="0 0 24 24", fill="none", stroke="currentColor", stroke-width="2")
+              path(d="M12 5v14M5 12h14")
+              path(d="M4 4h6M14 20h6")
+            | Restock
+          button.tab-btn(data-tab="lost")
+            svg(viewBox="0 0 24 24", fill="none", stroke="currentColor", stroke-width="2")
+              circle(cx="12", cy="12", r="9")
+              path(d="M12 8v4M12 16h.01")
+            | Lost Books
+
+        .controls-row
+          .controls-left
+            #borrowBookBtn.pill-btn.primary
+              svg(viewBox="0 0 24 24", fill="none", stroke="currentColor", stroke-width="2")
+                path(d="M12 5v14M5 12h14")
+              | Borrow a Book
+            #returnBookBtn.pill-btn
+              svg(viewBox="0 0 24 24", fill="none", stroke="currentColor", stroke-width="2")
+                path(d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4")
+                path(d="M16 17l5-5-5-5")
+              | Record Return
+            #restockBtn.pill-btn
+              svg(viewBox="0 0 24 24", fill="none", stroke="currentColor", stroke-width="2")
+                path(d="M12 5v14M5 12h14")
+              | Restock
+            #lostBtn.pill-btn
+              svg(viewBox="0 0 24 24", fill="none", stroke="currentColor", stroke-width="2")
+                circle(cx="12", cy="12", r="9")
+                path(d="M12 8v4M12 16h.01")
+              | Log Lost Book
+
+        //- OVERVIEW
+        section#panel-overview.tab-panel.active
+          #overviewCards.stats-grid
+
+          .two-col
+            .card
+              .card-header
+                span Recently Borrowed
+              #recentBorrowed.card-body.tight
+            .card
+              .card-header
+                span Overdue / Lost
+              #overdueList.card-body.tight
+
+        //- CATALOG
+        section#panel-catalog.tab-panel
+          .card
+            .card-header
+              span Book Catalog
+            .card-body
+              .table-wrap
+                table
+                  thead
+                    tr
+                      th Title
+                      th Author
+                      th ISBN
+                      th Category
+                      th.center Total
+                      th.center In Stock
+                      th.center Borrowed
+                      th.center Status
+                  tbody#catalogBody
+
+        //- BORROWED
+        section#panel-borrowed.tab-panel
+          .card
+            .card-header
+              span Currently Borrowed
+            .card-body
+              .table-wrap
+                table
+                  thead
+                    tr
+                      th Book
+                      th Borrower
+                      th.center Type
+                      th.center Borrowed
+                      th.center Due Date
+                      th.center Duration
+                      th.center Status
+                      th.center Actions
+                  tbody#borrowedBody
+
+        //- RETURNS
+        section#panel-returns.tab-panel
+          .card
+            .card-header
+              span Return History
+            .card-body
+              .table-wrap
+                table
+                  thead
+                    tr
+                      th Book
+                      th Borrower
+                      th.center Type
+                      th.center Borrowed
+                      th.center Returned
+                      th.center Duration per loan
+                      th.center Status
+                  tbody#returnsBody
+
+        //- RESTOCK
+        section#panel-restock.tab-panel
+          .card
+            .card-header
+              span Restocking Records
+            .card-body
+              .table-wrap
+                table
+                  thead
+                    tr
+                      th Book
+                      th.center Previous Qty
+                      th.center Restocked
+                      th.center New Total
+                      th.center Supplier
+                      th.center Date
+                      th Notes
+                  tbody#restockBody
+
+        //- LOST
+        section#panel-lost.tab-panel
+          .card
+            .card-header
+              span Lost Books
+            .card-body
+              .table-wrap
+                table
+                  thead
+                    tr
+                      th Book
+                      th Borrower Name
+                      th.center Type
+                      th.center Date Lost
+                      th.center Amount
+                      th.center Payment Status
+                      th.center Actions
+                  tbody#lostBody
+
+    //- BORROW MODAL
+    #borrowModal.modal-overlay
+      .modal
+        .modal-header
+          h3 Borrow a Book
+          #closeBorrow.modal-close &times;
+        .modal-body
+          form#borrowForm
+            .form-grid
+              .field.span-2
+                label Book
+                select#bBook(required)
+              .field
+                label Borrower Name
+                input#bName(type="text", required, placeholder="e.g. Marta Adams")
+              .field
+                label Borrower Type
+                select#bType
+                  option(value="Student") Student
+                  option(value="Teacher") Teacher
+              .field
+                label Borrow Date
+                input#bDate(type="date", required)
+              .field
+                label Loan Duration (days)
+                input#bDuration(type="number", min="1", max="90", value="14", required)
+            .btn-row
+              #cancelBorrow.btn(type="button") Cancel
+              button.btn.primary(type="submit") Borrow Book
+
+    //- RETURN MODAL
+    #returnModal.modal-overlay
+      .modal
+        .modal-header
+          h3 Record a Return
+          #closeReturn.modal-close &times;
+        .modal-body
+          form#returnForm
+            .form-grid
+              .field.span-2
+                label Borrowed Book
+                select#rBorrow(required)
+              .field
+                label Return Date
+                input#rDate(type="date", required)
+              .field
+                label Condition
+                select#rCond
+                  option(value="Good") Good
+                  option(value="Damaged") Damaged
+                  option(value="Excellent") Excellent
+            .btn-row
+              #cancelReturn.btn(type="button") Cancel
+              button.btn.primary(type="submit") Confirm Return
+
+    //- RESTOCK MODAL
+    #restockModal.modal-overlay
+      .modal
+        .modal-header
+          h3 Restock Books
+          #closeRestock.modal-close &times;
+        .modal-body
+          form#restockForm
+            .form-grid
+              .field.span-2
+                label Book
+                select#rsBook(required)
+              .field
+                label Quantity Added
+                input#rsQty(type="number", min="1", value="5", required)
+              .field
+                label Restock Date
+                input#rsDate(type="date", required)
+              .field.span-2
+                label Supplier
+                input#rsSupplier(type="text", placeholder="e.g. Textbook Supplies Co.")
+              .field.span-2
+                label Notes
+                input#rsNotes(type="text", placeholder="Optional notes")
+            .btn-row
+              #cancelRestock.btn(type="button") Cancel
+              button.btn.primary(type="submit") Add to Stock
+
+    //- LOST MODAL
+    #lostModal.modal-overlay
+      .modal
+        .modal-header
+          h3 Log a Lost Book
+          #closeLost.modal-close &times;
+        .modal-body
+          form#lostForm
+            .form-grid
+              .field.span-2
+                label Book
+                select#lBook(required)
+              .field
+                label Borrower Name
+                input#lName(type="text", required, placeholder="Student / teacher name")
+              .field
+                label Borrower Type
+                select#lType
+                  option(value="Student") Student
+                  option(value="Teacher") Teacher
+              .field
+                label Date Lost
+                input#lDate(type="date", required)
+              .field
+                label Amount (cost)
+                input#lAmt(type="number", step="0.01", min="0", required, placeholder="e.g. 25.00")
+              .field.span-2
+                label Resolution
+                select#lStatus
+                  option(value="Unpaid") Unpaid
+                  option(value="Paid") Paid
+                  option(value="Bought/Replaced") Bought / Replaced
+            .btn-row
+              #cancelLost.btn(type="button") Cancel
+              button.btn.primary(type="submit") Save Lost Book
+
+    #toastWrap.toast-wrap
+    script.
+      const STATUS = { on:"In Stock", lo:"Low", out:"Out of Stock" };
+
+      const books = [
+        { id:1, title:"To Kill a Mockingbird",       author:"Harper Lee",          isbn:"978-0-06-112008-4", cat:"Fiction",    total:12, stock:9 },
+        { id:2, title:"1984",                        author:"George Orwell",       isbn:"978-0-45-152493-5", cat:"Fiction",    total:10, stock:6 },
+        { id:3, title:"The Great Gatsby",            author:"F. Scott Fitzgerald", isbn:"978-0-74-327356-5", cat:"Fiction",    total:15, stock:12 },
+        { id:4, title:"A Brief History of Time",     author:"Stephen Hawking",     isbn:"978-0-55-338016-3", cat:"Science",    total:8,  stock:4 },
+        { id:5, title:"Sapiens: A Brief History",    author:"Yuval N. Harari",     isbn:"978-0-06-231609-7", cat:"History",    total:7,  stock:2 },
+        { id:6, title:"The Origin of Species",       author:"Charles Darwin",      isbn:"978-0-14-043912-0", cat:"Science",    total:6,  stock:1 },
+        { id:7, title:"Algebra & Trigonometry",      author:"James Stewart",       isbn:"978-1-30-507174-2", cat:"Textbook",   total:40, stock:27 },
+        { id:8, title:"Chemistry: The Central Science", author:"Brown & LeMay",    isbn:"978-0-13-441423-2", cat:"Textbook",   total:35, stock:22 },
+        { id:9, title:"The Diary of a Young Girl",   author:"Anne Frank",          isbn:"978-0-55-329698-3", cat:"Biography",  total:9,  stock:5 },
+        { id:10,title:"Physics: Principles",         author:"Raymond Serway",      isbn:"978-1-33-755329-5", cat:"Textbook",   total:30, stock:18 },
+      ];
+
+      const loans = [
+        { id:1, bookId:1, name:"Marta Adams",     type:"Student", borrow:"2024-09-02", duration:14, returned:null, cond:null },
+        { id:2, bookId:7, name:"Robin Logan",     type:"Student", borrow:"2024-08-28", duration:14, returned:"2024-09-11", cond:"Good" },
+        { id:3, bookId:4, name:"Ms. Rita Okafor", type:"Teacher", borrow:"2024-08-20", duration:30, returned:null, cond:null },
+        { id:4, bookId:10,name:"Cruz French",     type:"Student", borrow:"2024-09-05", duration:14, returned:null, cond:null },
+        { id:5, bookId:3, name:"Mr. Daniel Cole", type:"Teacher", borrow:"2024-08-15", duration:21, returned:"2024-09-04", cond:"Damaged" },
+        { id:6, bookId:5, name:"Shanna Orozco",   type:"Student", borrow:"2024-08-10", duration:14, returned:null, cond:null },
+        { id:7, bookId:2, name:"Claudine Cherry", type:"Student", borrow:"2024-09-01", duration:14, returned:"2024-09-12", cond:"Good" },
+        { id:8, bookId:6, name:"Irwin Roberts",   type:"Student", borrow:"2024-08-25", duration:14, returned:null, cond:null },
+      ];
+
+      const restocks = [
+        { id:1, bookId:7, prev:25, added:15, date:"2024-09-04", supplier:"Textbook Supplies Co.", notes:"New intake for term" },
+        { id:2, bookId:10,prev:22, added:8,  date:"2024-08-22", supplier:"Apex Education",       notes:"" },
+        { id:3, bookId:1, prev:8,  added:4,  date:"2024-08-10", supplier:"Paper & Ink Distributors", notes:"Popular title" },
+      ];
+
+      const lost = [
+        { id:1, bookId:9, name:"Mitch Huber",    type:"Student", date:"2024-08-18", amount:18.50, status:"Paid" },
+        { id:2, bookId:5, name:"Gabriel Nelson", type:"Student", date:"2024-08-02", amount:22.00, status:"Bought/Replaced" },
+        { id:3, bookId:4, name:"Essie Fry",      type:"Student", date:"2024-09-06", amount:15.75, status:"Unpaid" },
+        { id:4, bookId:8, name:"Mr. Daniel Cole",type:"Teacher", date:"2024-09-10", amount:85.00, status:"Unpaid" },
+      ];
+
+      let nextLoanId = 9;
+      let nextRestockId = 4;
+      let nextLostId = 5;
+      const today = new Date("2024-09-29");
+
+      const bodyCache = {};
+      const $ = id => document.getElementById(id);
+
+      function bookOf(id){ return books.find(b => b.id === id); }
+
+      function fmt(d){ if(!d) return "&mdash;"; const x = new Date(d); return x.toLocaleDateString("en-US",{month:"short",day:"numeric"}); }
+      function fmtFull(d){ if(!d) return "&mdash;"; const x = new Date(d); return x.toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"}); }
+      function addDays(iso, days){ const d = new Date(iso); d.setDate(d.getDate()+days); return d.toISOString().slice(0,10); }
+      function daysBetween(from, to){ return Math.round((new Date(to) - new Date(from)) / 86400000); }
+
+      function toast(msg, type){
+        const icon = type === "success"
+          ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>'
+          : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>';
+        const el = document.createElement("div");
+        el.className = "toast " + type;
+        el.innerHTML = icon + "<span>" + msg + "</span>";
+        $("toastWrap").appendChild(el);
+        setTimeout(() => el.remove(), 2800);
+      }
+
+      function initials(name){
+        return name.split(" ").map(w => w[0]).join("").slice(0,2).toUpperCase();
+      }
+
+      function searchQuery(){
+        return $("librarySearch").value.trim().toLowerCase();
+      }
+      const matches = s => !searchQuery() || s.toLowerCase().includes(searchQuery());
+
+      /* ---------- OVERVIEW ---------- */
+      function renderOverview(){
+        const activeLoans = loans.filter(l => !l.returned);
+        const overdue = activeLoans.filter(l => new Date(addDays(l.borrow, l.duration)) < today);
+        const stockAvailable = books.reduce((a,b) => a + b.stock, 0);
+        const totalCopies = books.reduce((a,b) => a + b.total, 0);
+        const lostUnpaid = lost.filter(l => l.status === "Unpaid").length;
+
+        $("overviewCards").innerHTML = [
+          { label:"Total Book Titles", value:books.length },
+          { label:"Total Copies", value:totalCopies },
+          { label:"Copies In Stock", value:stockAvailable },
+          { label:"Currently Borrowed", value:activeLoans.length },
+          { label:"Overdue", value:overdue.length },
+          { label:"Lost (Unpaid)", value:lostUnpaid },
+        ].map(c => `
+          <div class="stat-card">
+            <div class="stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 4h6a3 3 0 0 1 3 3v13a2 2 0 0 0-2-2H2z"/><path d="M22 4h-6a3 3 0 0 0-3 3v13a2 2 0 0 1 2-2h7z"/></svg></div>
+            <div><div class="stat-value">${c.value}</div><div class="stat-label">${c.label}</div></div>
+          </div>`).join("");
+
+        $("recentBorrowed").innerHTML = activeLoans.slice().sort((a,b) => new Date(b.borrow) - new Date(a.borrow)).slice(0,4).map(l => {
+          const b = bookOf(l.bookId);
+          return `<div class="list-row">
+            <div><div style="font-weight:600; font-size:13.5px;">${b.title}</div><div class="meta">${l.name} &middot; ${l.type}</div></div>
+            <span class="meta">Due ${fmt(addDays(l.borrow, l.duration))}</span>
+          </div>`;
+        }).join("") || '<div class="empty-state"><p>No active loans</p></div>';
+
+        $("overdueList").innerHTML = overdue.map(l => {
+          const b = bookOf(l.bookId);
+          return `<div class="list-row">
+            <div><div style="font-weight:600; font-size:13.5px;">${b.title}</div><div class="meta">${l.name} &middot; ${l.type}</div></div>
+            <span class="status late">Overdue</span>
+          </div>`;
+        }).join("") || '<div class="empty-state"><p>Nothing overdue &mdash; great!</p></div>';
+      }
+
+      /* ---------- CATALOG ---------- */
+      function renderCatalog(){
+        const list = books.filter(b => matches(b.title + " " + b.author + " " + b.cat));
+        $("catalogBody").innerHTML = list.map(b => {
+          const borrowed = b.total - b.stock;
+          let badge, cls;
+          if (b.stock === 0){ badge = STATUS.out; cls = "mini-pill out"; }
+          else if (b.stock <= 2){ badge = "Low"; cls = "mini-pill low"; }
+          else { badge = STATUS.on; cls = "mini-pill on"; }
+          return `<tr>
+            <td><div class="student-cell"><div class="mini-avatar">${initials(b.title.split(" ").slice(0,2).join(" "))}</div><span class="sname">${b.title}</span></div></td>
+            <td>${b.author}</td>
+            <td>${b.isbn}</td>
+            <td><span class="badge-sub">${b.cat}</span></td>
+            <td class="center">${b.total}</td>
+            <td class="center">${b.stock}</td>
+            <td class="center">${borrowed}</td>
+            <td class="center"><span class="${cls}">${badge}</span></td>
+          </tr>`;
+        }).join("") || '<tr><td colspan="8"><div class="empty-state"><p>No books match</p></div></td></tr>';
+      }
+
+      /* ---------- BORROWED ---------- */
+      function dueStatus(l){
+        const due = new Date(addDays(l.borrow, l.duration));
+        if (due < today) return '<span class="status late">Overdue</span>';
+        const diff = daysBetween(today, due);
+        if (diff <= 2) return '<span class="status late">Due soon</span>';
+        return '<span class="status ontime">On time</span>';
+      }
+
+      function renderBorrowed(){
+        const list = loans.filter(l => !l.returned && matches(bookOf(l.bookId).title + " " + l.name));
+        $("borrowedBody").innerHTML = list.map(l => {
+          const b = bookOf(l.bookId);
+          const due = addDays(l.borrow, l.duration);
+          return `<tr>
+            <td><div class="student-cell"><div class="mini-avatar">${initials(b.title.slice(0,10))}</div><span class="sname">${b.title}</span></div></td>
+            <td>${l.name}</td>
+            <td class="center"><span class="badge-sub">${l.type}</span></td>
+            <td class="center">${fmt(l.borrow)}</td>
+            <td class="center">${fmt(due)}</td>
+            <td class="center">${l.duration} days</td>
+            <td class="center">${dueStatus(l)}</td>
+            <td class="center">
+              <div class="row-actions">
+                <button class="save-btn" title="Return" data-return="${l.id}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/></svg></button>
+                <button class="danger" title="Mark Lost" data-lost-from="${l.id}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg></button>
+              </div>
+            </td>
+          </tr>`;
+        }).join("") || '<tr><td colspan="8"><div class="empty-state"><p>No books currently borrowed</p></div></td></tr>';
+      }
+
+      /* ---------- RETURNS ---------- */
+      function renderReturns(){
+        const list = loans.filter(l => l.returned && matches(bookOf(l.bookId).title + " " + l.name));
+        $("returnsBody").innerHTML = list.map(l => {
+          const b = bookOf(l.bookId);
+          const wasLate = new Date(l.returned) > new Date(addDays(l.borrow, l.duration));
+          const statusBadge = wasLate ? '<span class="status late">Late</span>' : '<span class="status ontime">On time</span>';
+          const condBadge = l.cond === "Damaged" ? '<span class="mini-pill out">Damaged</span>' : '<span class="mini-pill on">' + l.cond + "</span>";
+          return `<tr>
+            <td><div class="student-cell"><div class="mini-avatar">${initials(b.title.slice(0,10))}</div><span class="sname">${b.title}</span></div></td>
+            <td>${l.name}</td>
+            <td class="center"><span class="badge-sub">${l.type}</span></td>
+            <td class="center">${fmt(l.borrow)}</td>
+            <td class="center">${fmt(l.returned)}</td>
+            <td class="center">${l.duration} days loan &middot; ${condBadge}</td>
+            <td class="center">${statusBadge}</td>
+          </tr>`;
+        }).join("") || '<tr><td colspan="7"><div class="empty-state"><p>No returns recorded yet</p></div></td></tr>';
+      }
+
+      /* ---------- RESTOCK ---------- */
+      function renderRestock(){
+        const list = restocks.slice().sort((a,b) => new Date(b.date) - new Date(a.date)).filter(r => matches(bookOf(r.bookId).title));
+        $("restockBody").innerHTML = list.map(r => {
+          const b = bookOf(r.bookId);
+          return `<tr>
+            <td><div class="student-cell"><div class="mini-avatar">${initials(b.title.slice(0,10))}</div><span class="sname">${b.title}</span></div></td>
+            <td class="center">${r.prev}</td>
+            <td class="center"><span class="mini-pill lo">+${r.added}</span></td>
+            <td class="center">${b.total}</td>
+            <td class="center">${r.supplier || "&mdash;"}</td>
+            <td class="center">${fmtFull(r.date)}</td>
+            <td>${r.notes || "&mdash;"}</td>
+          </tr>`;
+        }).join("") || '<tr><td colspan="7"><div class="empty-state"><p>No restocking records</p></div></td></tr>';
+      }
+
+      /* ---------- LOST ---------- */
+      function renderLost(){
+        const list = lost.filter(l => matches(l.name + " " + bookOf(l.bookId).title));
+        $("lostBody").innerHTML = list.map(l => {
+          const b = bookOf(l.bookId);
+          let cls;
+          if (l.status === "Paid") cls = "mini-pill on";
+          else if (l.status === "Bought/Replaced") cls = "mini-pill lo";
+          else cls = "mini-pill out";
+          return `<tr>
+            <td><div class="student-cell"><div class="mini-avatar">${initials(b.title.slice(0,10))}</div><span class="sname">${b.title}</span></div></td>
+            <td>${l.name}</td>
+            <td class="center"><span class="badge-sub">${l.type}</span></td>
+            <td class="center">${fmtFull(l.date)}</td>
+            <td class="center">$${l.amount.toFixed(2)}</td>
+            <td class="center"><span class="${cls}">${l.status}</span></td>
+            <td class="center">
+              <div class="row-actions">
+                <button class="save-btn" title="Mark resolved" data-lost-pay="${l.id}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg></button>
+                <button class="danger" title="Delete" data-lost-del="${l.id}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg></button>
+              </div>
+            </td>
+          </tr>`;
+        }).join("") || '<tr><td colspan="7"><div class="empty-state"><p>No lost books recorded</p></div></td></tr>';
+      }
+
+      /* ---------- TABS ---------- */
+      document.querySelectorAll(".tab-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+          document.querySelectorAll(".tab-panel").forEach(p => p.classList.remove("active"));
+          btn.classList.add("active");
+          $("panel-" + btn.dataset.tab).classList.add("active");
+          renderAll();
+        });
+      });
+
+      function renderAll(){
+        renderOverview();
+        renderCatalog();
+        renderBorrowed();
+        renderReturns();
+        renderRestock();
+        renderLost();
+      }
+
+      $("librarySearch").addEventListener("input", renderAll);
+
+      /* ---------- populate book selects ---------- */
+      function availableBookOptions(){
+        return books.filter(b => b.stock > 0).map(b => '<option value="' + b.id + '">' + b.title + ' (' + b.stock + ' in stock)</option>').join("");
+      }
+      function allBookOptions(){
+        return books.map(b => '<option value="' + b.id + '">' + b.title + '</option>').join("");
+      }
+      function activeLoanOptions(){
+        return loans.filter(l => !l.returned).map(l => {
+          const b = bookOf(l.bookId);
+          return '<option value="' + l.id + '">' + b.title + " &mdash; " + l.name + " (" + l.type + ")</option>";
+        }).join("");
+      }
+
+      /* ---------- BORROW ---------- */
+      function openBorrow(){
+        $("bBook").innerHTML = '<option value="">Select book</option>' + availableBookOptions();
+        $("bDate").value = today.toISOString().slice(0,10);
+        $("bName").value = ""; $("bType").value = "Student"; $("bDuration").value = 14;
+        $("borrowModal").classList.add("show");
+      }
+      function closeBorrow(){ $("borrowModal").classList.remove("show"); }
+
+      $("borrowBookBtn").addEventListener("click", () => {
+        if (!availableBookOptions()){ toast("No books in stock to borrow", ""); return; }
+        openBorrow();
+      });
+      $("closeBorrow").addEventListener("click", closeBorrow);
+      $("cancelBorrow").addEventListener("click", closeBorrow);
+      $("borrowModal").addEventListener("click", e => { if (e.target === $("borrowModal")) closeBorrow(); });
+
+      $("borrowForm").addEventListener("submit", e => {
+        e.preventDefault();
+        const bookId = +$("bBook").value;
+        const b = bookOf(bookId);
+        if (b.stock <= 0){ toast("No stock available for this book", ""); return; }
+        b.stock--;
+        loans.push({
+          id: nextLoanId++,
+          bookId: bookId,
+          name: $("bName").value.trim(),
+          type: $("bType").value,
+          borrow: $("bDate").value,
+          duration: +$("bDuration").value,
+          returned: null,
+          cond: null
+        });
+        closeBorrow();
+        renderAll();
+        toast("Book borrowed successfully", "success");
+        $("borrowForm").reset();
+      });
+
+      /* ---------- RETURN ---------- */
+      function openReturn(loanId){
+        $("rBorrow").innerHTML = activeLoanOptions();
+        $("rDate").value = today.toISOString().slice(0,10);
+        $("rCond").value = "Good";
+        $("returnModal").dataset.loanId = loanId || "";
+        $("returnModal").classList.add("show");
+      }
+      function closeReturn(){ $("returnModal").classList.remove("show"); }
+
+      $("returnBookBtn").addEventListener("click", () => {
+        if (!activeLoanOptions()){ toast("No active loans to return", ""); return; }
+        openReturn();
+      });
+      $("closeReturn").addEventListener("click", closeReturn);
+      $("cancelReturn").addEventListener("click", closeReturn);
+      $("returnModal").addEventListener("click", e => { if (e.target === $("returnModal")) closeReturn(); });
+
+      $("returnForm").addEventListener("submit", e => {
+        e.preventDefault();
+        const loanId = +($("returnModal").dataset.loanId || $("rBorrow").value);
+        const loan = loans.find(l => l.id === loanId);
+        if (loan){
+          loan.returned = $("rDate").value;
+          loan.cond = $("rCond").value;
+          bookOf(loan.bookId).stock++;
+          const wasLate = new Date(loan.returned) > new Date(addDays(loan.borrow, loan.duration));
+          toast("Return recorded" + (wasLate ? " (late return)" : "") + " for " + loan.name, "success");
+        }
+        closeReturn();
+        renderAll();
+        $("returnForm").reset();
+      });
+
+      /* ---------- RESTOCK ---------- */
+      function openRestock(){
+        $("rsBook").innerHTML = '<option value="">Select book</option>' + allBookOptions();
+        $("rsQty").value = 5;
+        $("rsDate").value = today.toISOString().slice(0,10);
+        $("rsSupplier").value = ""; $("rsNotes").value = "";
+        $("restockModal").classList.add("show");
+      }
+      function closeRestock(){ $("restockModal").classList.remove("show"); }
+
+      $("restockBtn").addEventListener("click", openRestock);
+      $("closeRestock").addEventListener("click", closeRestock);
+      $("cancelRestock").addEventListener("click", closeRestock);
+      $("restockModal").addEventListener("click", e => { if (e.target === $("restockModal")) closeRestock(); });
+
+      $("restockForm").addEventListener("submit", e => {
+        e.preventDefault();
+        const bookId = +$("rsBook").value;
+        const b = bookOf(bookId);
+        const qty = +$("rsQty").value;
+        const prev = b.total;
+        b.total += qty;
+        b.stock += qty;
+        restocks.unshift({
+          id: nextRestockId++,
+          bookId: bookId,
+          prev: prev,
+          added: qty,
+          date: $("rsDate").value,
+          supplier: $("rsSupplier").value.trim(),
+          notes: $("rsNotes").value.trim()
+        });
+        closeRestock();
+        renderAll();
+        toast("Restocked " + qty + " copies of " + b.title, "success");
+        $("restockForm").reset();
+      });
+
+      /* ---------- LOST ---------- */
+      function openLost(loanId){
+        $("lBook").innerHTML = '<option value="">Select book</option>' + allBookOptions();
+        $("lDate").value = today.toISOString().slice(0,10);
+        $("lAmt").value = ""; $("lName").value = ""; $("lType").value = "Student"; $("lStatus").value = "Unpaid";
+        $("lostModal").dataset.loanId = loanId || "";
+        $("lostModal").classList.add("show");
+      }
+      function closeLost(){ $("lostModal").classList.remove("show"); }
+
+      $("lostBtn").addEventListener("click", () => openLost());
+      $("closeLost").addEventListener("click", closeLost);
+      $("cancelLost").addEventListener("click", closeLost);
+      $("lostModal").addEventListener("click", e => { if (e.target === $("lostModal")) closeLost(); });
+
+      $("lostForm").addEventListener("submit", e => {
+        e.preventDefault();
+        const bookId = +$("lBook").value;
+        const name = $("lName").value.trim();
+        const type = $("lType").value;
+
+        const fromLoan = $("lostModal").dataset.loanId;
+        if (fromLoan){
+          const loan = loans.find(l => l.id === +fromLoan);
+          if (loan && !loan.returned){
+            bookOf(loan.bookId).stock--;
+            loan.returned = "LOST";
+            loan.cond = "Lost";
+          }
+        }
+
+        lost.push({
+          id: nextLostId++,
+          bookId: bookId,
+          name: name,
+          type: type,
+          date: $("lDate").value,
+          amount: parseFloat($("lAmt").value || 0),
+          status: $("lStatus").value
+        });
+        closeLost();
+        renderAll();
+        toast("Lost book logged", "success");
+        $("lostForm").reset();
+      });
+
+      /* ---------- table action delegation (borrowed + lost) ---------- */
+      $("borrowedBody").addEventListener("click", e => {
+        const ret = e.target.closest("[data-return]");
+        const lf = e.target.closest("[data-lost-from]");
+        if (ret){ openReturn(+ret.dataset.return); }
+        else if (lf){
+          const loan = loans.find(l => l.id === +lf.dataset.lostFrom);
+          if (loan){
+            $("lBook").innerHTML = '<option value="' + loan.bookId + '">' + bookOf(loan.bookId).title + '</option>';
+            $("lName").value = loan.name;
+            $("lType").value = loan.type;
+            $("lStatus").value = "Unpaid";
+            $("lostModal").dataset.loanId = loan.id;
+            $("lostModal").classList.add("show");
+          }
+        }
+      });
+
+      $("lostBody").addEventListener("click", e => {
+        const pay = e.target.closest("[data-lost-pay]");
+        const del = e.target.closest("[data-lost-del]");
+        if (pay){
+          const l = lost.find(x => x.id === +pay.dataset.lostPay);
+          if (l){
+            // cycle: Unpaid -> Paid -> Bought/Replaced
+            const order = ["Unpaid","Paid","Bought/Replaced"];
+            l.status = order[(order.indexOf(l.status)+1) % order.length];
+            toast(l.name + " marked as " + l.status, "success");
+            renderLost();
+          }
+        }
+        else if (del){
+          const l = lost.find(x => x.id === +del.dataset.lostDel);
+          if (l && confirm('Delete lost record for "' + l.name + '"?')){
+            lost.splice(lost.indexOf(l), 1);
+            renderLost();
+            toast("Record removed", "success");
+          }
+        }
+      });
+
+      /* default dates */
+      (function setDefaults(){
+        if (!$("bDate").value) $("bDate").value = today.toISOString().slice(0,10);
+        if (!$("rDate").value) $("rDate").value = today.toISOString().slice(0,10);
+        if (!$("rsDate").value) $("rsDate").value = today.toISOString().slice(0,10);
+        if (!$("lDate").value) $("lDate").value = today.toISOString().slice(0,10);
+      })();
+
+      document.addEventListener("keydown", e => {
+        if (e.key === "Escape"){
+          closeBorrow(); closeReturn(); closeRestock(); closeLost();
+        }
+      });
+
+      renderAll();

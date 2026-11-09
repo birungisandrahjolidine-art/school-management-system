@@ -15,11 +15,77 @@ currentDate.textContent = today.toLocaleDateString("en-UG", {
 
 
 // ============================
+// SALARY PAYMENTS DATA
+// ============================
+
+const salaryTable = document.getElementById("salaryTable");
+let salaryRecords = [];
+
+function escapeHtml(str) {
+  return String(str == null ? "" : str).replace(/[&<>"']/g, function (c) {
+    return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+  });
+}
+
+function renderSalaryTable() {
+  salaryTable.innerHTML = salaryRecords.map(function (r) {
+    const t = r.teacher || {};
+    const statusClass = String(r.status).toLowerCase();
+
+    return `<tr>
+      <td>${escapeHtml(t.teacherId || "")}</td>
+      <td>${escapeHtml(t.name)}</td>
+      <td>${escapeHtml(t.subject)}</td>
+      <td>${escapeHtml(t["class"])}</td>
+      <td>${escapeHtml(r.netSalary != null ? fmtUGX(r.netSalary) : "")}</td>
+      <td>--</td>
+      <td>${escapeHtml(r.taxAmount != null ? fmtUGX(r.taxAmount) : "")}</td>
+      <td>${escapeHtml(r.netPaidOut != null ? fmtUGX(r.netPaidOut) : "")}</td>
+      <td><span class="status ${escapeHtml(statusClass)}">${escapeHtml(r.status)}</span></td>
+      <td>
+        <button class="view-btn">View</button>
+        <button class="print-btn">Payslip</button>
+      </td>
+    </tr>`;
+  }).join("");
+}
+
+function loadSalaryRecords() {
+  return API.get("/api/salary-payments")
+    .then(function (records) {
+      salaryRecords = records;
+      renderSalaryTable();
+    });
+}
+
+
+// ============================
+// SUMMARY CARDS
+// ============================
+
+function loadSummary() {
+  Promise.all([
+    API.get("/api/salary-payments/summary"),
+    API.get("/api/teachers")
+  ]).then(function (results) {
+    const summary = results[0] || {};
+    const teachers = results[1] || [];
+
+    document.getElementById("monthlyBudget").textContent = fmtUGX(summary.totalPaid || 0);
+    document.getElementById("paidThisMonth").textContent = fmtUGX(summary.totalPaid || 0);
+    document.getElementById("pendingPayment").textContent = fmtUGX(summary.totalPending || 0);
+    document.getElementById("totalTeachersSalary").textContent = teachers.length;
+  }).catch(function (err) {
+    toast(err.message || "Failed to load summary", "error");
+  });
+}
+
+
+// ============================
 // SEARCH SALARY RECORDS
 // ============================
 
 const searchSalary = document.getElementById("searchSalary");
-const salaryTable = document.getElementById("salaryTable");
 
 searchSalary.addEventListener("input", function () {
   const searchValue = this.value.toLowerCase();
@@ -72,6 +138,9 @@ filterStatus.addEventListener("change", function () {
 salaryTable.addEventListener("click", function (event) {
   const target = event.target;
   const row = target.closest("tr");
+
+  if (!row) return;
+
   const cells = row.cells;
 
   if (target.classList.contains("view-btn")) {
@@ -92,3 +161,16 @@ salaryTable.addEventListener("click", function (event) {
     window.print();
   }
 });
+
+
+// ============================
+// INITIALIZE
+// ============================
+
+loadSalaryRecords()
+  .then(function () {
+    loadSummary();
+  })
+  .catch(function (err) {
+    toast(err.message || "Failed to load salaries", "error");
+  });

@@ -1,0 +1,1277 @@
+```pug
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title Akademi | Students
+    link(rel="stylesheet", href="/styles.css")
+
+    style.
+      .summary-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(180px, 240px));
+        gap: 18px;
+        margin-bottom: 22px;
+      }
+
+      .summary-card {
+        background: #fff;
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 2px 10px rgba(0,0,0,.05);
+      }
+
+      .summary-card span {
+        display: block;
+        color: #777;
+        font-size: 14px;
+        margin-bottom: 8px;
+      }
+
+      .summary-card strong {
+        display: block;
+        font-size: 28px;
+        color: #1f4e79;
+      }
+
+      .class-card {
+        margin-bottom: 22px;
+      }
+
+      .class-summary-table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      .class-summary-table th,
+      .class-summary-table td {
+        padding: 13px 14px;
+        text-align: left;
+        border-bottom: 1px solid #eee;
+      }
+
+      .class-summary-table th {
+        background: #f8f9fb;
+      }
+
+      .view-class-btn {
+        border: none;
+        background: #1f4e79;
+        color: #fff;
+        padding: 7px 13px;
+        border-radius: 6px;
+        cursor: pointer;
+      }
+
+      .view-class-btn:hover {
+        opacity: .9;
+      }
+
+      .mini-avatar {
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        background: #e8eef5;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        color: #1f4e79;
+        overflow: hidden;
+      }
+
+      .mini-avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .student-cell {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .sname {
+        font-weight: 600;
+      }
+
+      .status {
+        display: inline-block;
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+      }
+
+      .active-badge {
+        background: #e7f7ed;
+        color: #16803c;
+      }
+
+      .inactive-badge {
+        background: #fceaea;
+        color: #b42318;
+      }
+
+      .row-actions {
+        display: flex;
+        gap: 6px;
+        justify-content: center;
+      }
+
+      .row-actions button {
+        border: none;
+        background: transparent;
+        cursor: pointer;
+        padding: 6px;
+        font-size: 15px;
+      }
+
+      .edit-btn {
+        color: #1f4e79;
+      }
+
+      .delete-btn {
+        color: #c62828;
+      }
+
+      .empty-state {
+        text-align: center;
+        padding: 35px;
+        color: #777;
+      }
+
+      .modal-overlay {
+        display: none;
+      }
+
+      .modal-overlay.show {
+        display: flex;
+      }
+
+      .form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+      }
+
+      .field {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+
+      .field.span-2 {
+        grid-column: span 2;
+      }
+
+      .field input,
+      .field select {
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+      }
+
+      @media(max-width: 800px) {
+        .summary-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .form-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .field.span-2 {
+          grid-column: span 1;
+        }
+      }
+
+  body
+    .app
+
+      aside.sidebar
+        a.logo(href="/students/dashboard.pug")
+          .mark A
+          | Akademi
+
+        ul.nav
+
+          li
+            a(href="/students/dashboard.pug")
+              svg(viewBox="0 0 24 24", fill="none", stroke="currentColor", stroke-width="2")
+                rect(x="3", y="3", width="7", height="9", rx="1.5")
+                rect(x="14", y="3", width="7", height="5", rx="1.5")
+                rect(x="14", y="12", width="7", height="9", rx="1.5")
+                rect(x="3", y="16", width="7", height="5", rx="1.5")
+              | Dashboard
+
+          li
+            a.active(href="/students")
+              svg(viewBox="0 0 24 24", fill="none", stroke="currentColor", stroke-width="2")
+                circle(cx="12", cy="8", r="4")
+                path(d="M4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5")
+              | Students
+
+          li
+            a(href="/students/attendance.pug")
+              svg(viewBox="0 0 24 24", fill="none", stroke="currentColor", stroke-width="2")
+                rect(x="3", y="4", width="18", height="17", rx="2")
+                path(d="M3 9h18M8 2v4M16 2v4")
+                path(d="M8 14l2.5 2.5L16 11")
+              | Attendance
+
+          li
+            a(href="/report.pug")
+              svg(viewBox="0 0 24 24", fill="none", stroke="currentColor", stroke-width="2")
+                path(d="M6 3h9l5 5v13H6z")
+                path(d="M9 12h6M9 16h6M9 8h2")
+              | Report
+
+          li
+            a(href="/library.pug")
+              svg(viewBox="0 0 24 24", fill="none", stroke="currentColor", stroke-width="2")
+                path(d="M2 4h6a3 3 0 0 1 3 3v13a2 2 0 0 0-2-2H2z")
+                path(d="M22 4h-6a3 3 0 0 0-3 3v13a2 2 0 0 1 2-2h7z")
+              | Library
+
+          li
+            a(href="/students/announcements.pug")
+              svg(viewBox="0 0 24 24", fill="none", stroke="currentColor", stroke-width="2")
+                path(d="M4 11a8 8 0 0 1 16 0v4l1 3H3l1-3z")
+                path(d="M9 20a3 3 0 0 0 6 0")
+              | Announcements
+
+          li.section-label Support
+
+          li
+            a(href="/students/help-center.pug")
+              svg(viewBox="0 0 24 24", fill="none", stroke="currentColor", stroke-width="2")
+                circle(cx="12", cy="12", r="9")
+                path(d="M9.5 9.5a2.5 2.5 0 0 1 5 .5c0 1.7-2 1.7-2 3.5")
+                circle(cx="12", cy="17", r=".3")
+              | Help Center
+
+          li
+            a(href="/settings.pug")
+              svg(viewBox="0 0 24 24", fill="none", stroke="currentColor", stroke-width="2")
+                circle(cx="12", cy="12", r="3")
+                path(d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 8.6a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.28c.6-.25 1-.83 1-1.48V2.7a2 2 0 1 1 4 0v.09c0 .65.4 1.23 1 1.48.6.25 1.3.14 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06c-.47.52-.58 1.22-.33 1.82.25.6.83 1 1.48 1H21a2 2 0 1 1 0 4h-.09c-.65 0-1.23.4-1.48 1z")
+              | Settings
+
+          li
+            a(href="/signout.pug")
+              svg(viewBox="0 0 24 24", fill="none", stroke="currentColor", stroke-width="2")
+                path(d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4")
+                path(d="M16 17l5-5-5-5")
+                path(d="M21 12H9")
+              | Sign Out
+
+        .sidebar-footer Akademi &middot; School Dashboard
+
+
+      main.main
+
+        .topbar
+
+          .page-title
+            h1 Students
+            p Manage your student roster
+
+          .search
+            svg(viewBox="0 0 24 24", fill="none", stroke="currentColor", stroke-width="2")
+              circle(cx="11", cy="11", r="7")
+              path(d="M21 21l-4.3-4.3")
+
+            input(
+              type="text"
+              id="searchInput"
+              placeholder="Search name, class or student ID..."
+            )
+
+          .topbar-right
+
+            a.icon-btn(href="/students/announcements.pug")
+              svg(viewBox="0 0 24 24", fill="none", stroke="currentColor", stroke-width="2")
+                path(d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9")
+                path(d="M13.7 21a2 2 0 0 1-3.4 0")
+              span.dot-badge
+
+            a.user-chip(href="/settings.pug")
+              .avatar AD
+              div
+                .name Admin
+                .role Administrator
+
+
+        // SUMMARY
+        .summary-grid
+
+          .summary-card
+            span Total Students
+            strong#totalStudents 0
+
+          .summary-card
+            span Total Classes
+            strong#totalClasses 0
+
+
+        // CLASS SUMMARY
+        .card.class-card
+
+          .card-header
+            span Students Per Class
+
+          .card-body
+
+            .table-wrap
+
+              table.class-summary-table#classSummaryTable
+
+                thead
+                  tr
+                    th Class
+                    th Number of Students
+                    th Action
+
+                tbody#classSummaryBody
+
+                  tr
+                    td(colspan="3")
+                      .empty-state
+                        | Loading classes...
+
+
+        // STUDENTS
+        .card
+
+          .card-header
+            span All Students
+
+          .card-body
+
+            .controls-row
+
+              .controls-left
+
+                select#classFilter.pill-select
+                  option(value="") All Classes
+                  option(value="Grade 8 - A") Grade 8 - A
+                  option(value="Grade 8 - B") Grade 8 - B
+                  option(value="Grade 8 - C") Grade 8 - C
+                  option(value="Grade 9 - A") Grade 9 - A
+                  option(value="Grade 9 - B") Grade 9 - B
+                  option(value="S1") S1
+                  option(value="S2") S2
+                  option(value="S3") S3
+                  option(value="S4") S4
+                  option(value="S5") S5
+                  option(value="S6") S6
+
+                select#statusFilter.pill-select
+                  option(value="") All Statuses
+                  option(value="active") Active
+                  option(value="inactive") Inactive
+
+                button#clearFilters.pill-btn(type="button")
+                  | Clear
+
+              .controls-actions
+
+                button#addStudentBtn.pill-btn.primary(type="button")
+                  | + Add Student
+
+
+            .table-wrap
+
+              table
+
+                thead
+
+                  tr
+
+                    th(style="width:36px;")
+                      input(type="checkbox", id="selectAll")
+
+                    th Student
+                    th Student ID
+                    th Class
+                    th Email
+                    th Phone
+                    th.center Status
+                    th.center(style="width:100px;") Actions
+
+                tbody#studentsBody
+
+
+    // ADD / EDIT STUDENT MODAL
+    #studentModal.modal-overlay
+
+      .modal
+
+        .modal-header
+
+          h3#studentModalTitle Add Student
+
+          button#closeStudentModal.modal-close(type="button")
+            | &times;
+
+
+        .modal-body
+
+          form#studentForm
+
+            .form-grid
+
+              .field.span-2
+
+                label(for="sName") Full Name
+
+                input(
+                  type="text"
+                  id="sName"
+                  required
+                  placeholder="e.g. Marta Adams"
+                )
+
+
+              .field
+
+                label(for="sClass") Class
+
+                select#sClass(required)
+
+                  option(value="") Select class
+                  option(value="Grade 8 - A") Grade 8 - A
+                  option(value="Grade 8 - B") Grade 8 - B
+                  option(value="Grade 8 - C") Grade 8 - C
+                  option(value="Grade 9 - A") Grade 9 - A
+                  option(value="Grade 9 - B") Grade 9 - B
+                  option(value="S1") S1
+                  option(value="S2") S2
+                  option(value="S3") S3
+                  option(value="S4") S4
+                  option(value="S5") S5
+                  option(value="S6") S6
+
+
+              .field
+
+                label(for="sStatus") Status
+
+                select#sStatus(required)
+
+                  option(value="active") Active
+                  option(value="inactive") Inactive
+
+
+              .field
+
+                label(for="sEmail") Email
+
+                input(
+                  type="email"
+                  id="sEmail"
+                  placeholder="student@akademi.edu"
+                )
+
+
+              .field
+
+                label(for="sPhone") Phone
+
+                input(
+                  type="text"
+                  id="sPhone"
+                  placeholder="+256..."
+                )
+
+
+              .field.span-2
+
+                label(for="sPhoto") Profile Photo
+
+                input(
+                  type="file"
+                  id="sPhoto"
+                  accept="image/*"
+                )
+
+
+            .btn-row
+
+              button#cancelStudent.btn(type="button")
+                | Cancel
+
+              button.btn.primary(type="submit")
+                | Save Student
+
+
+    // JAVASCRIPT
+    script.
+      const API_URL = "/api/students";
+
+      const body = document.getElementById("studentsBody");
+      const classFilter = document.getElementById("classFilter");
+      const statusFilter = document.getElementById("statusFilter");
+      const searchInput = document.getElementById("searchInput");
+
+      const modal = document.getElementById("studentModal");
+      const studentForm = document.getElementById("studentForm");
+
+      let editingStudentId = null;
+
+
+      // ==========================================
+      // LOAD STUDENTS
+      // ==========================================
+
+      async function loadStudents() {
+
+        try {
+
+          const params = new URLSearchParams();
+
+          const search = searchInput.value.trim();
+          const selectedClass = classFilter.value;
+          const selectedStatus = statusFilter.value;
+
+
+          if (search) {
+            params.append("search", search);
+          }
+
+          if (selectedClass) {
+            params.append("class", selectedClass);
+          }
+
+          if (selectedStatus) {
+            params.append("status", selectedStatus);
+          }
+
+
+          const url = params.toString()
+            ? `${API_URL}?${params.toString()}`
+            : API_URL;
+
+
+          const response = await fetch(url);
+
+          const data = await response.json();
+
+
+          if (!response.ok) {
+            throw new Error(
+              data.error || "Failed to load students"
+            );
+          }
+
+
+          document.getElementById("totalStudents").textContent =
+            data.totalStudents || 0;
+
+
+          document.getElementById("totalClasses").textContent =
+            data.classSummary
+              ? data.classSummary.length
+              : 0;
+
+
+          displayStudents(data.students || []);
+
+          displayClassSummary(data.classSummary || []);
+
+
+        } catch (error) {
+
+          console.error("Error loading students:", error);
+
+          body.innerHTML = `
+            <tr>
+              <td colspan="8">
+                <div class="empty-state">
+                  <p>Unable to load students.</p>
+                  <span>${error.message}</span>
+                </div>
+              </td>
+            </tr>
+          `;
+        }
+      }
+
+
+      // ==========================================
+      // DISPLAY CLASS SUMMARY
+      // ==========================================
+
+      function displayClassSummary(summary) {
+
+        const summaryBody =
+          document.getElementById("classSummaryBody");
+
+
+        summaryBody.innerHTML = "";
+
+
+        if (!summary.length) {
+
+          summaryBody.innerHTML = `
+            <tr>
+              <td colspan="3">
+                <div class="empty-state">
+                  No students have been registered yet.
+                </div>
+              </td>
+            </tr>
+          `;
+
+          return;
+        }
+
+
+        summary.forEach(item => {
+
+          const row = document.createElement("tr");
+
+          const className =
+            item._id || "Not Assigned";
+
+
+          row.innerHTML = `
+
+            <td>
+              <strong>${className}</strong>
+            </td>
+
+            <td>
+              ${item.count} student${item.count === 1 ? "" : "s"}
+            </td>
+
+            <td>
+
+              <button
+                class="view-class-btn"
+                type="button"
+                onclick="viewClass('${encodeURIComponent(className)}')"
+              >
+                View Students
+              </button>
+
+            </td>
+
+          `;
+
+          summaryBody.appendChild(row);
+        });
+      }
+
+
+      // ==========================================
+      // DISPLAY STUDENTS
+      // ==========================================
+
+      function displayStudents(students) {
+
+        body.innerHTML = "";
+
+
+        if (!students.length) {
+
+          body.innerHTML = `
+            <tr>
+              <td colspan="8">
+                <div class="empty-state">
+                  <p>No students found.</p>
+                  <span>
+                    Try changing your search or filters.
+                  </span>
+                </div>
+              </td>
+            </tr>
+          `;
+
+          return;
+        }
+
+
+        students.forEach(student => {
+
+          const row =
+            document.createElement("tr");
+
+
+          const initials =
+            getInitials(student.name);
+
+
+          row.innerHTML = `
+
+            <td>
+              <input
+                type="checkbox"
+                value="${student._id}"
+              >
+            </td>
+
+
+            <td>
+
+              <div class="student-cell">
+
+                <div class="mini-avatar">
+
+                  ${
+                    student.photo
+                      ? `<img src="${student.photo}" alt="${student.name}">`
+                      : initials
+                  }
+
+                </div>
+
+                <span class="sname">
+                  ${student.name}
+                </span>
+
+              </div>
+
+            </td>
+
+
+            <td>
+              ${student.studentId || "-"}
+            </td>
+
+
+            <td>
+              ${student.class}
+            </td>
+
+
+            <td>
+              ${student.email || "-"}
+            </td>
+
+
+            <td>
+              ${student.phone || "-"}
+            </td>
+
+
+            <td class="status-cell">
+
+              <span class="status ${
+                student.status === "active"
+                  ? "active-badge"
+                  : "inactive-badge"
+              }">
+
+                ${
+                  student.status === "active"
+                    ? "Active"
+                    : "Inactive"
+                }
+
+              </span>
+
+            </td>
+
+
+            <td>
+
+              <div class="row-actions">
+
+                <button
+                  class="edit-btn"
+                  type="button"
+                  title="Edit Student"
+                  onclick="editStudent('${student._id}')"
+                >
+                  ✏️
+                </button>
+
+
+                <button
+                  class="delete-btn"
+                  type="button"
+                  title="Delete Student"
+                  onclick="deleteStudent('${student._id}')"
+                >
+                  🗑️
+                </button>
+
+              </div>
+
+            </td>
+
+          `;
+
+
+          body.appendChild(row);
+        });
+      }
+
+
+      // ==========================================
+      // GET INITIALS
+      // ==========================================
+
+      function getInitials(name) {
+
+        if (!name) return "ST";
+
+
+        return name
+          .split(" ")
+          .map(word => word.charAt(0))
+          .join("")
+          .substring(0, 2)
+          .toUpperCase();
+      }
+
+
+      // ==========================================
+      // VIEW CLASS
+      // ==========================================
+
+      function viewClass(className) {
+
+        const selectedClass =
+          decodeURIComponent(className);
+
+
+        classFilter.value =
+          selectedClass;
+
+
+        searchInput.value = "";
+
+
+        loadStudents();
+      }
+
+
+      // ==========================================
+      // SEARCH
+      // ==========================================
+
+      searchInput.addEventListener(
+        "input",
+        loadStudents
+      );
+
+
+      // ==========================================
+      // CLASS FILTER
+      // ==========================================
+
+      classFilter.addEventListener(
+        "change",
+        loadStudents
+      );
+
+
+      // ==========================================
+      // STATUS FILTER
+      // ==========================================
+
+      statusFilter.addEventListener(
+        "change",
+        loadStudents
+      );
+
+
+      // ==========================================
+      // CLEAR FILTERS
+      // ==========================================
+
+      document
+        .getElementById("clearFilters")
+        .addEventListener("click", () => {
+
+          searchInput.value = "";
+          classFilter.value = "";
+          statusFilter.value = "";
+
+          loadStudents();
+        });
+
+
+      // ==========================================
+      // OPEN ADD STUDENT MODAL
+      // ==========================================
+
+      document
+        .getElementById("addStudentBtn")
+        .addEventListener("click", () => {
+
+          editingStudentId = null;
+
+          document
+            .getElementById("studentModalTitle")
+            .textContent = "Add Student";
+
+          studentForm.reset();
+
+          document
+            .getElementById("sStatus")
+            .value = "active";
+
+          modal.classList.add("show");
+        });
+
+
+      // ==========================================
+      // CLOSE MODAL
+      // ==========================================
+
+      function closeModal() {
+
+        modal.classList.remove("show");
+
+        editingStudentId = null;
+
+        studentForm.reset();
+      }
+
+
+      document
+        .getElementById("closeStudentModal")
+        .addEventListener(
+          "click",
+          closeModal
+        );
+
+
+      document
+        .getElementById("cancelStudent")
+        .addEventListener(
+          "click",
+          closeModal
+        );
+
+
+      modal.addEventListener("click", event => {
+
+        if (event.target === modal) {
+          closeModal();
+        }
+
+      });
+
+
+      // ==========================================
+      // ADD / UPDATE STUDENT
+      // ==========================================
+
+      studentForm.addEventListener(
+        "submit",
+        async event => {
+
+          event.preventDefault();
+
+
+          const studentData = {
+
+            name:
+              document
+                .getElementById("sName")
+                .value
+                .trim(),
+
+            class:
+              document
+                .getElementById("sClass")
+                .value,
+
+            status:
+              document
+                .getElementById("sStatus")
+                .value,
+
+            email:
+              document
+                .getElementById("sEmail")
+                .value
+                .trim(),
+
+            phone:
+              document
+                .getElementById("sPhone")
+                .value
+                .trim()
+
+          };
+
+
+          try {
+
+            let response;
+
+
+            // UPDATE
+            if (editingStudentId) {
+
+              response = await fetch(
+                `${API_URL}/${editingStudentId}`,
+                {
+                  method: "PUT",
+
+                  headers: {
+                    "Content-Type": "application/json"
+                  },
+
+                  body: JSON.stringify(studentData)
+                }
+              );
+
+            }
+
+            // CREATE
+            else {
+
+              response = await fetch(
+                API_URL,
+                {
+                  method: "POST",
+
+                  headers: {
+                    "Content-Type": "application/json"
+                  },
+
+                  body: JSON.stringify(studentData)
+                }
+              );
+
+            }
+
+
+            const data =
+              await response.json();
+
+
+            if (!response.ok) {
+
+              throw new Error(
+                data.error ||
+                "Failed to save student"
+              );
+
+            }
+
+
+            alert(
+              editingStudentId
+                ? "Student updated successfully."
+                : "Student added successfully."
+            );
+
+
+            closeModal();
+
+            loadStudents();
+
+
+          } catch (error) {
+
+            console.error(error);
+
+            alert(
+              "Error: " + error.message
+            );
+
+          }
+
+        }
+      );
+
+
+      // ==========================================
+      // EDIT STUDENT
+      // ==========================================
+
+      async function editStudent(id) {
+
+        try {
+
+          const response =
+            await fetch(`${API_URL}/${id}`);
+
+
+          const student =
+            await response.json();
+
+
+          if (!response.ok) {
+
+            throw new Error(
+              student.error ||
+              "Student not found"
+            );
+
+          }
+
+
+          editingStudentId = id;
+
+
+          document
+            .getElementById("studentModalTitle")
+            .textContent = "Edit Student";
+
+
+          document
+            .getElementById("sName")
+            .value =
+              student.name || "";
+
+
+          document
+            .getElementById("sClass")
+            .value =
+              student.class || "";
+
+
+          document
+            .getElementById("sStatus")
+            .value =
+              student.status || "active";
+
+
+          document
+            .getElementById("sEmail")
+            .value =
+              student.email || "";
+
+
+          document
+            .getElementById("sPhone")
+            .value =
+              student.phone || "";
+
+
+          modal.classList.add("show");
+
+
+        } catch (error) {
+
+          console.error(error);
+
+          alert(
+            "Unable to load student."
+          );
+        }
+      }
+
+
+      // ==========================================
+      // DELETE STUDENT
+      // ==========================================
+
+      async function deleteStudent(id) {
+
+        const confirmed =
+          confirm(
+            "Are you sure you want to delete this student?"
+          );
+
+
+        if (!confirmed) {
+          return;
+        }
+
+
+        try {
+
+          const response =
+            await fetch(
+              `${API_URL}/${id}`,
+              {
+                method: "DELETE"
+              }
+            );
+
+
+          const data =
+            await response.json();
+
+
+          if (!response.ok) {
+
+            throw new Error(
+              data.error ||
+              "Failed to delete student"
+            );
+
+          }
+
+
+          alert(
+            "Student deleted successfully."
+          );
+
+
+          loadStudents();
+
+
+        } catch (error) {
+
+          console.error(error);
+
+          alert(
+            "Unable to delete student: " +
+            error.message
+          );
+
+        }
+      }
+
+
+      // ==========================================
+      // SELECT ALL
+      // ==========================================
+
+      document
+        .getElementById("selectAll")
+        .addEventListener("change", event => {
+
+          const checkboxes =
+            document.querySelectorAll(
+              '#studentsBody input[type="checkbox"]'
+            );
+
+
+          checkboxes.forEach(
+            checkbox => {
+              checkbox.checked =
+                event.target.checked;
+            }
+          );
+        });
+
+
+      // ==========================================
+      // ESCAPE TO CLOSE MODAL
+      // ==========================================
+
+      document.addEventListener(
+        "keydown",
+        event => {
+
+          if (
+            event.key === "Escape" &&
+            modal.classList.contains("show")
+          ) {
+            closeModal();
+          }
+
+        }
+      );
+
+
+      // ==========================================
+      // LOAD PAGE
+      // ==========================================
+
+      loadStudents();
+```

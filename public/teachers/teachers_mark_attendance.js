@@ -23,27 +23,39 @@ attendanceDate.value = `${year}-${month}-${day}`;
 
 
 
-// TEACHER STAFF IDs//
+// TEACHER DATA (from API)//
 
 
-const teacherStaffIds = {
-  "John Bosco": "T001",
-  "Mary Namukasa": "T002",
-  "Peter Okello": "T003",
-  "Sarah Achieng": "T004",
-  "David Okot": "T005"
-};
+const teachers = [];
+
+
+const teacherSelect = document.getElementById("teacherSelect");
+
+function populateTeachers(teacherList) {
+  teacherList.forEach(function (t) {
+    teachers.push(t);
+
+    const option = document.createElement("option");
+    option.value = t.name;
+    option.textContent = t.name;
+    teacherSelect.appendChild(option);
+  });
+}
+
+function findTeacherByName(name) {
+  return teachers.find(function (t) { return t.name === name; });
+}
 
 
 
 // AUTO STAFF ID//
 
 
-const teacherSelect = document.getElementById("teacherSelect");
 const staffId = document.getElementById("staffId");
 
 teacherSelect.addEventListener("change", function () {
-  staffId.value = teacherStaffIds[this.value] || "";
+  const t = findTeacherByName(this.value);
+  staffId.value = t ? (t.teacherId || t.staffId || "") : "";
 });
 
 
@@ -57,6 +69,55 @@ const hours = String(today.getHours()).padStart(2, "0");
 const minutes = String(today.getMinutes()).padStart(2, "0");
 
 checkInTime.value = `${hours}:${minutes}`;
+
+
+
+// RENDER ATTENDANCE HISTORY//
+
+
+const historyTable = document.getElementById("attendanceHistory");
+let attendanceRecords = [];
+
+function renderHistory(records) {
+  historyTable.innerHTML = records.map(function (r) {
+    const formattedDate = fmtDate(r.date);
+    return `<tr>
+      <td>${escapeHtml(formattedDate)}</td>
+      <td>${escapeHtml(r.checkIn || "—")}</td>
+      <td>${escapeHtml(r.checkOut || "—")}</td>
+      <td><span class="status ${escapeHtml(String(r.status).toLowerCase())}">${escapeHtml(r.status)}</span></td>
+      <td>--</td>
+      <td>${escapeHtml(r.remarks || "")}</td>
+    </tr>`;
+  }).join("");
+}
+
+function filterAndRender() {
+  const t = findTeacherByName(teacherSelect.value);
+  if (!t) {
+    renderHistory([]);
+    return;
+  }
+  const filtered = attendanceRecords.filter(function (r) {
+    const rt = r.teacher || {};
+    return rt._id === t._id || rt.name === t.name;
+  });
+  renderHistory(filtered);
+}
+
+function loadHistory() {
+  return API.get("/api/teacher-attendance")
+    .then(function (records) {
+      attendanceRecords = records;
+      filterAndRender();
+    });
+}
+
+function escapeHtml(str) {
+  return String(str == null ? "" : str).replace(/[&<>"']/g, function (c) {
+    return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+  });
+}
 
 
 
@@ -76,47 +137,43 @@ function markAttendance() {
     return;
   }
 
-  // Update status display
-  const todayStatus = document.getElementById("todayStatus");
-  const checkInDisplay = document.getElementById("checkInDisplay");
-  const workingHours = document.getElementById("workingHours");
+  const t = findTeacherByName(teacher);
 
-  todayStatus.textContent = status;
-  todayStatus.className = "status-display " + status.toLowerCase();
+  const payload = {
+    teacher: t ? t._id : teacher,
+    date: date,
+    checkIn: checkIn,
+    checkOut: "",
+    status: status,
+    remarks: remarks
+  };
 
-  // Format check-in time for display
-  const [hrs, mins] = checkIn.split(":");
-  const ampm = hrs >= 12 ? "PM" : "AM";
-  const displayHours = hrs % 12 || 12;
-  checkInDisplay.textContent = `${displayHours}:${mins} ${ampm}`;
+  API.post("/api/teacher-attendance", payload)
+    .then(function () {
+      // Update status display
+      const todayStatus = document.getElementById("todayStatus");
+      const checkInDisplay = document.getElementById("checkInDisplay");
+      const workingHours = document.getElementById("workingHours");
 
-  // Calculate working hours (simplified - 8 hour work day)
-  workingHours.textContent = "8h 0m";
+      todayStatus.textContent = status;
+      todayStatus.className = "status-display " + status.toLowerCase();
 
-  // Add to history table
-  const historyTable = document.getElementById("attendanceHistory");
-  const newRow = historyTable.insertRow(0);
+      // Format check-in time for display
+      const [hrs, mins] = checkIn.split(":");
+      const ampm = hrs >= 12 ? "PM" : "AM";
+      const displayHours = hrs % 12 || 12;
+      checkInDisplay.textContent = `${displayHours}:${mins} ${ampm}`;
 
-  const formattedDate = new Date(date).toLocaleDateString("en-UG", {
-    day: "numeric",
-    month: "short",
-    year: "numeric"
-  });
+      workingHours.textContent = "8h 0m";
 
-  newRow.innerHTML = `
-    <td>${formattedDate}</td>
-    <td>${checkInDisplay.textContent}</td>
-    <td>--:-- --</td>
-    <td><span class="status ${status.toLowerCase()}">${status}</span></td>
-    <td>--</td>
-    <td>${remarks || "No remarks"}</td>
-  `;
+      toast("Attendance marked successfully for " + teacher + "!", "success");
 
-  // Show success message
-  alert(`Attendance marked successfully for ${teacher}!`);
-
-  // Reset form
-  resetForm();
+      resetForm();
+      loadHistory();
+    })
+    .catch(function (err) {
+      toast(err.message || "Failed to mark attendance", "error");
+    });
 }
 
 
@@ -139,3 +196,24 @@ function resetForm() {
   // Reset staff ID
   staffId.value = "";
 }
+
+
+// WAIT FOR TEACHER SELECT CHANGE TO REFRESH HISTORY
+
+
+teacherSelect.addEventListener("change", filterAndRender);
+
+
+// INITIALIZE
+
+
+API.get("/api/teachers")
+  .then(function (teacherList) {
+    populateTeachers(teacherList);
+  })
+  .then(function () {
+    return loadHistory();
+  })
+  .catch(function (err) {
+    toast(err.message || "Failed to load data", "error");
+  });

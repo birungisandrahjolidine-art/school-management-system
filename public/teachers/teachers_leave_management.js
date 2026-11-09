@@ -73,6 +73,97 @@ startDate.addEventListener("change", calculateDays);
 endDate.addEventListener("change", calculateDays);
 
 
+// ============================
+// TEACHERS DATA (from API)
+// ============================
+
+const teachers = [];
+const leaveRequests = [];
+
+function escapeHtml(str) {
+  return String(str == null ? "" : str).replace(/[&<>"']/g, function (c) {
+    return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+  });
+}
+
+function findTeacherByName(name) {
+  return teachers.find(function (t) { return t.name === name; });
+}
+
+const teacherNameSelect = document.getElementById("teacherName");
+const substituteSelect = document.getElementById("substituteTeacher");
+
+function populateSelect(select, list) {
+  list.forEach(function (t) {
+    const option = document.createElement("option");
+    option.value = t.name;
+    option.textContent = t.name;
+    select.appendChild(option);
+  });
+}
+
+
+// ============================
+// RENDER LEAVE TABLE
+// ============================
+
+function renderLeaveTable() {
+  leaveTable.innerHTML = leaveRequests.map(function (l) {
+    const t = l.teacher || {};
+    const statusClass = String(l.status).toLowerCase();
+
+    return `<tr>
+      <td>${escapeHtml(t.name || l.teacher)}</td>
+      <td>${escapeHtml(l.leaveType)}</td>
+      <td>${escapeHtml(l.class)}</td>
+      <td>${escapeHtml(l.subject)}</td>
+      <td>${escapeHtml(fmtDate(l.startDate))}</td>
+      <td>${escapeHtml(fmtDate(l.endDate))}</td>
+      <td>${escapeHtml(l.days)}</td>
+      <td>${escapeHtml(l.reason)}</td>
+      <td><span class="status ${escapeHtml(statusClass)}">${escapeHtml(l.status)}</span></td>
+      <td>
+        <button class="view-btn">View</button>
+        <button class="approve-btn" data-id="${escapeHtml(l._id)}">Approve</button>
+        <button class="reject-btn" data-id="${escapeHtml(l._id)}">Reject</button>
+      </td>
+    </tr>`;
+  }).join("");
+}
+
+function loadLeaveRequests() {
+  return API.get("/api/leave-requests")
+    .then(function (requests) {
+      leaveRequests.length = 0;
+      requests.forEach(function (r) { leaveRequests.push(r); });
+      renderLeaveTable();
+      updateBalanceCards();
+    });
+}
+
+
+// ============================
+// UPDATE BALANCE CARDS
+// ============================
+
+function updateBalanceCards() {
+  let pending = 0;
+  let approvedDays = 0;
+  let used = 0;
+
+  leaveRequests.forEach(function (l) {
+    const d = parseInt(l.days, 10) || 0;
+    if (l.status === "Pending") pending++;
+    if (l.status === "Approved") approvedDays += d;
+    used += d;
+  });
+
+  document.getElementById("pendingRequests").textContent = pending;
+  document.getElementById("approvedDays").textContent = approvedDays;
+  document.getElementById("totalUsed").textContent = used;
+  document.getElementById("annualBalance").textContent = Math.max(30 - used, 0);
+}
+
 
 // FORM SUBMISSION
 
@@ -82,7 +173,7 @@ const leaveForm = document.getElementById("leaveForm");
 leaveForm.addEventListener("submit", function (event) {
   event.preventDefault();
 
-  const teacher = document.getElementById("teacherName").value;
+  const teacherName = document.getElementById("teacherName").value;
   const type = document.getElementById("leaveType").value;
   const days = leaveDays.value;
   const status = document.getElementById("leaveStatus").value;
@@ -90,54 +181,43 @@ leaveForm.addEventListener("submit", function (event) {
   const leaveSubject = document.getElementById("leaveSubject").value;
 
   if (
-    !teacher || !type || !days || !startDate.value || !endDate.value ||
+    !teacherName || !type || !days || !startDate.value || !endDate.value ||
     !leaveClass || !leaveSubject
   ) {
     alert("Please fill in all required fields.");
     return;
   }
 
-  const reason = document.getElementById("reason").value;
+  const t = findTeacherByName(teacherName);
 
-  // Add new leave record to the table
-  const newRow = leaveTable.insertRow(0);
+  const payload = {
+    teacher: t ? t._id : teacherName,
+    leaveType: type,
+    days: parseInt(days, 10),
+    startDate: startDate.value,
+    endDate: endDate.value,
+    contactNumber: document.getElementById("contactNumber").value,
+    class: leaveClass,
+    subject: leaveSubject,
+    substituteTeacher: document.getElementById("substituteTeacher").value,
+    reason: document.getElementById("reason").value,
+    status: status
+  };
 
-  const formattedStart = new Date(startDate.value).toLocaleDateString("en-UG", {
-    day: "numeric",
-    month: "short",
-    year: "numeric"
-  });
+  API.post("/api/leave-requests", payload)
+    .then(function () {
+      toast("Leave request submitted for " + teacherName + "!", "success");
+      leaveForm.reset();
 
-  const formattedEnd = new Date(endDate.value).toLocaleDateString("en-UG", {
-    day: "numeric",
-    month: "short",
-    year: "numeric"
-  });
+      // Reset dates to defaults
+      startDate.value = `${year}-${month}-${day}`;
+      endDate.value = `${endYear}-${endMonth}-${endDay}`;
 
-  newRow.innerHTML = `
-    <td>${teacher}</td>
-    <td>${type}</td>
-    <td>${leaveClass}</td>
-    <td>${leaveSubject}</td>
-    <td>${formattedStart}</td>
-    <td>${formattedEnd}</td>
-    <td>${days}</td>
-    <td>${reason || "No reason provided"}</td>
-    <td><span class="status ${status.toLowerCase()}">${status}</span></td>
-    <td>
-      <button class="view-btn">View</button>
-      <button class="approve-btn">Approve</button>
-      <button class="reject-btn">Reject</button>
-    </td>
-  `;
-
-  alert(`Leave request submitted for ${teacher}!`);
-
-  leaveForm.reset();
-
-  // Reset dates to defaults
-  startDate.value = `${year}-${month}-${day}`;
-  endDate.value = `${endYear}-${endMonth}-${endDay}`;
+      loadLeaveRequests();
+    })
+    .catch(function (err) {
+      toast(err.message || "Failed to submit leave request", "error");
+    });
 });
 
 
@@ -198,26 +278,22 @@ filterStatus.addEventListener("change", function () {
 leaveTable.addEventListener("click", function (event) {
   const target = event.target;
 
-  if (target.classList.contains("approve-btn")) {
-    const row = target.closest("tr");
-    const statusCell = row.querySelector(".status");
-    const teacher = row.cells[0].textContent;
+  if (target.classList.contains("approve-btn") || target.classList.contains("reject-btn")) {
+    const id = target.getAttribute("data-id");
+    if (!id) return;
 
-    statusCell.textContent = "Approved";
-    statusCell.className = "status approved";
+    const isApprove = target.classList.contains("approve-btn");
+    const path = "/api/leave-requests/" + id + (isApprove ? "/approve" : "/reject");
 
-    alert(`Leave request for ${teacher} has been approved.`);
-  }
-
-  if (target.classList.contains("reject-btn")) {
-    const row = target.closest("tr");
-    const statusCell = row.querySelector(".status");
-    const teacher = row.cells[0].textContent;
-
-    statusCell.textContent = "Rejected";
-    statusCell.className = "status rejected";
-
-    alert(`Leave request for ${teacher} has been rejected.`);
+    API.put(path, {})
+      .then(function () {
+        toast("Leave request updated", "success");
+        loadLeaveRequests();
+      })
+      .catch(function (err) {
+        toast(err.message || "Failed to update leave request", "error");
+      });
+    return;
   }
 
   if (target.classList.contains("view-btn")) {
@@ -237,3 +313,20 @@ leaveTable.addEventListener("click", function (event) {
     );
   }
 });
+
+
+// INITIALIZE
+
+
+API.get("/api/teachers")
+  .then(function (teacherList) {
+    teacherList.forEach(function (t) { teachers.push(t); });
+    populateSelect(teacherNameSelect, teacherList);
+    populateSelect(substituteSelect, teacherList);
+  })
+  .then(function () {
+    return loadLeaveRequests();
+  })
+  .catch(function (err) {
+    toast(err.message || "Failed to load data", "error");
+  });

@@ -1,0 +1,155 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title Teacher Profile - School Management System
+    link(rel="stylesheet", href="teachers_profile.css")
+  body
+    //- =========================
+    //-      SIDEBAR
+    //- ==========================
+    aside.sidebar
+      .logo
+        h2 School MS
+        p Management System
+      nav
+        a(href="../students/dashboard.pug") Dashboard
+        a(href="teachers_list.pug").active Teachers
+        a(href="teachers_attendence.pug") Attendance
+        a(href="../students.pug") Students
+      .logout
+        a(href="logout.pug") Logout
+
+    //- =========================
+    //-      MAIN CONTENT
+    //- ==========================
+    main.main-content
+      //- PAGE HEADER
+      .page-header
+        div
+          h1 Teacher Profile
+          p View teacher information and employment details
+        a(href="teachers_list.pug").back-btn ← Back to Teachers
+
+      //- =========================
+      //-      PROFILE HEADER
+      //- ==========================
+      section.profile-header
+        .profile-picture
+          img(src="images/teacher-placeholder.jpg", alt="Teacher Profile Picture")
+        .profile-name
+          h2 John Bosco
+          p.teacher-id Teacher ID: T001
+          span.status Active
+        a(href="edit_teachers.pug").edit-btn Edit Profile
+
+      //- =========================
+      //-      PERSONAL INFORMATION
+      //- ==========================
+      section.information-card
+        h2 Personal Information
+        .information-grid
+          .information-item
+            span Full Name
+            strong John Bosco
+          .information-item
+            span Email
+            strong john@gmail.com
+          .information-item
+            span Phone Number
+            strong 0700123456
+          .information-item
+            span Gender
+            strong Male
+          .information-item
+            span Date of Birth
+            strong 15 March 1992
+          .information-item
+            span Address
+            strong Kampala, Uganda
+
+      //- =========================
+      //-      PROFESSIONAL INFORMATION
+      //- ==========================
+      section.information-card
+        h2 Professional Information
+        .information-grid
+          .information-item
+            span Subject
+            strong Mathematics
+          .information-item
+            span Class
+            strong Senior Five
+          .information-item
+            span Department
+            strong Science
+          .information-item
+            span Qualification
+            strong Bachelor of Education
+          .information-item
+            span Date Employed
+            strong 10 January 2021
+          .information-item
+            span Employment Status
+            strong Full Time
+
+      //- =========================
+      //-      SALARY & EMPLOYMENT
+      //- ==========================
+      section.information-card
+        h2 Salary & Employment Information
+        .information-grid
+          .information-item
+            span Basic Salary
+            strong.salary UGX 1,200,000
+          .information-item
+            span Salary Frequency
+            strong Monthly
+          .information-item
+            span Employment Type
+            strong Full Time
+          .information-item
+            span Position
+            strong Mathematics Teacher
+          .information-item
+            span Department
+            strong Science
+          .information-item
+            span Salary Status
+            strong.salary-active Active
+
+      //- =========================
+      //-      EMERGENCY CONTACT
+      //- ==========================
+      section.information-card
+        h2 Emergency Contact
+        .information-grid
+          .information-item
+            span Contact Name
+            strong Mary Bosco
+          .information-item
+            span Relationship
+            strong Spouse
+          .information-item
+            span Phone Number
+            strong 0709876543
+
+      //- =========================
+      //-      TEACHER SUMMARY
+      //- ==========================
+      section.information-card
+        h2 Teacher Summary
+        .summary-grid
+          .summary-box
+            span Attendance
+            strong 95%
+          .summary-box
+            span Classes
+            strong 3
+          .summary-box
+            span Subjects
+            strong 2
+          .summary-box
+            span Years of Service
+            strong 5 Years

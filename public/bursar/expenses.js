@@ -1,10 +1,7 @@
+// CURRENT DATE
 
-// CURRENT DATE//
-
-
-const currentDate = document.getElementById("currentDate");
-
-const today = new Date();
+var currentDate = document.getElementById("currentDate");
+var today = new Date();
 
 currentDate.textContent = today.toLocaleDateString("en-UG", {
   weekday: "long",
@@ -13,127 +10,84 @@ currentDate.textContent = today.toLocaleDateString("en-UG", {
   day: "numeric"
 });
 
-
+function escapeHtml(str) {
+  if (str === null || str === undefined) return "";
+  var div = document.createElement("div");
+  div.appendChild(document.createTextNode(String(str)));
+  return div.innerHTML;
+}
 
 // DEFAULT EXPENSE DATE
 
-
-const expenseDate = document.getElementById("expenseDate");
-
-const year = today.getFullYear();
-const month = String(today.getMonth() + 1).padStart(2, "0");
-const day = String(today.getDate()).padStart(2, "0");
-
-expenseDate.value = `${year}-${month}-${day}`;
-
-
-
-// GENERATE EXPENSE REFERENCE//
-
-
-const expenseReference = document.getElementById("expenseReference");
-let referenceCounter = 1006;
-
-function generateReference() {
-  referenceCounter += 1;
-  expenseReference.value = `EXP-${referenceCounter}`;
-}
-
-generateReference();
-
+var expenseDate = document.getElementById("expenseDate");
+var year = today.getFullYear();
+var month = String(today.getMonth() + 1).padStart(2, "0");
+var day = String(today.getDate()).padStart(2, "0");
+expenseDate.value = year + "-" + month + "-" + day;
 
 // ELEMENTS
 
+var expenseTable = document.getElementById("expenseTable");
+var expenseForm = document.getElementById("expenseForm");
+var searchExpense = document.getElementById("searchExpense");
+var filterCategory = document.getElementById("filterCategory");
+var allExpenses = [];
 
-const expenseTable = document.getElementById("expenseTable");
-const expenseForm = document.getElementById("expenseForm");
-
-
-
-// FORM SUBMISSION//
-
-
-expenseForm.addEventListener("submit", function (event) {
-  event.preventDefault();
-
-  const category = document.getElementById("expenseCategory").value;
-  const amount = parseInt(document.getElementById("expenseAmount").value, 10);
-  const method = document.getElementById("paymentMethod").value;
-  const vendor = document.getElementById("vendorName").value.trim();
-  const description = document.getElementById("expenseDescription").value.trim();
-  const status = document.getElementById("expenseStatus").value;
-
-  if (!category || !amount || amount <= 0 || !method || !vendor || !description) {
-    alert("Please fill in all required expense details.");
-    return;
-  }
-
-  const formattedDate = new Date(expenseDate.value).toLocaleDateString("en-UG", {
-    day: "numeric",
-    month: "short",
-    year: "numeric"
-  });
-
-  const newRow = expenseTable.insertRow(0);
-
-  newRow.innerHTML = `
-    <td>${expenseReference.value}</td>
-    <td>${category}</td>
-    <td>${description}</td>
-    <td>${vendor}</td>
-    <td>UGX ${amount.toLocaleString("en-UG")}</td>
-    <td>${method}</td>
-    <td>${formattedDate}</td>
-    <td><span class="status ${status.toLowerCase()}">${status}</span></td>
-  `;
-
-  alert(
-    `Expense recorded successfully!\n\n` +
-    `Reference: ${expenseReference.value}\n` +
-    `Category: ${category}\n` +
-    `Amount: UGX ${amount.toLocaleString("en-UG")}\n` +
-    `Payment Method: ${method}\n` +
-    `Vendor: ${vendor}`
-  );
-
-  expenseForm.reset();
-  generateReference();
-  expenseDate.value = `${year}-${month}-${day}`;
-
-  updateSummaryCards();
-});
-
-
-
-// UPDATE SUMMARY CARDS//
-
+// PARSE AMOUNT FROM TEXT
 
 function parseAmount(text) {
   return parseInt(text.replace(/[^0-9]/g, ""), 10) || 0;
 }
 
+// RENDER EXPENSES TABLE
+
+function renderExpenses(data) {
+  expenseTable.innerHTML = "";
+
+  if (data.length === 0) {
+    expenseTable.innerHTML = '<tr><td colspan="8" style="text-align:center;">No expense records found</td></tr>';
+    return;
+  }
+
+  data.forEach(function (item) {
+    var statusClass = item.status ? item.status.toLowerCase() : "pending";
+    var formattedDate = fmtDate(item.date);
+
+    var row = expenseTable.insertRow(-1);
+    row.innerHTML =
+      "<td>" + escapeHtml(item.reference || "—") + "</td>" +
+      "<td>" + escapeHtml(item.category || "—") + "</td>" +
+      "<td>" + escapeHtml(item.description || "—") + "</td>" +
+      "<td>" + escapeHtml(item.vendor || "—") + "</td>" +
+      "<td>" + fmtUGX(item.amount) + "</td>" +
+      "<td>" + escapeHtml(item.paymentMethod || "—") + "</td>" +
+      "<td>" + formattedDate + "</td>" +
+      '<td><span class="status ' + statusClass + '">' + escapeHtml(item.status) + "</span></td>";
+  });
+}
+
+// UPDATE SUMMARY CARDS (from visible rows)
+
 function updateSummaryCards() {
-  const rows = expenseTable.querySelectorAll("tr");
+  var rows = expenseTable.querySelectorAll("tr");
+  var totalExpenses = 0;
+  var monthExpenses = 0;
+  var categories = {};
 
-  let totalExpenses = 0;
-  let monthExpenses = 0;
-  const categories = {};
-
-  const currentMonth = today.getMonth();
-  const currentYear = today.getFullYear();
+  var currentMonth = today.getMonth();
+  var currentYear = today.getFullYear();
 
   rows.forEach(function (row) {
-    const cells = row.cells;
-
+    var cells = row.cells;
     if (!cells[4]) return;
 
-    const amount = parseAmount(cells[4].textContent);
-    const category = cells[1].textContent;
-    const dateText = cells[6].textContent;
+    var amount = parseAmount(cells[4].textContent);
+    var category = cells[1].textContent;
+    var dateText = cells[6].textContent;
 
     totalExpenses += amount;
 
-    const d = new Date(dateText);
+    var d = new Date(dateText);
     if (d.getMonth() === currentMonth && d.getFullYear() === currentYear) {
       monthExpenses += amount;
     }
@@ -141,63 +95,89 @@ function updateSummaryCards() {
     categories[category] = (categories[category] || 0) + 1;
   });
 
-  document.getElementById("totalExpenses").textContent =
-    "UGX " + totalExpenses.toLocaleString("en-UG");
-  document.getElementById("monthExpenses").textContent =
-    "UGX " + monthExpenses.toLocaleString("en-UG");
-  document.getElementById("categoryCount").textContent =
-    Object.keys(categories).length;
+  document.getElementById("totalExpenses").textContent = fmtUGX(totalExpenses);
+  document.getElementById("monthExpenses").textContent = fmtUGX(monthExpenses);
+  document.getElementById("categoryCount").textContent = Object.keys(categories).length;
   document.getElementById("recordCount").textContent = rows.length;
 }
 
-updateSummaryCards();
+// LOAD EXPENSES FROM API
 
+async function loadExpenses() {
+  try {
+    allExpenses = await API.get("/api/expenses");
+    renderExpenses(allExpenses);
+    updateSummaryCards();
+  } catch (err) {
+    console.error("Failed to load expenses:", err);
+  }
+}
 
+loadExpenses();
 
-// SEARCH EXPENSE RECORDS//
+// FORM SUBMISSION
 
+expenseForm.addEventListener("submit", async function (event) {
+  event.preventDefault();
 
-const searchExpense = document.getElementById("searchExpense");
+  var category = document.getElementById("expenseCategory").value;
+  var amount = parseInt(document.getElementById("expenseAmount").value, 10);
+  var method = document.getElementById("paymentMethod").value;
+  var vendor = document.getElementById("vendorName").value.trim();
+  var description = document.getElementById("expenseDescription").value.trim();
+  var status = document.getElementById("expenseStatus").value;
+  var approvedBy = document.getElementById("approvedBy").value.trim();
 
-searchExpense.addEventListener("input", function () {
-  const searchValue = this.value.toLowerCase();
+  if (!category || !amount || amount <= 0 || !method || !vendor || !description) {
+    toast("Please fill in all required expense details.", "error");
+    return;
+  }
 
-  const rows = expenseTable.querySelectorAll("tr");
+  var body = {
+    category: category,
+    description: description,
+    vendor: vendor,
+    amount: amount,
+    paymentMethod: method,
+    date: expenseDate.value,
+    approvedBy: approvedBy,
+    status: status
+  };
 
-  rows.forEach(function (row) {
-    const rowText = row.textContent.toLowerCase();
+  try {
+    var result = await API.post("/api/expenses", body);
+    toast("Expense recorded successfully! Reference: " + (result.reference || "—"), "success");
 
-    if (rowText.includes(searchValue)) {
-      row.style.display = "";
-    } else {
-      row.style.display = "none";
-    }
-  });
+    expenseForm.reset();
+    expenseDate.value = year + "-" + month + "-" + day;
 
-  updateSummaryCards();
+    await loadExpenses();
+  } catch (err) {
+    toast("Failed to record expense: " + err.message, "error");
+  }
 });
 
+// SEARCH AND FILTER
 
+function filterAndRenderExpenses() {
+  var searchValue = searchExpense.value.toLowerCase();
+  var selectedCategory = filterCategory.value;
 
-// FILTER BY CATEGORY//
-
-
-const filterCategory = document.getElementById("filterCategory");
-
-filterCategory.addEventListener("change", function () {
-  const selectedCategory = this.value;
-
-  const rows = expenseTable.querySelectorAll("tr");
-
-  rows.forEach(function (row) {
-    const category = row.cells[1].textContent;
-
-    if (!selectedCategory || category === selectedCategory) {
-      row.style.display = "";
-    } else {
-      row.style.display = "none";
-    }
+  var filtered = allExpenses.filter(function (item) {
+    var rowText = ((item.reference || "") + " " + (item.category || "") + " " + (item.description || "") + " " + (item.vendor || "")).toLowerCase();
+    var matchSearch = !searchValue || rowText.indexOf(searchValue) !== -1;
+    var matchCategory = !selectedCategory || item.category === selectedCategory;
+    return matchSearch && matchCategory;
   });
 
+  renderExpenses(filtered);
   updateSummaryCards();
+}
+
+searchExpense.addEventListener("input", function () {
+  filterAndRenderExpenses();
+});
+
+filterCategory.addEventListener("change", function () {
+  filterAndRenderExpenses();
 });
