@@ -19,6 +19,9 @@ const studentAttendanceRoutes = require("./routes/studentAttendanceRoutes");
 const leaveRequestRoutes = require("./routes/leaveRequestRoutes");
 const salaryPaymentRoutes = require("./routes/salaryPaymentRoutes");
 const announcementRoutes = require("./routes/announcementRoutes");
+const authRoutes = require("./routes/authRoutes");
+
+const auth = require("./middleware/auth");
 
 const app = express();
 
@@ -40,6 +43,22 @@ app.set("views", path.join(__dirname, "views"));
 app.use(cors());
 app.use(express.json());
 
+// The project root is served statically so /styles.css keeps working, but it
+// must never expose source code or configuration files.
+const blockedPaths = [
+  /^\/(?:server|seed|seedAdmin|verifyInline)\.js$/i,
+  /^\/package(?:-lock)?\.json$/i,
+  /^\/\.env/i,
+  /^\/(?:routes|models|controllers|middleware|config|views)\//i,
+];
+
+app.use((req, res, next) => {
+  if (blockedPaths.some((pattern) => pattern.test(req.path))) {
+    return res.status(404).send("Page not found");
+  }
+  next();
+});
+
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.static(__dirname));
 
@@ -48,18 +67,28 @@ app.use(express.static(__dirname));
 // API ROUTES
 // =========================
 
-app.use("/api/students", studentRoutes);
-app.use("/api/teachers", teacherRoutes);
-app.use("/api/books", bookRoutes);
-app.use("/api/loans", loanRoutes);
-app.use("/api/restocks", restockRoutes);
-app.use("/api/lost-books", lostBookRoutes);
-app.use("/api/fee-payments", feePaymentRoutes);
-app.use("/api/expenses", expenseRoutes);
-app.use("/api/teacher-attendance", teacherAttendanceRoutes);
-app.use("/api/student-attendance", studentAttendanceRoutes);
-app.use("/api/leave-requests", leaveRequestRoutes);
-app.use("/api/salary-payments", salaryPaymentRoutes);
+app.use("/api/auth", authRoutes);
+
+
+// =========================
+// API ROUTES
+// =========================
+
+// Signed-in users see their own session; nothing else works without one.
+app.use("/api", auth.requireAuth);
+
+app.use("/api/students", auth.requireRole("admin", "teacher", "bursar"), studentRoutes);
+app.use("/api/teachers", auth.requireRole("admin", "teacher"), teacherRoutes);
+app.use("/api/books", auth.requireRole("admin", "librarian"), bookRoutes);
+app.use("/api/loans", auth.requireRole("admin", "librarian"), loanRoutes);
+app.use("/api/restocks", auth.requireRole("admin", "librarian"), restockRoutes);
+app.use("/api/lost-books", auth.requireRole("admin", "librarian"), lostBookRoutes);
+app.use("/api/fee-payments", auth.requireRole("admin", "bursar"), feePaymentRoutes);
+app.use("/api/expenses", auth.requireRole("admin", "bursar"), expenseRoutes);
+app.use("/api/teacher-attendance", auth.requireRole("admin", "teacher"), teacherAttendanceRoutes);
+app.use("/api/student-attendance", auth.requireRole("admin", "teacher"), studentAttendanceRoutes);
+app.use("/api/leave-requests", auth.requireRole("admin", "teacher"), leaveRequestRoutes);
+app.use("/api/salary-payments", auth.requireRole("admin", "teacher", "bursar"), salaryPaymentRoutes);
 app.use("/api/announcements", announcementRoutes);
 
 
@@ -67,37 +96,45 @@ app.use("/api/announcements", announcementRoutes);
 // PAGE ROUTES
 // =========================
 
-// Login (single sign-in screen)
-app.get("/", (req, res) => {
-  res.redirect("/teachers/login");
+const { loadCurrentUser, redirectForRole, requireAuth, requireRole } = auth;
+
+// Sign-in. Already-authenticated visitors go straight to their own dashboard.
+app.get("/", loadCurrentUser, (req, res) => {
+  res.redirect(req.user ? redirectForRole(req.user.role) : "/teachers/login");
 });
 
-app.get(["/login", "/login.pug"], (req, res) => {
-  res.redirect("/teachers/login");
+app.get(["/login", "/login.pug"], loadCurrentUser, (req, res) => {
+  res.redirect(req.user ? redirectForRole(req.user.role) : "/teachers/login");
 });
 
+app.get(["/teachers/login", "/teachers/login.pug"], loadCurrentUser, (req, res) => {
+  if (req.user) {
+    return res.redirect(redirectForRole(req.user.role));
+  }
+  res.render("teachers/login");
+});
 
-app.get("/students", (req, res) => {
+// Public landing page
+app.get("/home", loadCurrentUser, (req, res) => {
+  res.render("index", { currentUser: req.user });
+});
+
+// Admin-only user management
+app.get("/admin/users", requireRole("admin"), (req, res) => {
+  res.render("admin/users", { currentUser: req.user });
+});
+
+// Student portal pages (admin and teachers manage them)
+app.get("/students", requireRole("admin", "teacher"), (req, res) => {
   res.render("students");
 });
-// app.get("/test", (req, res) => {
-//   res.send("TEST ROUTE IS WORKING");
-// });
-// Dashboard
-app.get("/dashboard.pug", (req, res) => {
+
+app.get("/dashboard.pug", requireRole("admin", "teacher"), (req, res) => {
   res.render("students/dashboard");
 });
 
-
-// Attendance
-app.get("/attendance.pug", (req, res) => {
+app.get("/attendance.pug", requireRole("admin", "teacher"), (req, res) => {
   res.render("students/attendance");
-});
-
-
-// Landing / home page
-app.get("/home", (req, res) => {
-  res.render("index");
 });
 
 
@@ -105,8 +142,30 @@ app.get("/home", (req, res) => {
 // e.g. both /teachers/dashboard and /teachers/teachers_dashboard.pug.
 const portalFolders = ["teachers", "bursar", "students"];
 
+const portalRoles = {
+  teachers: ["teacher", "admin"],
+  bursar: ["bursar", "admin"],
+  students: ["admin", "teacher"],
+};
+
+const publicPortalPages = new Set(["logout"]);
+
 portalFolders.forEach((folder) => {
+  const guard = requireRole(...portalRoles[folder]);
+
   app.get(`/${folder}/:page`, (req, res, next) => {
+    const page = req.params.page.replace(/\.pug$/i, "");
+
+    if (!/^[a-zA-Z0-9_-]+$/.test(page)) {
+      return next();
+    }
+
+    if (publicPortalPages.has(page.toLowerCase())) {
+      return next();
+    }
+
+    guard(req, res, next);
+  }, (req, res, next) => {
     const page = req.params.page.replace(/\.pug$/i, "");
 
     if (!/^[a-zA-Z0-9_-]+$/.test(page)) {
@@ -132,17 +191,33 @@ portalFolders.forEach((folder) => {
 });
 
 
+// Signing out clears the session cookie
+app.get("/signout", (req, res) => {
+  auth.clearSessionCookie(res);
+  res.render("signout");
+});
+
+
 // Top-level pages
-const rootPages = ["library", "report", "settings", "signout", "students"];
+const rootPages = {
+  library: ["admin", "librarian"],
+  report: ["admin", "teacher"],
+  students: ["admin", "teacher"],
+};
+
+app.get("/settings", requireAuth, (req, res) => {
+  res.render("settings");
+});
 
 app.get("/:page", (req, res, next) => {
   const page = req.params.page.replace(/\.pug$/i, "");
+  const allowed = rootPages[page];
 
-  if (!rootPages.includes(page)) {
+  if (!allowed) {
     return next();
   }
 
-  res.render(page);
+  requireRole(...allowed)(req, res, () => res.render(page));
 });
 
 

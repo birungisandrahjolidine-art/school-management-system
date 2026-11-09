@@ -151,7 +151,7 @@ Object.keys(rules).forEach(function (name) {
 // SUBMIT
 // =========================
 
-loginForm.addEventListener("submit", function (event) {
+loginForm.addEventListener("submit", async function (event) {
   event.preventDefault();
 
   redirectNotice.textContent = "";
@@ -166,29 +166,74 @@ loginForm.addEventListener("submit", function (event) {
   }
 
   const role = roleField.value;
-  const username = usernameField.value.trim();
-  const destination = roleDestinations[role];
-  const roleName = roleField.selectedOptions[0].textContent.trim();
+  const username = usernameField.value.trim().toLowerCase();
 
   submitBtn.disabled = true;
   submitBtn.textContent = "Signing in...";
 
-  redirectNotice.textContent =
-    `Signing in as ${roleName}... ` +
-    `Welcome back, ${username}!`;
+  redirectNotice.textContent = "Checking your credentials...";
 
-  // Remember me
-  if (rememberMe.checked) {
-    localStorage.setItem("edusphere_username", username);
-    localStorage.setItem("edusphere_role", role);
-  } else {
-    localStorage.removeItem("edusphere_username");
-    localStorage.removeItem("edusphere_role");
+  try {
+    const response = await fetch("/api/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "same-origin",
+      body: JSON.stringify({
+        username: username,
+        password: passwordField.value,
+        role: role,
+      }),
+    });
+
+    const data = await response.json().catch(function () {
+      return null;
+    });
+
+    if (!response.ok) {
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Sign In";
+
+      const message =
+        (data && data.error) || "Could not sign in. Please try again.";
+
+      redirectNotice.textContent = message;
+      redirectNotice.classList.add("error");
+
+      // Point the message at the field that caused it
+      if (/password/i.test(message) && !/username/i.test(message)) {
+        showError("password", message);
+        passwordField.focus();
+      } else if (/user/i.test(message)) {
+        showError("username", message);
+        usernameField.focus();
+      }
+
+      return;
+    }
+
+    // Remember me
+    if (rememberMe.checked) {
+      localStorage.setItem("edusphere_username", username);
+      localStorage.setItem("edusphere_role", role);
+    } else {
+      localStorage.removeItem("edusphere_username");
+      localStorage.removeItem("edusphere_role");
+    }
+
+    const roleName =
+      (data.user && data.user.roleLabel) ||
+      roleField.selectedOptions[0].textContent.trim();
+
+    redirectNotice.textContent = "Signed in as " + roleName + ". Redirecting...";
+
+    window.location.href = data.redirect || roleDestinations[role];
+  } catch (err) {
+    submitBtn.disabled = false;
+    submitBtn.textContent = "Sign In";
+    redirectNotice.textContent =
+      "Could not reach the server. Please check your connection and try again.";
+    redirectNotice.classList.add("error");
   }
-
-  setTimeout(function () {
-    window.location.href = destination;
-  }, 1500);
 });
 
 

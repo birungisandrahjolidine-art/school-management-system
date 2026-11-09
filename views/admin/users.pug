@@ -1,0 +1,119 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title User Accounts - EduSphere
+    link(rel="stylesheet", href="users.css")
+  body
+    //- Sidebar
+    aside.sidebar
+      .logo
+        h2 EduSphere
+        p Admin Portal
+
+      nav
+        a(href="/home") Home
+        a(href="/students") Students
+        a(href="/library") Library
+        a(href="/report") Reports
+        a.active(href="/admin/users") User Accounts
+
+      .logout
+        a(href="/teachers/logout") Logout
+
+    //- Main Content
+    main.main-content
+      header.top-bar
+        div
+          h1 User Accounts
+          p Only an administrator can create and manage sign-in accounts
+        .current-date#currentDate
+
+      //- Summary Cards
+      section.summary-cards
+        .summary-card
+          h3 Total Accounts
+          p#totalAccounts 0
+        .summary-card
+          h3 Administrators
+          p#adminCount 0
+        .summary-card
+          h3 Teachers
+          p#teacherCount 0
+        .summary-card
+          h3 Active Accounts
+          p#activeCount 0
+
+      //- Registration form
+      section.form-container
+        .form-header
+          h2 Register a New User
+          p The user signs in with the username and password you set here
+
+        form#userForm(novalidate)
+          .form-section
+            .form-row
+              .form-group
+                label(for="fullName") Full Name
+                input(type="text", id="fullName", placeholder="e.g. Sarah Nakato", autocomplete="off")
+              .form-group
+                label(for="username") Username
+                input(type="text", id="username", placeholder="e.g. s.nakato", autocomplete="off", required)
+                span.field-error#usernameError
+              .form-group
+                label(for="role") Role
+                select#role(required)
+                  option(value="") -- Select Role --
+                  option(value="teacher") Teacher
+                  option(value="librarian") Librarian
+                  option(value="bursar") Bursar
+                  option(value="admin") Administrator
+                span.field-error#roleError
+
+            .form-row
+              .form-group
+                label(for="password") Password
+                input(type="password", id="password", placeholder="At least 6 characters", autocomplete="new-password", required)
+                span.field-error#passwordError
+              .form-group
+                label(for="confirmPassword") Confirm Password
+                input(type="password", id="confirmPassword", placeholder="Repeat the password", autocomplete="new-password", required)
+                span.field-error#confirmPasswordError
+
+          .form-actions
+            button.btn.btn-secondary(type="reset") Clear
+            button.btn.btn-primary(type="submit") Create Account
+
+      //- Accounts
+      section.records-section
+        .records-header
+          div
+            h2 Existing Accounts
+            p Accounts that can sign in to EduSphere
+          .filters
+            input(type="text", id="searchUser", placeholder="Search name, username or role...")
+            select#filterRole
+              option(value="") All Roles
+              option(value="admin") Administrator
+              option(value="teacher") Teacher
+              option(value="librarian") Librarian
+              option(value="bursar") Bursar
+
+        .table-container
+          table
+            thead
+              tr
+                th Name
+                th Username
+                th Role
+                th Status
+                th Last Sign-in
+                th Created
+                th Actions
+            tbody#userTable
+              tr
+                td.empty-row(colspan="7") Loading accounts...
+
+    script(src="/integration.js")
+    script(src="users.js")

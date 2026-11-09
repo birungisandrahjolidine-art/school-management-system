@@ -19,7 +19,12 @@ html(lang="en")
           a.nav-link(href="#modules") Modules
           a.nav-link(href="#features") Features
           a.nav-link(href="#about") About
-        a.btn-login(href="/teachers/login") Sign In
+        if currentUser && currentUser.role === "admin"
+          a.nav-link(href="/admin/users") User Accounts
+        if currentUser
+          a.btn-login(href="/teachers/logout") Sign Out
+        else
+          a.btn-login(href="/teachers/login") Sign In
         button#mobileToggle.mobile-toggle &#9776;
     //- HERO
     section#home.hero

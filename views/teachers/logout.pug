@@ -18,18 +18,29 @@ html(lang="en")
           br
           |  You will need to sign in again to access the system.
         .actions
-          a.btn.btn-cancel(href="teachers_dashboard.pug") Cancel
+          a.btn.btn-cancel(href="/teachers/dashboard") Cancel
           button#logoutBtn.btn.btn-logout(type="button") Yes, Logout
     script.
       const logoutBtn = document.getElementById("logoutBtn");
       const message = document.getElementById("message");
 
-      logoutBtn.addEventListener("click", function () {
-        message.innerHTML = "<strong>You have been logged out successfully.</strong><br />Redirecting to login page...";
-
+      logoutBtn.addEventListener("click", async function () {
         logoutBtn.disabled = true;
+        message.innerHTML = "<strong>Signing you out...</strong>";
+
+        try {
+          await fetch("/api/auth/logout", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            credentials: "same-origin",
+          });
+        } catch (err) {
+          // The cookie is cleared on the server; continue to the login page.
+        }
+
+        message.innerHTML = "<strong>You have been logged out successfully.</strong><br />Redirecting to login page...";
 
         setTimeout(function () {
           window.location.href = "/teachers/login";
-        }, 2000);
+        }, 1200);
       });
