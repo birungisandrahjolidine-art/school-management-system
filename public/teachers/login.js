@@ -20,17 +20,10 @@ const PASSWORD_MAX = 64;
 // Role destination mapping
 const roleDestinations = {
   teacher: "/teachers/dashboard",
-  admin: "/students/dashboard.pug",
-  student: "/students/dashboard.pug",
+  bursar: "/bursar/dashboard",
   librarian: "/library.pug",
-  bursar: "/bursar/dashboard"
+  admin: "/home"
 };
-
-// Roles whose dashboards are not built yet
-const underConstruction = [
-  "/students/dashboard.pug",
-  "/library.pug"
-];
 
 // =========================
 // FIELD RULES
@@ -179,16 +172,6 @@ loginForm.addEventListener("submit", function (event) {
 
   submitBtn.disabled = true;
   submitBtn.textContent = "Signing in...";
-
-  if (underConstruction.includes(destination)) {
-    redirectNotice.textContent =
-      `${roleName} dashboard is under construction. ` +
-      `Please check back soon.`;
-
-    submitBtn.disabled = false;
-    submitBtn.textContent = "Sign In";
-    return;
-  }
 
   redirectNotice.textContent =
     `Signing in as ${roleName}... ` +
