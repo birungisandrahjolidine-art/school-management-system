@@ -67,9 +67,13 @@ app.use("/api/announcements", announcementRoutes);
 // PAGE ROUTES
 // =========================
 
-// Login
+// Login (single sign-in screen)
 app.get("/", (req, res) => {
-  res.render("login");
+  res.redirect("/teachers/login");
+});
+
+app.get(["/login", "/login.pug"], (req, res) => {
+  res.redirect("/teachers/login");
 });
 
 
@@ -129,7 +133,7 @@ portalFolders.forEach((folder) => {
 
 
 // Top-level pages
-const rootPages = ["library", "login", "report", "settings", "signout", "students"];
+const rootPages = ["library", "report", "settings", "signout", "students"];
 
 app.get("/:page", (req, res, next) => {
   const page = req.params.page.replace(/\.pug$/i, "");

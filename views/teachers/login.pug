@@ -3,18 +3,18 @@ html(lang="en")
   head
     meta(charset="UTF-8")
     meta(name="viewport", content="width=device-width, initial-scale=1.0")
-    title Login - School Management System
+    title Login - EduSphere
     link(rel="stylesheet", href="login.css")
   body
     main.login-container
       .login-card
         .logo
-          h2 School MS
+          h2 EduSphere
           p Management System
         .icon 🔐
         h1 Sign In
         p.subtitle Access your school management account
-        form#loginForm
+        form#loginForm(novalidate)
           //- ROLE
           .form-group
             label(for="role") Select Role
@@ -25,14 +25,17 @@ html(lang="en")
               option(value="librarian") Librarian
               option(value="admin") Admin
               option(value="bursar") Bursar
+            span.field-error#roleError(role="alert")
           //- USERNAME / ID
           .form-group
             label(for="username") Username / Staff ID
-            input(type="text", id="username", placeholder="Enter your username or ID", required)
+            input(type="text", id="username", placeholder="Enter your username or ID", autocomplete="username", required)
+            span.field-error#usernameError(role="alert")
           //- PASSWORD
           .form-group
             label(for="password") Password
-            input(type="password", id="password", placeholder="Enter your password", required)
+            input(type="password", id="password", placeholder="Enter your password", autocomplete="current-password", required)
+            span.field-error#passwordError(role="alert")
           .form-options
             label.remember
               input(type="checkbox", id="rememberMe")

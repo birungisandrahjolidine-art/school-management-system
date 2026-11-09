@@ -3,13 +3,13 @@ html(lang="en")
   head
     meta(charset="UTF-8")
     meta(name="viewport", content="width=device-width, initial-scale=1.0")
-    title Logout - School Management System
+    title Logout - EduSphere
     link(rel="stylesheet", href="logout.css")
   body
     main.logout-container
       .logout-card
         .logo
-          h2 School MS
+          h2 EduSphere
           p Management System
         .icon ↪
         h1 Logout
@@ -30,6 +30,6 @@ html(lang="en")
         logoutBtn.disabled = true;
 
         setTimeout(function () {
-          window.location.href = "login.pug";
+          window.location.href = "/teachers/login";
         }, 2000);
       });

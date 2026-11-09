@@ -1,7 +1,7 @@
 {
-  "name": "school-management-system",
+  "name": "edusphere",
   "version": "1.0.0",
-  "description": "School Management System Backend",
+  "description": "EduSphere Backend",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

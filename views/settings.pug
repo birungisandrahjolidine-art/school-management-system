@@ -3,14 +3,14 @@ html(lang="en")
   head
     meta(charset="UTF-8")
     meta(name="viewport", content="width=device-width, initial-scale=1.0")
-    title Akademi | Settings
+    title EduSphere | Settings
     link(rel="stylesheet", href="styles.css")
   body
     .app
       aside.sidebar
         a.logo(href="students/dashboard.pug")
-          .mark A
-          | Akademi
+          .mark E
+          | EduSphere
 
         ul.nav
           li
@@ -75,7 +75,7 @@ html(lang="en")
                 path(d="M21 12H9")
               | Sign Out
 
-        .sidebar-footer Akademi &middot; School Dashboard
+        .sidebar-footer EduSphere &middot; School Dashboard
 
       main.main
         .topbar
@@ -115,7 +115,7 @@ html(lang="en")
                   input#pLast(type="text", value="Ray")
                 .field
                   label Email
-                  input#pEmail(type="email", value="mithun.ray@akademi.edu")
+                  input#pEmail(type="email", value="mithun.ray@edusphere.edu")
                 .field
                   label Phone
                   input#pPhone(type="text", value="+1 234 555 0199")
@@ -145,7 +145,7 @@ html(lang="en")
         setTimeout(() => el.remove(), 2600);
       }
 
-      const defaults = { first:"Mithun", last:"Ray", phone:"+1 234 555 0199", cls:"Grade 8 - A", email:"mithun.ray@akademi.edu" };
+      const defaults = { first:"Mithun", last:"Ray", phone:"+1 234 555 0199", cls:"Grade 8 - A", email:"mithun.ray@edusphere.edu" };
 
       document.getElementById("profileForm").addEventListener("submit", (e) => {
         e.preventDefault();
